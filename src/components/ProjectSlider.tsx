@@ -139,6 +139,7 @@ export const ProjectSlider: React.FC = () => {
                 <iframe
                   src={currentProject.url}
                   title={currentProject.name}
+                  loading="lazy"
                   className="w-full h-full border-0"
                   onError={() => setIframeError(true)}
                 />

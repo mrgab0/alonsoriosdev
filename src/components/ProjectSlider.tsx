@@ -39,8 +39,8 @@ export const ProjectSlider: React.FC = () => {
     {
       id: "bonbon-flowers",
       name: "Bonbon Flowers",
-      url: "https://bonbon-flowers.com",
-      displayUrl: "https://bonbon-flowers.com",
+      url: "https://bonbonflowershouston.com",
+      displayUrl: "https://bonbonflowershouston.com",
       category: "Diseño Floral de Lujo",
       description: "Experiencia web premium con catálogo de regalos gourmet y flores, optimizada para conversión de clientes y máxima legibilidad.",
       image: "/images/projects/bonbon_flowers.jpg",

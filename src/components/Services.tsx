@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Globe, RefreshCw, Smartphone, TrendingUp, BookOpen, CheckCircle, ArrowRight } from "lucide-react";
+import { Globe, RefreshCw, Smartphone, CheckCircle, ArrowRight } from "lucide-react";
 
 export const Services: React.FC = () => {
   const services = [
@@ -36,7 +36,7 @@ export const Services: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
             Servicios Principales
           </h2>
-          <p className="text-sm sm:text-base text-slate-300 mt-2">
+          <p className="text-sm sm:text-base text-white font-extrabold mt-2">
             Selecciona lo que necesitas y te entregaré una solución transparente y eficiente.
           </p>
         </div>
@@ -52,17 +52,17 @@ export const Services: React.FC = () => {
                   <div className="p-3 bg-[#0a1120] rounded-2xl border border-[#1e2a42]">
                     {s.icon}
                   </div>
-                  <span className="text-xs font-bold bg-amber-400/10 text-amber-400 border border-amber-400/30 px-3 py-1 rounded-full">
+                  <span className="text-xs font-black bg-amber-400/20 text-amber-300 border border-amber-400/40 px-3 py-1 rounded-full">
                     {s.badge}
                   </span>
                 </div>
 
-                <h3 className="text-xl font-bold text-white mb-2 leading-snug">{s.title}</h3>
-                <p className="text-sm text-slate-300 mb-6 leading-relaxed">{s.description}</p>
+                <h3 className="text-xl font-black text-white mb-2 leading-snug">{s.title}</h3>
+                <p className="text-sm text-white font-extrabold mb-6 leading-relaxed">{s.description}</p>
 
-                <div className="space-y-2 mb-6 pt-4 border-t border-[#1e2a42]">
+                <div className="space-y-2.5 mb-6 pt-4 border-t border-[#1e2a42]">
                   {s.benefits.map((b, i) => (
-                    <div key={i} className="flex items-center gap-2 text-xs sm:text-sm text-slate-300">
+                    <div key={i} className="flex items-center gap-2 text-xs sm:text-sm text-white font-black">
                       <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
                       <span>{b}</span>
                     </div>
@@ -72,7 +72,7 @@ export const Services: React.FC = () => {
 
               <a
                 href="#contacto"
-                className="w-full bg-[#1e2a42] hover:bg-amber-400 hover:text-[#0a1120] text-white font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 text-xs sm:text-sm"
+                className="w-full bg-[#1e2a42] hover:bg-amber-400 hover:text-[#0a1120] text-white font-black py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2 text-xs sm:text-sm"
               >
                 <span>Consultar por este servicio</span>
                 <ArrowRight className="w-4 h-4" />

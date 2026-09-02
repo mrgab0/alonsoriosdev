@@ -5,8 +5,8 @@ import { verifySessionToken, AUTH_COOKIE_NAME } from "@/lib/auth";
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Ignorar rutas internas de Next.js, _not-found, _next, assets o prerender
-  if (pathname.startsWith("/_") || pathname.includes("not-found")) {
+  // Ignorar rutas internas de Next.js, _not-found, _global-error, _next, assets o prerender
+  if (pathname.startsWith("/_") || pathname.includes("not-found") || pathname.includes("error")) {
     return NextResponse.next();
   }
 
@@ -20,8 +20,18 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Check seguro con try-catch para evitar Invariant Error durante next build static export
   try {
+    const cookieHeader = request.headers.get("cookie");
+    if (!cookieHeader) {
+      if (pathname.startsWith("/api/admin")) {
+        return NextResponse.json(
+          { success: false, message: "No autorizado. Inicia sesión como administrador." },
+          { status: 401 }
+        );
+      }
+      return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
+
     const sessionCookie = request.cookies.get(AUTH_COOKIE_NAME)?.value;
     const isValid = await verifySessionToken(sessionCookie);
 
@@ -32,8 +42,7 @@ export async function proxy(request: NextRequest) {
           { status: 401 }
         );
       }
-      const loginUrl = new URL("/admin/login", request.url);
-      return NextResponse.redirect(loginUrl);
+      return NextResponse.redirect(new URL("/admin/login", request.url));
     }
   } catch {
     // Si ocurre un error al acceder a cookies durante el build estático, continuar

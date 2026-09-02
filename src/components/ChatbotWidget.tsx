@@ -110,7 +110,7 @@ export const ChatbotWidget: React.FC = () => {
 
             <button
               onClick={() => setIsOpen(false)}
-              className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-[#1e2a42] transition"
+              className="p-1.5 text-white hover:text-amber-400 rounded-lg hover:bg-[#1e2a42] transition"
             >
               <X className="w-5 h-5" />
             </button>
@@ -118,7 +118,7 @@ export const ChatbotWidget: React.FC = () => {
 
           {/* Messages Area */}
           <div className="flex-1 p-4 overflow-y-auto space-y-3.5 bg-[#0a1120] text-xs">
-            <div className="bg-[#121b2d] p-2.5 rounded-xl border border-[#1e2a42] text-[11px] text-slate-400 flex items-center gap-2">
+            <div className="bg-[#121b2d] p-2.5 rounded-xl border border-[#1e2a42] text-[11px] text-white font-black flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>Las consultas son respondidas como por un humano y notificadas en tiempo real.</span>
             </div>
@@ -129,10 +129,10 @@ export const ChatbotWidget: React.FC = () => {
                 className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}
               >
                 <div
-                  className={`max-w-[85%] p-3 rounded-2xl leading-relaxed text-xs font-medium shadow-xs ${
+                  className={`max-w-[85%] p-3 rounded-2xl leading-relaxed text-xs font-black shadow-xs ${
                     m.sender === "user"
                       ? "bg-blue-600 text-white rounded-br-none"
-                      : "bg-[#121b2d] text-slate-200 border border-[#1e2a42] rounded-bl-none"
+                      : "bg-[#121b2d] text-white border border-[#1e2a42] rounded-bl-none"
                   }`}
                 >
                   {m.text}

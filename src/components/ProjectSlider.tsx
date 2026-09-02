@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, ExternalLink, Lock, Globe, RefreshCw, Eye, Sparkles } from "lucide-react";
+import React, { useState } from "react";
+import { ChevronLeft, ChevronRight, ExternalLink, Lock, Globe, Sparkles } from "lucide-react";
 
 interface ProjectItem {
   id: string;
@@ -71,33 +71,33 @@ export const ProjectSlider: React.FC = () => {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div>
-            <div className="inline-flex items-center gap-2 bg-amber-400/10 text-amber-400 border border-amber-400/20 px-3.5 py-1 rounded-full text-xs font-bold w-fit mb-3">
+            <div className="inline-flex items-center gap-2 bg-amber-400/20 text-amber-300 border border-amber-400/40 px-3.5 py-1 rounded-full text-xs font-black w-fit mb-3">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Trabajos Recientes • Portafolio de Proyectos</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
               Últimos Proyectos Realizados
             </h2>
-            <p className="text-sm text-slate-300 mt-1">
+            <p className="text-sm text-white font-extrabold mt-1">
               Deslice para explorar las vistas previas interactivas en miniatura de sitios reales entregados.
             </p>
           </div>
 
           {/* Slide Navigation Buttons & View Mode Toggle */}
           <div className="flex items-center gap-3">
-            <div className="bg-[#121b2d] p-1 rounded-xl border border-[#1e2a42] flex items-center text-xs font-bold">
+            <div className="bg-[#121b2d] p-1 rounded-xl border border-[#1e2a42] flex items-center text-xs font-black">
               <button
                 onClick={() => setViewMode("preview")}
-                className={`px-3 py-1.5 rounded-lg transition ${
-                  viewMode === "preview" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"
+                className={`px-3 py-1.5 rounded-lg transition font-black ${
+                  viewMode === "preview" ? "bg-blue-600 text-white" : "text-white hover:text-amber-400"
                 }`}
               >
                 Vista Captura
               </button>
               <button
                 onClick={() => setViewMode("iframe")}
-                className={`px-3 py-1.5 rounded-lg transition ${
-                  viewMode === "iframe" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"
+                className={`px-3 py-1.5 rounded-lg transition font-black ${
+                  viewMode === "iframe" ? "bg-blue-600 text-white" : "text-white hover:text-amber-400"
                 }`}
               >
                 Modo En vivo (iFrame)
@@ -135,17 +135,17 @@ export const ProjectSlider: React.FC = () => {
             </div>
 
             {/* Address Bar */}
-            <div className="flex-1 max-w-xl bg-[#121b2d] border border-[#1e2a42] rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs text-slate-300 font-mono overflow-hidden">
+            <div className="flex-1 max-w-xl bg-[#121b2d] border border-[#1e2a42] rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs text-white font-black font-mono overflow-hidden">
               <Lock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
               <span className="truncate">{currentProject.displayUrl}</span>
             </div>
 
-            {/* Direct Link Button */}
+            {/* Direct Link Button (Yellow button -> Black text) */}
             <a
               href={currentProject.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#fbbf24] hover:bg-[#f59e0b] text-[#0a1120] font-extrabold px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 shrink-0 shadow-xs"
+              className="bg-[#fbbf24] hover:bg-[#f59e0b] text-[#0a1120] font-black px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 shrink-0 shadow-xs"
             >
               <span>Visitar Sitio Real</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -172,16 +172,16 @@ export const ProjectSlider: React.FC = () => {
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#0a1120]">
                     <Globe className="w-12 h-12 text-amber-400 mb-3" />
-                    <h4 className="text-lg font-bold text-white mb-1">
+                    <h4 className="text-lg font-black text-white mb-1">
                       Sitio protegido contra incrustación iFrame externa
                     </h4>
-                    <p className="text-xs text-slate-400 max-w-md mb-4">
+                    <p className="text-xs text-white font-bold max-w-md mb-4">
                       Este sitio web restringe la carga dentro de marcos de terceros por seguridad. Puedes ver la captura de pantalla o visitar la web directamente.
                     </p>
                     <div className="flex gap-3">
                       <button
                         onClick={() => setViewMode("preview")}
-                        className="bg-[#1e2a42] text-white text-xs font-bold px-4 py-2 rounded-xl"
+                        className="bg-[#1e2a42] text-white text-xs font-black px-4 py-2 rounded-xl"
                       >
                         Ver Captura HD
                       </button>
@@ -200,20 +200,20 @@ export const ProjectSlider: React.FC = () => {
             )}
 
             {/* Overlay Caption Bar */}
-            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#0a1120] via-[#0a1120]/90 to-transparent p-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#0a1120] via-[#0a1120]/95 to-transparent p-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div className="space-y-1">
-                <span className="text-xs font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-2.5 py-0.5 rounded-full">
+                <span className="text-xs font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-2.5 py-0.5 rounded-full">
                   {currentProject.category}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-black text-white">{currentProject.name}</h3>
-                <p className="text-xs text-slate-300 max-w-2xl">{currentProject.description}</p>
+                <p className="text-xs sm:text-sm text-white font-extrabold max-w-2xl">{currentProject.description}</p>
               </div>
 
               <div className="flex flex-wrap gap-1.5">
                 {currentProject.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="bg-[#121b2d] border border-[#1e2a42] text-slate-300 text-[11px] px-2.5 py-1 rounded-lg font-medium"
+                    className="bg-[#121b2d] border border-[#1e2a42] text-white text-[11px] px-2.5 py-1 rounded-lg font-black"
                   >
                     {tag}
                   </span>
@@ -224,7 +224,7 @@ export const ProjectSlider: React.FC = () => {
 
           {/* Dots Indicator Slider Control */}
           <div className="bg-[#080e1e] py-3 px-6 border-t border-[#1e2a42] flex items-center justify-between text-xs">
-            <span className="text-slate-400 font-medium">
+            <span className="text-white font-black">
               Proyecto {currentIndex + 1} de {projects.length}
             </span>
 
@@ -237,7 +237,7 @@ export const ProjectSlider: React.FC = () => {
                     setIframeError(false);
                   }}
                   className={`h-2.5 rounded-full transition-all ${
-                    currentIndex === idx ? "w-8 bg-amber-400" : "w-2.5 bg-slate-700 hover:bg-slate-500"
+                    currentIndex === idx ? "w-8 bg-amber-400" : "w-2.5 bg-slate-600 hover:bg-slate-400"
                   }`}
                   title={p.name}
                 />

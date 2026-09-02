@@ -121,7 +121,7 @@ export async function POST(request: Request) {
       success: true,
       reply,
       suggestWhatsapp,
-      whatsappNumber: config?.sections?.contact?.whatsappNumber || "+56900000000",
+      whatsappNumber: config?.sections?.contact?.whatsappNumber || "+584129912840",
     });
   } catch (error) {
     console.error("Chatbot API Error:", error);

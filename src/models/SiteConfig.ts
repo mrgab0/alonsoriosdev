@@ -79,7 +79,7 @@ const SiteConfigSchema: Schema = new Schema({
       primaryCtaText: { type: String, default: "Ver Servicios y Precios" },
       primaryCtaUrl: { type: String, default: "#servicios" },
       secondaryCtaText: { type: String, default: "Hablar por WhatsApp" },
-      secondaryCtaUrl: { type: String, default: "https://wa.me/" },
+      secondaryCtaUrl: { type: String, default: "https://wa.me/584129912840" },
     },
     services: {
       title: { type: String, default: "Servicios Principales" },
@@ -101,7 +101,7 @@ const SiteConfigSchema: Schema = new Schema({
     contact: {
       title: { type: String, default: "Contacto Directo" },
       subtitle: { type: String, default: "Respuestas en menos de 24 horas." },
-      whatsappNumber: { type: String, default: "+56900000000" },
+      whatsappNumber: { type: String, default: "+584129912840" },
       email: { type: String, default: "contacto@alonsorios.dev" },
       location: { type: String, default: "Chile • Proyectos Internacionales" },
       telegramWebhookUrl: { type: String, default: "" },

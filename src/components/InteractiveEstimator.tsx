@@ -42,7 +42,7 @@ export const InteractiveEstimator: React.FC = () => {
 
   const getWhatsappUrl = () => {
     const text = `Hola Alonso, completé el cotizador rápido:\n- Servicio: ${service}\n- Plazo: ${timeline}\n- Nombre: ${clientName}\n- Contacto: ${clientPhoneOrEmail}`;
-    return `https://wa.me/?text=${encodeURIComponent(text)}`;
+    return `https://wa.me/584129912840?text=${encodeURIComponent(text)}`;
   };
 
   const handleSubmitForm = async (e: React.FormEvent) => {
@@ -208,7 +208,7 @@ export const InteractiveEstimator: React.FC = () => {
                       <input
                         type="text"
                         required
-                        placeholder="Ej: +56 9 1234 5678 o maria@correo.com"
+                        placeholder="Ej: +58 412 991 2840 o maria@correo.com"
                         value={clientPhoneOrEmail}
                         onChange={(e) => setClientPhoneOrEmail(e.target.value)}
                         className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-medium focus:ring-2 focus:ring-blue-500 outline-none text-sm"

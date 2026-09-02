@@ -25,7 +25,7 @@ const DEFAULT_CONFIG = {
       primaryCtaText: "Ver Servicios y Precios",
       primaryCtaUrl: "#servicios",
       secondaryCtaText: "Hablar por WhatsApp",
-      secondaryCtaUrl: "https://wa.me/?text=Hola%20Alonso",
+      secondaryCtaUrl: "https://wa.me/584129912840?text=Hola%20Alonso",
     },
     services: {
       title: "Servicios Principales",
@@ -61,7 +61,7 @@ const DEFAULT_CONFIG = {
     contact: {
       title: "Contacto Directo",
       subtitle: "Respuestas en menos de 24 horas. Atención directa por Alonso Ríos.",
-      whatsappNumber: "+56900000000",
+      whatsappNumber: "+584129912840",
       email: "contacto@alonsorios.dev",
       location: "Chile • Proyectos para todo el mundo hispanohablante",
       telegramWebhookUrl: "",

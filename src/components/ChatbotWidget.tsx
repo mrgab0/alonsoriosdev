@@ -141,7 +141,7 @@ export const ChatbotWidget: React.FC = () => {
                 {/* WhatsApp Escalation Button */}
                 {m.suggestWhatsapp && (
                   <a
-                    href="https://wa.me/?text=Hola%20Alonso,%20vengo%20del%20chat%20de%20tu%20web"
+                    href="https://wa.me/584129912840?text=Hola%20Alonso,%20vengo%20del%20chat%20de%20tu%20web"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-3 py-2 rounded-xl text-xs shadow-md transition"

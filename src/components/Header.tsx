@@ -103,7 +103,7 @@ export const Header: React.FC = () => {
         {/* Action Button */}
         <div className="hidden sm:flex items-center gap-3">
           <a
-            href="https://wa.me/?text=Hola%20Alonso,%20quisiera%20consultar%20sobre%20tus%20servicios"
+            href="https://wa.me/584129912840?text=Hola%20Alonso,%20quisiera%20consultar%20sobre%20tus%20servicios"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md transition transform hover:scale-105 text-sm"
@@ -142,7 +142,7 @@ export const Header: React.FC = () => {
 
           <div className="pt-4 border-t border-slate-800 flex flex-col gap-3">
             <a
-              href="https://wa.me/?text=Hola%20Alonso,%20quisiera%20información"
+              href="https://wa.me/584129912840?text=Hola%20Alonso,%20quisiera%20información"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-emerald-600 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 text-sm"

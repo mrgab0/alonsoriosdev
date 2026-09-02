@@ -62,7 +62,7 @@ export const Hero: React.FC = () => {
               </a>
 
               <a
-                href="https://wa.me/?text=Hola%20Alonso,%20necesito%20ayuda%20con%20un%20proyecto"
+                href="https://wa.me/584129912840?text=Hola%20Alonso,%20necesito%20ayuda%20con%20un%20proyecto"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-emerald-600 hover:bg-emerald-500 text-white text-base font-extrabold px-7 py-4 rounded-xl shadow-md transition transform hover:scale-105 flex items-center justify-center gap-3 text-center"

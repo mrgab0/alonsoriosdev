@@ -47,7 +47,7 @@ export const ContactForm: React.FC = () => {
       
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/?text=Hola%20Alonso,%20te%20escribo%20desde%20tu%20sitio%20web"
+        href="https://wa.me/584129912840?text=Hola%20Alonso,%20te%20escribo%20desde%20tu%20sitio%20web"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-5 py-3.5 rounded-full shadow-2xl flex items-center gap-3 transition transform hover:scale-105 status-pulse"
@@ -77,7 +77,7 @@ export const ContactForm: React.FC = () => {
 
               <div className="space-y-4">
                 <a
-                  href="https://wa.me/?text=Hola%20Alonso,%20quisiera%20consultarte"
+                  href="https://wa.me/584129912840?text=Hola%20Alonso,%20quisiera%20consultarte"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 rounded-2xl bg-emerald-950/40 border border-emerald-800 text-emerald-200 font-bold hover:bg-emerald-900/60 transition"
@@ -87,7 +87,7 @@ export const ContactForm: React.FC = () => {
                   </div>
                   <div>
                     <div className="text-xs text-emerald-400 font-semibold">WhatsApp Directo</div>
-                    <div className="text-base sm:text-lg">+56 9 0000 0000</div>
+                    <div className="text-base sm:text-lg">+58 412 991 2840</div>
                   </div>
                 </a>
 

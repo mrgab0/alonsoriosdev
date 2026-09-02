@@ -166,7 +166,7 @@ Paso 1: Reclamar tu perfil oficial en Google...`,
                   </button>
 
                   <a
-                    href={`https://wa.me/?text=Hola%20Alonso,%20quisiera%20adquirir%20el%20material:%20${encodeURIComponent(r.title)}`}
+                    href={`https://wa.me/584129912840?text=Hola%20Alonso,%20quisiera%20adquirir%20el%20material:%20${encodeURIComponent(r.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-[#fbbf24] hover:bg-[#f59e0b] text-[#0a1120] font-black py-3 px-3 rounded-xl transition text-xs flex items-center justify-center gap-1.5 shadow-md"
@@ -215,7 +215,7 @@ Paso 1: Reclamar tu perfil oficial en Google...`,
                     Cerrar
                   </button>
                   <a
-                    href={`https://wa.me/?text=Hola%20Alonso,%20leí%20la%20muestra%20de%20${encodeURIComponent(activePreview.title)}%20y%20quiero%20obtenerlo`}
+                    href={`https://wa.me/584129912840?text=Hola%20Alonso,%20leí%20la%20muestra%20de%20${encodeURIComponent(activePreview.title)}%20y%20quiero%20obtenerlo`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 sm:flex-none bg-[#fbbf24] hover:bg-[#f59e0b] text-[#0a1120] font-black px-5 py-2.5 rounded-xl text-xs flex items-center justify-center gap-2"

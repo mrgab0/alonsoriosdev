@@ -102,7 +102,7 @@ const SiteConfigSchema: Schema = new Schema({
       title: { type: String, default: "Contacto Directo" },
       subtitle: { type: String, default: "Respuestas en menos de 24 horas." },
       whatsappNumber: { type: String, default: "+584129912840" },
-      email: { type: String, default: "contacto@alonsorios.dev" },
+      email: { type: String, default: "iirockalonso@gmail.com" },
       location: { type: String, default: "Chile • Proyectos Internacionales" },
       telegramWebhookUrl: { type: String, default: "" },
       discordWebhookUrl: { type: String, default: "" },

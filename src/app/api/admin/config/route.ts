@@ -62,7 +62,7 @@ const DEFAULT_CONFIG = {
       title: "Contacto Directo",
       subtitle: "Respuestas en menos de 24 horas. Atención directa por Alonso Ríos.",
       whatsappNumber: "+584129912840",
-      email: "contacto@alonsorios.dev",
+      email: "iirockalonso@gmail.com",
       location: "Chile • Proyectos para todo el mundo hispanohablante",
       telegramWebhookUrl: "",
       discordWebhookUrl: "",

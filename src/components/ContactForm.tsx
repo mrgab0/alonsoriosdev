@@ -92,7 +92,7 @@ export const ContactForm: React.FC = () => {
                 </a>
 
                 <a
-                  href="mailto:contacto@alonsorios.dev"
+                  href="mailto:iirockalonso@gmail.com"
                   className="flex items-center gap-4 p-4 rounded-2xl bg-blue-950/40 border border-blue-800 text-blue-200 font-bold hover:bg-blue-900/60 transition"
                 >
                   <div className="p-3 bg-blue-600 text-white rounded-xl">
@@ -100,7 +100,7 @@ export const ContactForm: React.FC = () => {
                   </div>
                   <div>
                     <div className="text-xs text-blue-400 font-semibold">Correo Electrónico</div>
-                    <div className="text-base sm:text-lg">contacto@alonsorios.dev</div>
+                    <div className="text-base sm:text-lg">iirockalonso@gmail.com</div>
                   </div>
                 </a>
               </div>

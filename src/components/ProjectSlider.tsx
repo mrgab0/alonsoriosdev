@@ -19,8 +19,8 @@ export const ProjectSlider: React.FC = () => {
     {
       id: "flowers-for-you",
       name: "Flowers For You LLC",
-      url: "https://flowersforyoullc.com",
-      displayUrl: "https://flowersforyoullc.com",
+      url: "https://flowerforyoullc.com",
+      displayUrl: "https://flowerforyoullc.com",
       category: "E-Commerce / Tienda Floral",
       description: "Sitio web de comercio electrónico optimizado para envíos de arreglos florales de lujo con carga ultrarrápida y catálogo interactivo.",
       image: "/images/projects/flowers_for_you.jpg",

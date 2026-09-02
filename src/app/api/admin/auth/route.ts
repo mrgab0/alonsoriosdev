@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const token = generateSessionToken();
+    const token = await generateSessionToken();
     const cookieStore = await cookies();
 
     cookieStore.set(AUTH_COOKIE_NAME, token, {

@@ -1,25 +1,36 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
-
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 const SECRET_KEY = process.env.ADMIN_SESSION_SECRET || "alonsorios_dev_secure_session_key_2026";
 export const AUTH_COOKIE_NAME = "admin_session";
 
 /**
- * Genera un token HMAC firmado para la sesión.
+ * Firma un timestamp usando Web Crypto API (100% compatible con Edge Runtime y Node.js).
  */
-export function generateSessionToken(): string {
+async function computeSignature(timestamp: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(SECRET_KEY);
+  const msgData = encoder.encode(timestamp);
+
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    keyData,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+
+  const signature = await crypto.subtle.sign("HMAC", cryptoKey, msgData);
+  return Array.from(new Uint8Array(signature))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+export async function generateSessionToken(): Promise<string> {
   const timestamp = Date.now().toString();
-  const hmac = createHmac("sha256", SECRET_KEY);
-  hmac.update(timestamp);
-  const signature = hmac.digest("hex");
+  const signature = await computeSignature(timestamp);
   return `${timestamp}.${signature}`;
 }
 
-/**
- * Verifica si un token de sesión es válido y no ha expirado.
- * Válido por 7 días.
- */
-export function verifySessionToken(token: string | undefined | null): boolean {
+export async function verifySessionToken(token: string | undefined | null): Promise<boolean> {
   if (!token) return false;
 
   const parts = token.split(".");
@@ -33,23 +44,14 @@ export function verifySessionToken(token: string | undefined | null): boolean {
     return false;
   }
 
-  const hmac = createHmac("sha256", SECRET_KEY);
-  hmac.update(timestamp);
-  const expectedSignature = hmac.digest("hex");
-
   try {
-    return timingSafeEqual(
-      Buffer.from(signature, "hex"),
-      Buffer.from(expectedSignature, "hex")
-    );
+    const expectedSignature = await computeSignature(timestamp);
+    return signature === expectedSignature;
   } catch {
     return false;
   }
 }
 
-/**
- * Valida la contraseña ingresada por el usuario.
- */
 export function validateAdminPassword(password: string): boolean {
   return password === ADMIN_PASSWORD;
 }

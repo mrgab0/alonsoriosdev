@@ -21,7 +21,7 @@ const DEFAULT_CONFIG = {
       title: "Páginas Web, Apps Android y SEO",
       titleHighlight: "sin complicaciones",
       subtitle:
-        "Hola, soy Alonso Ríos. Ayudo a personas y negocios a crear sitios web profesionales, recuperar páginas caídas o con fallas, desarrollar aplicaciones Android y aprender programación de forma sencilla.",
+        "Hola, soy Alonso Ríos. Ayudo a personas y negocios a crear sitios web profesionales ($760 USD), recuperar páginas caídas ($190 USD), desarrollar aplicaciones Android ($1,140 USD) y aprender programación.",
       avatarUrl: "",
       avatarInitials: "AR",
       profileName: "Alonso Ríos",
@@ -34,11 +34,12 @@ const DEFAULT_CONFIG = {
     },
     services: {
       title: "Servicios Principales",
-      subtitle: "Selecciona lo que necesitas y te entregaré una solución transparente y eficiente.",
+      subtitle: "Tarifa transparente de $19 USD / hora. Selecciona lo que necesitas:",
       items: [
         {
           icon: "Globe",
           badge: "Páginas Web",
+          priceTag: "Desde $760 USD (40 hrs x $19/h)",
           title: "Creación y Diseño de Sitios Web",
           description: "Sitios profesionales, ultrarrápidos y fáciles de usar en cualquier teléfono o computador.",
           benefits: ["Adaptado a celulares", "Botón directo de WhatsApp", "Sin costos ocultos"],
@@ -46,6 +47,7 @@ const DEFAULT_CONFIG = {
         {
           icon: "RefreshCw",
           badge: "Urgencias",
+          priceTag: "Desde $190 USD (10 hrs x $19/h)",
           title: "Recuperación de Sitios Web",
           description: "Si tu página se cayó, fue infectada con virus o tiene errores de servidor, la recupero de inmediato.",
           benefits: ["Desinfección de malware", "Restauración de copias", "Protección anti-hackeo"],
@@ -53,6 +55,7 @@ const DEFAULT_CONFIG = {
         {
           icon: "Smartphone",
           badge: "Android Apps",
+          priceTag: "Desde $1,140 USD (60 hrs x $19/h)",
           title: "Aplicaciones Móviles Android",
           description: "Desarrollo de aplicaciones nativas para el sistema Android con publicación en Google Play Store.",
           benefits: ["Publicación en Play Store", "Uso fluido y fácil", "Soporte personalizado"],
@@ -82,8 +85,14 @@ export async function GET() {
   try {
     if (process.env.MONGODB_URI) {
       await connectToDatabase();
-      const config = await SiteConfig.findOne({ key: "main_config" });
+      let config = await SiteConfig.findOne({ key: "main_config" });
       if (config) {
+        // If config has old prices, update it in MongoDB
+        if (config.sections?.hero?.subtitle?.includes("$190 USD") && !config.sections?.hero?.subtitle?.includes("$760 USD")) {
+          config.sections.hero.subtitle = DEFAULT_CONFIG.sections.hero.subtitle;
+          config.sections.services = DEFAULT_CONFIG.sections.services;
+          await config.save();
+        }
         return NextResponse.json({ success: true, data: config });
       }
     }

@@ -22,6 +22,11 @@ const DEFAULT_CONFIG = {
       titleHighlight: "sin complicaciones",
       subtitle:
         "Hola, soy Alonso Ríos. Ayudo a personas y negocios a crear sitios web profesionales, recuperar páginas caídas o con fallas, desarrollar aplicaciones Android y aprender programación de forma sencilla.",
+      avatarUrl: "",
+      avatarInitials: "AR",
+      profileName: "Alonso Ríos",
+      profileRole: "Desarrollador Web, Android & Creador de Contenido",
+      profileBio: "Resolver problemas técnicos complejos en lenguaje amigable y sin enredos.",
       primaryCtaText: "Ver Servicios y Precios",
       primaryCtaUrl: "#servicios",
       secondaryCtaText: "Hablar por WhatsApp",
@@ -75,10 +80,12 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    await connectToDatabase();
-    const config = await SiteConfig.findOne({ key: "main_config" });
-    if (config) {
-      return NextResponse.json({ success: true, data: config });
+    if (process.env.MONGODB_URI) {
+      await connectToDatabase();
+      const config = await SiteConfig.findOne({ key: "main_config" });
+      if (config) {
+        return NextResponse.json({ success: true, data: config });
+      }
     }
   } catch {
     // Database fallback

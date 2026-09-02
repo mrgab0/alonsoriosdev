@@ -3,7 +3,64 @@ import { connectToDatabase } from "@/lib/mongodb";
 import ChatMessage from "@/models/ChatMessage";
 import SiteConfig from "@/models/SiteConfig";
 
-// Smart human-like knowledge base response generator for Alonso Ríos
+// System Instructions for Gemini 1.5 Flash AI Agent
+const SYSTEM_PROMPT = `
+Eres el asistente virtual oficial de Alonso Ríos (alonsorios.dev).
+Alonso Ríos es un desarrollador de software experto en:
+1. Creación y Diseño de Páginas Web profesionales, rápidas y adaptadas a móviles.
+2. Urgencias y Recuperación de Sitios Web caídos, infectados con virus/malware o con errores de servidor.
+3. Desarrollo de Aplicaciones Móviles Android con publicación oficial en Google Play Store.
+4. SEO Local y optimización para aparecer en los primeros lugares de Google.
+5. Venta de Libros Digitales (PDF) y Cursos en Video HD paso a paso en español claro sin tecnicismos.
+
+Datos Oficiales de Contacto:
+- WhatsApp Directo: +58 412 991 2840 (https://wa.me/584129912840)
+- Correo Electrónico: iirockalonso@gmail.com
+
+Instrucciones de Respuesta:
+- Sé siempre amable, educado, claro y profesional.
+- Responde de forma concisa y amigable (máximo 3 párrafos cortos).
+- Si el usuario consulta sobre precios, menciona que las webs parten en $190 USD, las urgencias entre $80 y $150 USD, y los libros desde $14.99 USD.
+- Invita siempre al usuario a hablar directamente con Alonso por WhatsApp cuando requiera una cotización o atención personal.
+`;
+
+// Gemini 1.5 Flash AI API Call (Free Tier: 1,500 requests/day)
+async function getGeminiAiResponse(userMessage: string): Promise<string | null> {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return null;
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: `${SYSTEM_PROMPT}\n\nConsulta del usuario: ${userMessage}` }],
+            },
+          ],
+          generationConfig: {
+            maxOutputTokens: 300,
+            temperature: 0.7,
+          },
+        }),
+      }
+    );
+
+    if (!res.ok) return null;
+    const data = await res.json();
+    const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    return candidateText ? candidateText.trim() : null;
+  } catch (err) {
+    console.warn("Gemini API Fallback to rule engine:", err);
+    return null;
+  }
+}
+
+// Smart human-like fallback knowledge base for Alonso Ríos
 function generateHumanLikeResponse(userText: string): { reply: string; suggestWhatsapp: boolean } {
   const text = userText.toLowerCase().trim();
 
@@ -92,6 +149,8 @@ async function sendLiveNotification(userMessage: string, botReply: string, confi
   }
 }
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -101,17 +160,27 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Mensaje vacío" }, { status: 400 });
     }
 
-    const { reply, suggestWhatsapp } = generateHumanLikeResponse(message);
+    // Try Gemini AI first (if API key configured), fallback to knowledge base
+    let reply = await getGeminiAiResponse(message);
+    let suggestWhatsapp = true;
+
+    if (!reply) {
+      const fallbackResult = generateHumanLikeResponse(message);
+      reply = fallbackResult.reply;
+      suggestWhatsapp = fallbackResult.suggestWhatsapp;
+    }
 
     // Get config for webhooks
     let config = null;
     try {
-      await connectToDatabase();
-      config = await SiteConfig.findOne({ key: "main_config" });
+      if (process.env.MONGODB_URI) {
+        await connectToDatabase();
+        config = await SiteConfig.findOne({ key: "main_config" });
 
-      // Save chat log to MongoDB for admin viewing
-      await ChatMessage.create({ sessionId, sender: "user", text: message });
-      await ChatMessage.create({ sessionId, sender: "bot", text: reply, escalatedToWhatsapp: suggestWhatsapp });
+        // Save chat log to MongoDB for admin viewing
+        await ChatMessage.create({ sessionId, sender: "user", text: message });
+        await ChatMessage.create({ sessionId, sender: "bot", text: reply, escalatedToWhatsapp: suggestWhatsapp });
+      }
     } catch {}
 
     // Send real-time notification to Telegram / Discord for mobile live viewing!
@@ -129,18 +198,20 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    await connectToDatabase();
-    const history = await ChatMessage.find().sort({ timestamp: -1 }).limit(50);
-    return NextResponse.json({ success: true, data: history });
-  } catch {
-    return NextResponse.json({
-      success: true,
-      data: [
-        { sessionId: "s1", sender: "user", text: "Hola, ¿cuánto cuesta una página web?", timestamp: new Date() },
-        { sessionId: "s1", sender: "bot", text: "Hola! Un sitio corporativo básico parte en $190 USD...", timestamp: new Date() },
-      ],
-    });
-  }
+    if (process.env.MONGODB_URI) {
+      await connectToDatabase();
+      const history = await ChatMessage.find().sort({ timestamp: -1 }).limit(50);
+      return NextResponse.json({ success: true, data: history });
+    }
+  } catch {}
+
+  return NextResponse.json({
+    success: true,
+    data: [
+      { sessionId: "s1", sender: "user", text: "Hola, ¿cuánto cuesta una página web?", timestamp: new Date() },
+      { sessionId: "s1", sender: "bot", text: "Hola! Un sitio corporativo básico parte en $190 USD...", timestamp: new Date() },
+    ],
+  });
 }

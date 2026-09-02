@@ -39,8 +39,8 @@ export const ProjectSlider: React.FC = () => {
     {
       id: "bonbon-flowers",
       name: "Bonbon Flowers",
-      url: "https://bonbonflowers.com",
-      displayUrl: "https://bonbonflowers.com",
+      url: "https://bonbon-flowers.com",
+      displayUrl: "https://bonbon-flowers.com",
       category: "Diseño Floral de Lujo",
       description: "Experiencia web premium con catálogo de regalos gourmet y flores, optimizada para conversión de clientes y máxima legibilidad.",
       image: "/images/projects/bonbon_flowers.jpg",
@@ -49,7 +49,6 @@ export const ProjectSlider: React.FC = () => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [viewMode, setViewMode] = useState<"preview" | "iframe">("preview");
   const [iframeError, setIframeError] = useState(false);
 
   const prevSlide = () => {
@@ -79,47 +78,28 @@ export const ProjectSlider: React.FC = () => {
               Últimos Proyectos Realizados
             </h2>
             <p className="text-sm text-white font-extrabold mt-1">
-              Deslice para explorar las vistas previas interactivas en miniatura de sitios reales entregados.
+              Explora la vista interactiva en vivo de los sitios web reales entregados a clientes.
             </p>
           </div>
 
-          {/* Slide Navigation Buttons & View Mode Toggle */}
-          <div className="flex items-center gap-3">
-            <div className="bg-[#121b2d] p-1 rounded-xl border border-[#1e2a42] flex items-center text-xs font-black">
-              <button
-                onClick={() => setViewMode("preview")}
-                className={`px-3 py-1.5 rounded-lg transition font-black ${
-                  viewMode === "preview" ? "bg-blue-600 text-white" : "text-white hover:text-amber-400"
-                }`}
-              >
-                Vista Captura
-              </button>
-              <button
-                onClick={() => setViewMode("iframe")}
-                className={`px-3 py-1.5 rounded-lg transition font-black ${
-                  viewMode === "iframe" ? "bg-blue-600 text-white" : "text-white hover:text-amber-400"
-                }`}
-              >
-                Modo En vivo (iFrame)
-              </button>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={prevSlide}
-                className="p-2.5 bg-[#121b2d] hover:bg-[#1e2a42] border border-[#1e2a42] rounded-xl text-white transition"
-                title="Anterior proyecto"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={nextSlide}
-                className="p-2.5 bg-[#121b2d] hover:bg-[#1e2a42] border border-[#1e2a42] rounded-xl text-white transition"
-                title="Siguiente proyecto"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+          {/* Slide Navigation Buttons */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={prevSlide}
+              className="p-2.5 bg-[#121b2d] hover:bg-[#1e2a42] border border-[#1e2a42] rounded-xl text-white transition flex items-center gap-1 text-xs font-black"
+              title="Anterior proyecto"
+            >
+              <ChevronLeft className="w-5 h-5" />
+              <span className="hidden sm:inline">Anterior</span>
+            </button>
+            <button
+              onClick={nextSlide}
+              className="p-2.5 bg-[#121b2d] hover:bg-[#1e2a42] border border-[#1e2a42] rounded-xl text-white transition flex items-center gap-1 text-xs font-black"
+              title="Siguiente proyecto"
+            >
+              <span className="hidden sm:inline">Siguiente</span>
+              <ChevronRight className="w-5 h-5" />
+            </button>
           </div>
         </div>
 
@@ -152,56 +132,40 @@ export const ProjectSlider: React.FC = () => {
             </a>
           </div>
 
-          {/* Canvas Screen */}
+          {/* Canvas Screen: Exclusive Live iFrame View */}
           <div className="relative aspect-video w-full bg-[#0a1120] overflow-hidden group">
-            {viewMode === "preview" ? (
-              <img
-                src={currentProject.image}
-                alt={currentProject.name}
-                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-              />
-            ) : (
-              <div className="w-full h-full relative">
-                {!iframeError ? (
-                  <iframe
-                    src={currentProject.url}
-                    title={currentProject.name}
-                    className="w-full h-full border-0"
-                    onError={() => setIframeError(true)}
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#0a1120]">
-                    <Globe className="w-12 h-12 text-amber-400 mb-3" />
-                    <h4 className="text-lg font-black text-white mb-1">
-                      Sitio protegido contra incrustación iFrame externa
-                    </h4>
-                    <p className="text-xs text-white font-bold max-w-md mb-4">
-                      Este sitio web restringe la carga dentro de marcos de terceros por seguridad. Puedes ver la captura de pantalla o visitar la web directamente.
-                    </p>
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => setViewMode("preview")}
-                        className="bg-[#1e2a42] text-white text-xs font-black px-4 py-2 rounded-xl"
-                      >
-                        Ver Captura HD
-                      </button>
-                      <a
-                        href={currentProject.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-[#fbbf24] text-[#0a1120] text-xs font-black px-4 py-2 rounded-xl"
-                      >
-                        Abrir {currentProject.name} ↗
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
+            <div className="w-full h-full relative">
+              {!iframeError ? (
+                <iframe
+                  src={currentProject.url}
+                  title={currentProject.name}
+                  className="w-full h-full border-0"
+                  onError={() => setIframeError(true)}
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center bg-[#0a1120]">
+                  <Globe className="w-12 h-12 text-amber-400 mb-3" />
+                  <h4 className="text-lg font-black text-white mb-1">
+                    Sitio protegido contra incrustación externa
+                  </h4>
+                  <p className="text-xs text-white font-extrabold max-w-md mb-4">
+                    Este sitio web restringe la carga dentro de marcos de terceros por seguridad. Puedes acceder directamente al sitio en vivo.
+                  </p>
+                  <a
+                    href={currentProject.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#fbbf24] text-[#0a1120] text-xs font-black px-5 py-2.5 rounded-xl shadow-md flex items-center gap-2"
+                  >
+                    <span>Abrir {currentProject.name} en vivo ↗</span>
+                  </a>
+                </div>
+              )}
+            </div>
 
             {/* Overlay Caption Bar */}
-            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#0a1120] via-[#0a1120]/95 to-transparent p-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div className="space-y-1">
+            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-[#0a1120] via-[#0a1120]/95 to-transparent p-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 pointer-events-none">
+              <div className="space-y-1 pointer-events-auto">
                 <span className="text-xs font-black text-amber-300 bg-amber-400/20 border border-amber-400/40 px-2.5 py-0.5 rounded-full">
                   {currentProject.category}
                 </span>
@@ -209,7 +173,7 @@ export const ProjectSlider: React.FC = () => {
                 <p className="text-xs sm:text-sm text-white font-extrabold max-w-2xl">{currentProject.description}</p>
               </div>
 
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1.5 pointer-events-auto">
                 {currentProject.tags.map((tag, idx) => (
                   <span
                     key={idx}

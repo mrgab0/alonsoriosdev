@@ -13,11 +13,11 @@ export const InteractiveEstimator: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const serviceOptions = [
-    { label: "🌐 Tener una nueva Página Web", val: "Página Web Nueva" },
-    { label: "🚑 Arreglar o Recuperar mi Sitio Caído", val: "Recuperación Web" },
-    { label: "📱 Desarrollar una App Android", val: "App Android" },
-    { label: "📈 Aparecer en Google (SEO)", val: "SEO Google" },
-    { label: "🎓 Comprar Libros o Cursos", val: "Libros / Cursos" },
+    { label: "🌐 Página Web Normal (40 hrs)", val: "Página Web Normal ($760 USD - 40h)", price: "$760 USD" },
+    { label: "📱 Aplicación Android (60 hrs)", val: "App Android ($1,140 USD - 60h)", price: "$1,140 USD" },
+    { label: "⚙️ Sistema Complejo / Plataforma (180 hrs)", val: "Trabajo Complejo ($3,420 USD - 180h)", price: "$3,420 USD" },
+    { label: "🚑 Arreglar / Recuperar Sitio Caído (10-20 hrs)", val: "Recuperación Urgente ($190 - $380 USD)", price: "$190 - $380 USD" },
+    { label: "🎓 Cursos y Libros Digitales", val: "Libros / Cursos ($14.99 - $29.99 USD)", price: "$14.99 - $29.99 USD" },
   ];
 
   const timelineOptions = [
@@ -35,7 +35,7 @@ export const InteractiveEstimator: React.FC = () => {
   };
 
   const getWhatsappUrl = () => {
-    const text = `Hola Alonso, completé el cotizador rápido:\n- Servicio: ${service}\n- Plazo: ${timeline}\n- Nombre: ${clientName}\n- Contacto: ${clientPhoneOrEmail}`;
+    const text = `Hola Alonso, completé el cotizador rápido ($19 USD/h):\n- Servicio: ${service}\n- Plazo: ${timeline}\n- Nombre: ${clientName}\n- Contacto: ${clientPhoneOrEmail}`;
     return `https://wa.me/584129912840?text=${encodeURIComponent(text)}`;
   };
 
@@ -50,7 +50,7 @@ export const InteractiveEstimator: React.FC = () => {
           email: clientPhoneOrEmail.includes("@") ? clientPhoneOrEmail : "contacto@cliente.com",
           phone: !clientPhoneOrEmail.includes("@") ? clientPhoneOrEmail : "",
           serviceType: service,
-          message: `Cotización solicitada para ${service} (Plazo: ${timeline}, Preferencia: ${contactPref})`,
+          message: `Cotización solicitada para ${service} (Plazo: ${timeline}, Tarifa: $19/h)`,
         }),
       });
     } catch {
@@ -73,7 +73,7 @@ export const InteractiveEstimator: React.FC = () => {
             Cotizador Rápido en 3 Pasos
           </h2>
           <p className="text-sm sm:text-base text-white font-extrabold mt-2">
-            Responde 3 preguntas sencillas y obtén una orientación de presupuesto al instante sin compromiso.
+            Calculado sobre la tarifa transparente de <strong className="text-amber-400 font-black">$19 USD / hora</strong>.
           </p>
         </div>
 
@@ -94,7 +94,7 @@ export const InteractiveEstimator: React.FC = () => {
               {step === 1 && (
                 <div className="space-y-6">
                   <h3 className="text-xl sm:text-2xl font-black text-white">
-                    Paso 1: ¿Qué servicio necesitas?
+                    Paso 1: ¿Qué servicio o proyecto necesitas?
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {serviceOptions.map((opt) => (
@@ -110,7 +110,10 @@ export const InteractiveEstimator: React.FC = () => {
                             : "bg-[#0a1120] border-[#1e2a42] text-white hover:border-blue-500"
                         }`}
                       >
-                        <span>{opt.label}</span>
+                        <div>
+                          <span>{opt.label}</span>
+                          <span className="block text-xs text-amber-400 font-black mt-1">{opt.price}</span>
+                        </div>
                         <ArrowRight className="w-4 h-4 shrink-0 text-white" />
                       </button>
                     ))}

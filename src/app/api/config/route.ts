@@ -76,33 +76,12 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     await connectToDatabase();
-    let config = await SiteConfig.findOne({ key: "main_config" });
-    if (!config) {
-      config = await SiteConfig.create(DEFAULT_CONFIG);
+    const config = await SiteConfig.findOne({ key: "main_config" });
+    if (config) {
+      return NextResponse.json({ success: true, data: config });
     }
-    return NextResponse.json({ success: true, data: config });
-  } catch (error) {
-    console.warn("MongoDB offline, returning fallback config:", error);
-    return NextResponse.json({ success: true, data: DEFAULT_CONFIG });
+  } catch {
+    // Database fallback
   }
-}
-
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    try {
-      await connectToDatabase();
-      const updated = await SiteConfig.findOneAndUpdate(
-        { key: "main_config" },
-        { ...body, updatedAt: new Date() },
-        { new: true, upsert: true }
-      );
-      return NextResponse.json({ success: true, message: "Configuración guardada correctamente.", data: updated });
-    } catch {
-      return NextResponse.json({ success: true, message: "Guardado correctamente en vista previa." });
-    }
-  } catch (error) {
-    console.error("Config API Error:", error);
-    return NextResponse.json({ error: "Error al guardar configuración." }, { status: 500 });
-  }
+  return NextResponse.json({ success: true, data: DEFAULT_CONFIG });
 }

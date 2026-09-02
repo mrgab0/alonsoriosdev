@@ -1,9 +1,8 @@
-import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
-import SiteConfig from "@/models/SiteConfig";
+"use client";
+
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const DEFAULT_CONFIG = {
-  key: "main_config",
   theme: {
     backgroundColor: "#0a1120",
     textColor: "#ffffff",
@@ -71,38 +70,53 @@ const DEFAULT_CONFIG = {
   },
 };
 
-export const dynamic = "force-dynamic";
-
-export async function GET() {
-  try {
-    await connectToDatabase();
-    let config = await SiteConfig.findOne({ key: "main_config" });
-    if (!config) {
-      config = await SiteConfig.create(DEFAULT_CONFIG);
-    }
-    return NextResponse.json({ success: true, data: config });
-  } catch (error) {
-    console.warn("MongoDB offline, returning fallback config:", error);
-    return NextResponse.json({ success: true, data: DEFAULT_CONFIG });
-  }
+interface ConfigContextType {
+  config: typeof DEFAULT_CONFIG;
+  setConfig: React.Dispatch<React.SetStateAction<typeof DEFAULT_CONFIG>>;
+  refreshConfig: () => Promise<void>;
 }
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
+const ConfigContext = createContext<ConfigContextType>({
+  config: DEFAULT_CONFIG,
+  setConfig: () => {},
+  refreshConfig: async () => {},
+});
+
+export const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [config, setConfig] = useState(DEFAULT_CONFIG);
+
+  const refreshConfig = async () => {
     try {
-      await connectToDatabase();
-      const updated = await SiteConfig.findOneAndUpdate(
-        { key: "main_config" },
-        { ...body, updatedAt: new Date() },
-        { new: true, upsert: true }
-      );
-      return NextResponse.json({ success: true, message: "Configuración guardada correctamente.", data: updated });
+      const res = await fetch("/api/config");
+      const data = await res.json();
+      if (data?.data) {
+        setConfig((prev) => ({
+          ...prev,
+          ...data.data,
+          theme: { ...prev.theme, ...(data.data.theme || {}) },
+          sections: {
+            ...prev.sections,
+            hero: { ...prev.sections.hero, ...(data.data.sections?.hero || {}) },
+            services: { ...prev.sections.services, ...(data.data.sections?.services || {}) },
+            coursesAndBooks: { ...prev.sections.coursesAndBooks, ...(data.data.sections?.coursesAndBooks || {}) },
+            contact: { ...prev.sections.contact, ...(data.data.sections?.contact || {}) },
+          },
+        }));
+      }
     } catch {
-      return NextResponse.json({ success: true, message: "Guardado correctamente en vista previa." });
+      // Use fallback
     }
-  } catch (error) {
-    console.error("Config API Error:", error);
-    return NextResponse.json({ error: "Error al guardar configuración." }, { status: 500 });
-  }
-}
+  };
+
+  useEffect(() => {
+    refreshConfig();
+  }, []);
+
+  return (
+    <ConfigContext.Provider value={{ config, setConfig, refreshConfig }}>
+      {children}
+    </ConfigContext.Provider>
+  );
+};
+
+export const useConfig = () => useContext(ConfigContext);

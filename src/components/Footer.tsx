@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { Lock } from "lucide-react";
 
 export const Footer: React.FC = () => {
   return (
@@ -24,8 +26,16 @@ export const Footer: React.FC = () => {
           <a href="#contacto" className="hover:text-amber-400 transition">Contacto</a>
         </div>
 
-        <div className="flex items-center gap-1 font-black text-white">
+        <div className="flex items-center gap-2 font-black text-white">
           <span>© {new Date().getFullYear()} Alonso Ríos (alonsorios.dev)</span>
+          {/* Subtle discreet admin access */}
+          <Link
+            href="/admin"
+            className="text-slate-600 hover:text-amber-400 transition p-1"
+            title="Acceso Privado"
+          >
+            <Lock className="w-3.5 h-3.5 opacity-40 hover:opacity-100" />
+          </Link>
         </div>
 
       </div>

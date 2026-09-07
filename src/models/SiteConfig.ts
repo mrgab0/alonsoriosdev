@@ -124,4 +124,8 @@ const SiteConfigSchema: Schema = new Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-export default models.SiteConfig || mongoose.model<ISiteConfig>("SiteConfig", SiteConfigSchema);
+if (mongoose.models.SiteConfig) {
+  delete mongoose.models.SiteConfig;
+}
+
+export default mongoose.model<ISiteConfig>("SiteConfig", SiteConfigSchema);

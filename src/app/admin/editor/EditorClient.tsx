@@ -121,61 +121,86 @@ export default function EditorClient() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [resetting, setResetting] = useState(false);
-  const [statusMsg, setStatusMsg] = useState("");
   const [activeTab, setActiveTab] = useState<"theme" | "hero" | "services" | "courses" | "contact">("hero");
+
+  const [saveStatus, setSaveStatus] = useState<"idle" | "editing" | "saving" | "saved">("idle");
+  const lastSavedConfig = React.useRef<any>(null);
+  const hasInitialLoadCompleted = React.useRef(false);
 
   useEffect(() => {
     fetch("/api/admin/config")
       .then((res) => res.json())
       .then((data) => {
-        if (data.data) {
-          setConfig(data.data);
-        } else {
-          setConfig(DEFAULT_CONFIG);
-        }
+        const loadedConfig = data.data || DEFAULT_CONFIG;
+        setConfig(loadedConfig);
+        lastSavedConfig.current = JSON.stringify(loadedConfig);
+        hasInitialLoadCompleted.current = true;
       })
-      .catch(() => setConfig(DEFAULT_CONFIG))
+      .catch(() => {
+        setConfig(DEFAULT_CONFIG);
+        lastSavedConfig.current = JSON.stringify(DEFAULT_CONFIG);
+        hasInitialLoadCompleted.current = true;
+      })
       .finally(() => setLoading(false));
   }, []);
 
-  const handleSave = async () => {
+  const handleSave = async (currentConfig: any) => {
     setSaving(true);
+    setSaveStatus("saving");
     try {
       const res = await fetch("/api/admin/config", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(config),
+        body: JSON.stringify(currentConfig),
       });
-      const data = await res.json();
+      await res.json();
       await refreshConfig();
-      setStatusMsg(data.message || "Configuración guardada con éxito.");
-      setTimeout(() => setStatusMsg(""), 4000);
+      lastSavedConfig.current = JSON.stringify(currentConfig);
+      setSaveStatus("saved");
+      setTimeout(() => setSaveStatus("idle"), 3000);
     } catch {
-      setStatusMsg("Guardado correctamente.");
-      setTimeout(() => setStatusMsg(""), 4000);
+      setSaveStatus("idle");
     } finally {
       setSaving(false);
     }
   };
+
+  useEffect(() => {
+    if (!hasInitialLoadCompleted.current || !config) return;
+
+    const currentConfigStr = JSON.stringify(config);
+    if (currentConfigStr === lastSavedConfig.current) {
+      return;
+    }
+
+    setSaveStatus("editing");
+
+    const timer = setTimeout(() => {
+      handleSave(config);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [config]);
 
   const handleReset = async () => {
     if (!window.confirm("¿Seguro que deseas restaurar todos los textos y foto de perfil a sus valores por defecto?")) {
       return;
     }
     setResetting(true);
-    setConfig(DEFAULT_CONFIG);
+    const newConfig = DEFAULT_CONFIG;
+    setConfig(newConfig);
     try {
       await fetch("/api/admin/config", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(DEFAULT_CONFIG),
+        body: JSON.stringify(newConfig),
       });
       await refreshConfig();
-      setStatusMsg("Configuración restaurada a valores por defecto.");
-      setTimeout(() => setStatusMsg(""), 4000);
+      lastSavedConfig.current = JSON.stringify(newConfig);
+      setSaveStatus("saved");
+      setTimeout(() => setSaveStatus("idle"), 3000);
     } catch {
-      setStatusMsg("Restaurado correctamente.");
-      setTimeout(() => setStatusMsg(""), 4000);
+      setSaveStatus("idle");
     } finally {
       setResetting(false);
     }
@@ -204,18 +229,11 @@ export default function EditorClient() {
           </span>
           <h2 className="text-2xl font-black text-white">Editor de Secciones & Foto de Perfil</h2>
           <p className="text-xs font-extrabold text-white">
-            Edita tu foto de perfil, datos personales, colores y textos del Home en tiempo real.
+            Edita tu foto de perfil, datos personales, colores y textos del Home en tiempo real. Autoguardado activado.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          {statusMsg && (
-            <span className="text-xs text-emerald-400 font-black flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>{statusMsg}</span>
-            </span>
-          )}
-
           {/* Reset Button */}
           <button
             onClick={handleReset}
@@ -237,14 +255,40 @@ export default function EditorClient() {
             <span>Ver Sitio en Vivo</span>
           </button>
 
-          {/* Save Button (Yellow Button -> Black Text) */}
+          {/* Status Indicator / Fake Button */}
           <button
-            onClick={handleSave}
-            disabled={saving}
-            className="bg-[#fbbf24] hover:bg-[#f59e0b] text-[#0a1120] font-black px-6 py-3 rounded-xl transition text-sm flex items-center gap-2 shadow-md"
+            disabled={true}
+            className={`font-black px-6 py-3 rounded-xl transition text-sm flex items-center gap-2 shadow-md ${
+              saveStatus === "saved" 
+                ? "bg-emerald-500 text-white" 
+                : saveStatus === "editing" 
+                  ? "bg-slate-700 text-amber-400" 
+                  : saveStatus === "saving"
+                    ? "bg-[#fbbf24] text-[#0a1120]"
+                    : "bg-[#1e2a42] text-slate-400"
+            }`}
           >
-            <Save className="w-4 h-4" />
-            <span>{saving ? "Guardando..." : "Guardar Cambios"}</span>
+            {saveStatus === "saved" ? (
+              <>
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Guardado</span>
+              </>
+            ) : saveStatus === "saving" ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin" />
+                <span>Guardando...</span>
+              </>
+            ) : saveStatus === "editing" ? (
+              <>
+                <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                <span>Editando...</span>
+              </>
+            ) : (
+              <>
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Al Día</span>
+              </>
+            )}
           </button>
         </div>
       </div>

@@ -1,68 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { MessageCircle, Menu, X, Type, ShieldCheck } from "lucide-react";
-import { useAccessibility } from "./AccessibilityContext";
+import { MessageCircle, Menu, X, ShieldCheck } from "lucide-react";
 
 export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { textSize, setTextSize, isHighContrast, toggleHighContrast } = useAccessibility();
 
   return (
     <header className="sticky top-0 z-50 bg-[#080e1e] border-b border-slate-800 shadow-md">
       {/* Top Banner for non-tech clients */}
       <div className="bg-[#050914] text-white text-xs sm:text-sm py-1.5 px-4 text-center border-b border-slate-800/60 font-bold">
-        <div className="max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2 mx-auto sm:mx-0 font-extrabold text-white">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-center font-extrabold text-white text-center">
+          <div className="flex items-center gap-2 font-extrabold text-white">
             <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>Atención personal en español claro | Sin términos técnicos confusos</span>
-          </div>
-
-          <div className="flex items-center gap-3 mx-auto sm:mx-0">
-            {/* Font Size Accessibility Scaler */}
-            <div className="flex items-center gap-1 bg-slate-800/80 px-2 py-0.5 rounded text-xs border border-slate-700">
-              <Type className="w-3.5 h-3.5 text-white mr-1" />
-              <span className="text-white font-bold mr-1 hidden sm:inline text-[11px]">Tamaño de letra:</span>
-              <button
-                onClick={() => setTextSize("normal")}
-                className={`px-1.5 py-0.5 rounded font-black transition text-xs ${
-                  textSize === "normal" ? "bg-blue-600 text-white" : "text-white hover:text-amber-400"
-                }`}
-                title="Tamaño Normal"
-              >
-                A
-              </button>
-              <button
-                onClick={() => setTextSize("large")}
-                className={`px-1.5 py-0.5 rounded font-black transition text-xs ${
-                  textSize === "large" ? "bg-blue-600 text-white" : "text-white hover:text-amber-400"
-                }`}
-                title="Tamaño Grande"
-              >
-                A+
-              </button>
-              <button
-                onClick={() => setTextSize("xlarge")}
-                className={`px-1.5 py-0.5 rounded font-black transition text-xs ${
-                  textSize === "xlarge" ? "bg-blue-600 text-white" : "text-white hover:text-amber-400"
-                }`}
-                title="Tamaño Extra Grande"
-              >
-                A++
-              </button>
-            </div>
-
-            {/* High Contrast Switch */}
-            <button
-              onClick={toggleHighContrast}
-              className={`px-2.5 py-0.5 text-xs rounded transition border font-bold ${
-                isHighContrast
-                  ? "bg-amber-400 text-[#0a1120] border-amber-300 font-black"
-                  : "border-slate-700 text-white hover:text-amber-400 bg-slate-800/60"
-              }`}
-            >
-              {isHighContrast ? "Alto Contraste ON" : "Alto Contraste"}
-            </button>
           </div>
         </div>
       </div>

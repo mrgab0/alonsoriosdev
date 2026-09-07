@@ -30,6 +30,28 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
     if (savedContrast === "true") setIsHighContrast(true);
   }, []);
 
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      if (textSize === "large") {
+        document.documentElement.style.fontSize = "112.5%";
+      } else if (textSize === "xlarge") {
+        document.documentElement.style.fontSize = "125%";
+      } else {
+        document.documentElement.style.fontSize = "100%";
+      }
+    }
+  }, [textSize]);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      if (isHighContrast) {
+        document.documentElement.classList.add("contrast-mode");
+      } else {
+        document.documentElement.classList.remove("contrast-mode");
+      }
+    }
+  }, [isHighContrast]);
+
   const handleSetTextSize = (size: TextSize) => {
     setTextSize(size);
     localStorage.setItem("alonsorios_text_size", size);

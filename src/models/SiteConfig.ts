@@ -19,6 +19,11 @@ export interface ISiteConfig extends Document {
       title: string;
       titleHighlight: string;
       subtitle: string;
+      avatarUrl?: string;
+      avatarInitials?: string;
+      profileName?: string;
+      profileRole?: string;
+      profileBio?: string;
       primaryCtaText: string;
       primaryCtaUrl: string;
       secondaryCtaText: string;
@@ -30,6 +35,7 @@ export interface ISiteConfig extends Document {
       items: Array<{
         icon: string;
         badge: string;
+        priceTag?: string;
         title: string;
         description: string;
         benefits: string[];
@@ -76,6 +82,11 @@ const SiteConfigSchema: Schema = new Schema({
         default:
           "Hola, soy Alonso Ríos. Ayudo a personas y negocios a crear sitios web profesionales, recuperar páginas caídas y aprender programación.",
       },
+      avatarUrl: { type: String, default: "" },
+      avatarInitials: { type: String, default: "AR" },
+      profileName: { type: String, default: "Alonso Ríos" },
+      profileRole: { type: String, default: "Desarrollador Web, Android & Creador de Contenido" },
+      profileBio: { type: String, default: "Resolver problemas técnicos complejos en lenguaje amigable y sin enredos." },
       primaryCtaText: { type: String, default: "Ver Servicios y Precios" },
       primaryCtaUrl: { type: String, default: "#servicios" },
       secondaryCtaText: { type: String, default: "Hablar por WhatsApp" },
@@ -88,6 +99,7 @@ const SiteConfigSchema: Schema = new Schema({
         {
           icon: { type: String, default: "Globe" },
           badge: { type: String, default: "Páginas Web" },
+          priceTag: { type: String, default: "" },
           title: { type: String, default: "Creación y Diseño de Sitios Web" },
           description: { type: String, default: "Sitios profesionales, ultrarrápidos y adaptados a cualquier dispositivo." },
           benefits: [{ type: String }],

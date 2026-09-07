@@ -12,11 +12,14 @@ import {
   Send,
   ArrowLeft,
   LogOut,
+  Type,
 } from "lucide-react";
+import { useAccessibility } from "@/components/AccessibilityContext";
 
 export default function AdminNav({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { textSize, setTextSize, isHighContrast, toggleHighContrast } = useAccessibility();
 
   if (pathname === "/admin/login") {
     return <>{children}</>;
@@ -35,7 +38,7 @@ export default function AdminNav({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-[#070d19] text-white flex flex-col font-sans">
       {/* Top Admin Header */}
-      <header className="bg-[#0b1324] border-b border-[#1e2a42] px-6 py-4 flex items-center justify-between">
+      <header className="bg-[#0b1324] border-b border-[#1e2a42] px-6 py-4 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2 text-xs text-slate-400 hover:text-white transition">
             <ArrowLeft className="w-4 h-4" />
@@ -48,6 +51,52 @@ export default function AdminNav({ children }: { children: React.ReactNode }) {
               alonsorios.dev
             </span>
           </h1>
+        </div>
+
+        {/* Accessibility Scaler & Contrast Bar */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 bg-[#121b2d] px-2 py-1 rounded-xl text-xs border border-[#1e2a42]">
+            <Type className="w-3.5 h-3.5 text-amber-400 mr-1" />
+            <span className="text-slate-300 font-bold mr-1 hidden sm:inline text-[11px]">Tamaño de letra:</span>
+            <button
+              onClick={() => setTextSize("normal")}
+              className={`px-2 py-0.5 rounded-lg font-black transition text-xs ${
+                textSize === "normal" ? "bg-amber-400 text-[#070d19]" : "text-slate-300 hover:text-white"
+              }`}
+              title="Tamaño Normal"
+            >
+              A
+            </button>
+            <button
+              onClick={() => setTextSize("large")}
+              className={`px-2 py-0.5 rounded-lg font-black transition text-xs ${
+                textSize === "large" ? "bg-amber-400 text-[#070d19]" : "text-slate-300 hover:text-white"
+              }`}
+              title="Tamaño Grande"
+            >
+              A+
+            </button>
+            <button
+              onClick={() => setTextSize("xlarge")}
+              className={`px-2 py-0.5 rounded-lg font-black transition text-xs ${
+                textSize === "xlarge" ? "bg-amber-400 text-[#070d19]" : "text-slate-300 hover:text-white"
+              }`}
+              title="Tamaño Extra Grande"
+            >
+              A++
+            </button>
+          </div>
+
+          <button
+            onClick={toggleHighContrast}
+            className={`px-2.5 py-1 text-xs rounded-xl transition border font-bold ${
+              isHighContrast
+                ? "bg-amber-400 text-[#0a1120] border-amber-300 font-black"
+                : "border-[#1e2a42] text-slate-300 hover:text-white bg-[#121b2d]"
+            }`}
+          >
+            {isHighContrast ? "Alto Contraste ON" : "Alto Contraste"}
+          </button>
         </div>
 
         {/* Admin Navigation Tabs & Actions */}

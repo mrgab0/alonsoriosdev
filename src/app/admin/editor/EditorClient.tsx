@@ -279,18 +279,42 @@ export default function EditorClient() {
               {/* Profile Photo URL & Preview */}
               <div className="p-4 bg-[#0a1120] rounded-2xl border border-[#1e2a42] space-y-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-amber-400 p-0.5 shrink-0 overflow-hidden">
-                    <div className="w-full h-full bg-[#0a1120] rounded-[14px] overflow-hidden flex items-center justify-center text-white font-black text-xl">
-                      {config.sections?.hero?.avatarUrl ? (
-                        <img
-                          src={config.sections.hero.avatarUrl}
-                          alt="Vista previa"
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <span>{config.sections?.hero?.avatarInitials || "AR"}</span>
-                      )}
-                    </div>
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-amber-400 p-0.5 shrink-0 overflow-hidden cursor-pointer" title="Haz clic para seleccionar una foto desde tu equipo">
+                    <input
+                      type="file"
+                      id="avatar-file-input"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setConfig({
+                              ...config,
+                              sections: {
+                                ...config.sections,
+                                hero: { ...config.sections.hero, avatarUrl: reader.result as string },
+                              },
+                            });
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                    <label htmlFor="avatar-file-input" className="w-full h-full cursor-pointer block">
+                      <div className="w-full h-full bg-[#0a1120] rounded-[14px] overflow-hidden flex items-center justify-center text-white font-black text-xl">
+                        {config.sections?.hero?.avatarUrl ? (
+                          <img
+                            src={config.sections.hero.avatarUrl}
+                            alt="Vista previa"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <span>{config.sections?.hero?.avatarInitials || "AR"}</span>
+                        )}
+                      </div>
+                    </label>
                   </div>
 
                   <div className="flex-1 space-y-1">
@@ -313,7 +337,7 @@ export default function EditorClient() {
                       className="w-full bg-[#121b2d] border border-[#1e2a42] px-3 py-2 rounded-xl text-xs text-white font-black placeholder:text-slate-500"
                     />
                     <span className="text-[11px] text-white font-extrabold block">
-                      Deja vacío si deseas usar solo las iniciales estilizadas.
+                      Selecciona una foto haciendo clic en el avatar o pega su URL.
                     </span>
                   </div>
                 </div>

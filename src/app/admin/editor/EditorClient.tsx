@@ -153,12 +153,19 @@ export default function EditorClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(currentConfig),
       });
-      await res.json();
+      
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Error al guardar");
+      }
+
       await refreshConfig();
       lastSavedConfig.current = JSON.stringify(currentConfig);
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("idle"), 3000);
-    } catch {
+    } catch (err: any) {
+      console.error(err);
+      alert("Error al guardar: " + err.message);
       setSaveStatus("idle");
     } finally {
       setSaving(false);
@@ -190,16 +197,20 @@ export default function EditorClient() {
     const newConfig = DEFAULT_CONFIG;
     setConfig(newConfig);
     try {
-      await fetch("/api/admin/config", {
+      const res = await fetch("/api/admin/config", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newConfig),
       });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || "Error al resetear");
+      
       await refreshConfig();
       lastSavedConfig.current = JSON.stringify(newConfig);
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("idle"), 3000);
-    } catch {
+    } catch (err: any) {
+      alert("Error al resetear: " + err.message);
       setSaveStatus("idle");
     } finally {
       setResetting(false);

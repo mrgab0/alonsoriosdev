@@ -111,9 +111,12 @@ export async function POST(request: Request) {
         { new: true, upsert: true }
       );
       return NextResponse.json({ success: true, message: "Configuración guardada correctamente.", data: updated });
-    } catch (dbError) {
+    } catch (dbError: any) {
       console.error("DB Update Error:", dbError);
-      return NextResponse.json({ success: true, message: "Guardado correctamente en vista previa." });
+      return NextResponse.json(
+        { success: false, message: "Error de conexión a la base de datos (MongoDB). Revisa IP Whitelist en Atlas o MONGODB_URI en Vercel.", error: dbError.message },
+        { status: 500 }
+      );
     }
   } catch (error) {
     console.error("Config API Error:", error);

@@ -96,7 +96,7 @@ export const ConfigProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const refreshConfig = async () => {
     if (typeof window === "undefined") return;
     try {
-      const res = await fetch("/api/config");
+      const res = await fetch(`/api/config?t=${Date.now()}`, { cache: "no-store" });
       const data = await res.json();
       if (data?.data) {
         setConfig((prev) => ({

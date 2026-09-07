@@ -104,13 +104,15 @@ export async function POST(request: Request) {
     const body = await request.json();
     try {
       await connectToDatabase();
+      const { _id, __v, ...updateData } = body;
       const updated = await SiteConfig.findOneAndUpdate(
         { key: "main_config" },
-        { ...body, updatedAt: new Date() },
+        { ...updateData, updatedAt: new Date() },
         { new: true, upsert: true }
       );
       return NextResponse.json({ success: true, message: "Configuración guardada correctamente.", data: updated });
-    } catch {
+    } catch (dbError) {
+      console.error("DB Update Error:", dbError);
       return NextResponse.json({ success: true, message: "Guardado correctamente en vista previa." });
     }
   } catch (error) {

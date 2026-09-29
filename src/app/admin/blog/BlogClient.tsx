@@ -12,6 +12,12 @@ interface BlogPost {
   content: string;
   excerpt: string;
   coverImage: string;
+  mediumUrl?: string;
+  devtoUrl?: string;
+  hashnodeUrl?: string;
+  crosspostMedium?: boolean;
+  crosspostDevTo?: boolean;
+  crosspostHashnode?: boolean;
   published: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -23,6 +29,9 @@ const emptyPost: BlogPost = {
   content: "",
   excerpt: "",
   coverImage: "",
+  crosspostMedium: false,
+  crosspostDevTo: false,
+  crosspostHashnode: false,
   published: false,
 };
 
@@ -216,17 +225,67 @@ export default function BlogClient() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 mt-2">
-            <input
-              type="checkbox"
-              id="published"
-              checked={editingPost.published}
-              onChange={(e) => setEditingPost({ ...editingPost, published: e.target.checked })}
-              className="w-4 h-4 accent-amber-400"
-            />
-            <label htmlFor="published" className="text-sm text-gray-300 cursor-pointer">
-              Artculo Pblico (Visible en el blog)
-            </label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 p-4 bg-gray-800/30 rounded-xl border border-gray-800">
+            <div>
+              <label className="block text-sm font-bold text-white mb-2">Visibilidad Original</label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="published"
+                  checked={editingPost.published}
+                  onChange={(e) => setEditingPost({ ...editingPost, published: e.target.checked })}
+                  className="w-4 h-4 accent-amber-400"
+                />
+                <label htmlFor="published" className="text-sm text-gray-300 cursor-pointer">
+                  Artculo Pblico (Visible en alonsorios.dev)
+                </label>
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-bold text-white mb-2">Sindicacin Mgica (Crossposting)</label>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="cp-devto"
+                    checked={editingPost.crosspostDevTo}
+                    disabled={!!editingPost.devtoUrl}
+                    onChange={(e) => setEditingPost({ ...editingPost, crosspostDevTo: e.target.checked })}
+                    className="w-4 h-4 accent-amber-400"
+                  />
+                  <label htmlFor="cp-devto" className="text-sm text-gray-300 cursor-pointer">
+                    Clonar a Dev.to {editingPost.devtoUrl && "(Ya clonado)"}
+                  </label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="cp-medium"
+                    checked={editingPost.crosspostMedium}
+                    disabled={!!editingPost.mediumUrl}
+                    onChange={(e) => setEditingPost({ ...editingPost, crosspostMedium: e.target.checked })}
+                    className="w-4 h-4 accent-amber-400"
+                  />
+                  <label htmlFor="cp-medium" className="text-sm text-gray-300 cursor-pointer">
+                    Clonar a Medium {editingPost.mediumUrl && "(Ya clonado)"}
+                  </label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="cp-hashnode"
+                    checked={editingPost.crosspostHashnode}
+                    disabled={!!editingPost.hashnodeUrl}
+                    onChange={(e) => setEditingPost({ ...editingPost, crosspostHashnode: e.target.checked })}
+                    className="w-4 h-4 accent-amber-400"
+                  />
+                  <label htmlFor="cp-hashnode" className="text-sm text-gray-300 cursor-pointer">
+                    Clonar a Hashnode {editingPost.hashnodeUrl && "(Ya clonado)"}
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="pt-4 border-t border-gray-800">

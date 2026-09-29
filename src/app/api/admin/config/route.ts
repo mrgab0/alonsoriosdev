@@ -86,7 +86,7 @@ export async function GET() {
     await connectToDatabase();
     let config = await SiteConfig.findOne({ key: "main_config" });
     if (!config) {
-      config = await SiteConfig.create(DEFAULT_CONFIG);
+      config = await SiteConfig.create(DEFAULT_CONFIG as any);
     } else if (config.sections?.hero?.subtitle?.includes("$190 USD") && !config.sections?.hero?.subtitle?.includes("$760 USD")) {
       config.sections.hero.subtitle = DEFAULT_CONFIG.sections.hero.subtitle;
       config.sections.services = DEFAULT_CONFIG.sections.services;

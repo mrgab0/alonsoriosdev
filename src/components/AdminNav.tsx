@@ -168,6 +168,17 @@ export default function AdminNav({ children }: { children: React.ReactNode }) {
               <MessageSquare className="w-4 h-4 text-amber-400" />
               <span>Logs Chatbot</span>
             </Link>
+            <Link
+              href="/admin/blog"
+              className={`px-3.5 py-2 rounded-xl flex items-center gap-2 border border-[#1e2a42] transition ${
+                pathname === "/admin/blog"
+                  ? "bg-cyan-400/10 text-cyan-400 border-cyan-400/30"
+                  : "bg-[#121b2d] hover:bg-[#1e2a42] text-slate-200"
+              }`}
+            >
+              <LayoutDashboard className="w-4 h-4 text-cyan-400" />
+              <span>Blog Editor</span>
+            </Link>
           </nav>
 
           {/* Logout Button */}

@@ -4,6 +4,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { Plus, Edit2, Trash2, Image as ImageIcon, CheckCircle, XCircle, Save, X, Eye } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import dynamic from "next/dynamic";
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
+
+const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 interface BlogPost {
   _id?: string;
@@ -117,20 +122,19 @@ export default function BlogClient() {
         if (isCover) {
           setEditingPost(prev => prev ? { ...prev, coverImage: imageUrl } : null);
         } else {
-          // Insert markdown image at cursor position
-          if (contentTextareaRef.current && editingPost) {
-            const textarea = contentTextareaRef.current;
-            const start = textarea.selectionStart;
-            const end = textarea.selectionEnd;
-            const text = editingPost.content;
-            const before = text.substring(0, start);
-            const after = text.substring(end);
-            const markdownImage = `\n![${file.name}](${imageUrl})\n`;
-            
-            setEditingPost({
-              ...editingPost,
-              content: before + markdownImage + after
-            });
+          if (editingPost) {
+            let newContent = editingPost.content;
+            if (contentTextareaRef.current) {
+              const textarea = contentTextareaRef.current;
+              const start = textarea.selectionStart;
+              const end = textarea.selectionEnd;
+              const before = newContent.substring(0, start);
+              const after = newContent.substring(end);
+              newContent = before + `\n![${file.name}](${imageUrl})\n` + after;
+            } else {
+              newContent += `\n![${file.name}](${imageUrl})\n`;
+            }
+            setEditingPost({ ...editingPost, content: newContent });
           }
         }
       } else {
@@ -288,21 +292,26 @@ export default function BlogClient() {
             </div>
           </div>
 
-          <div className="pt-4 border-t border-gray-800">
+          <div className="pt-4 border-t border-gray-800" data-color-mode="dark">
             <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-semibold text-gray-400">Contenido (Markdown)</label>
+              <label className="block text-sm font-semibold text-gray-400">Contenido (Visual Markdown)</label>
               <label className="cursor-pointer bg-amber-400 hover:bg-amber-500 text-gray-900 px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition">
                 <ImageIcon className="w-4 h-4" />
-                {uploadingImage ? "Subiendo..." : "Insertar Imagen"}
+                {uploadingImage ? "Subiendo..." : "Subir a GitHub y Copiar Link"}
                 <input type="file" accept="image/*" className="hidden" onChange={(e) => handleUploadImage(e, false)} disabled={uploadingImage} />
               </label>
             </div>
-            <textarea
-              ref={contentTextareaRef}
+            {uploadingImage && (
+              <div className="mb-2 text-xs text-amber-400 bg-amber-400/10 p-2 rounded border border-amber-400/20">
+                La imagen se está subiendo... el link se insertará donde esté tu cursor.
+              </div>
+            )}
+            <MDEditor
               value={editingPost.content}
-              onChange={(e) => setEditingPost({ ...editingPost, content: e.target.value })}
-              className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-4 text-white focus:border-amber-400 focus:outline-none font-mono text-sm min-h-[400px]"
-              placeholder="# Ttulo Nivel 1&#10;Escribe aqu tu artculo usando Markdown..."
+              onChange={(val) => setEditingPost({ ...editingPost, content: val || "" })}
+              height={500}
+              preview="edit"
+              className="w-full bg-[#0a1120] border border-gray-700 rounded-lg overflow-hidden"
             />
           </div>
         </div>

@@ -29,6 +29,8 @@ const INITIAL_REVIEWS = [
   },
 ];
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await connectToDatabase();

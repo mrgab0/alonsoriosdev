@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://alonsorios.dev"),
   title: "Alonso Ríos | Páginas Web, Apps Android, SEO & Cursos",
   description:
     "Desarrollo sitios web profesionales, aplicaciones móviles Android, recupero páginas caídas o infectadas y enseño a programar con libros y cursos en español claro.",
@@ -55,5 +56,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-export const dynamic = 'force-dynamic';

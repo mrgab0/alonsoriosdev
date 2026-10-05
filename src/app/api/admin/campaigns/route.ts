@@ -5,6 +5,8 @@ import Contact from "@/models/Contact";
 import Campaign from "@/models/Campaign";
 import SiteConfig from "@/models/SiteConfig";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await connectToDatabase();

@@ -19,11 +19,12 @@ const AccessibilityContext = createContext<AccessibilityContextType>({
 });
 
 export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [textSize, setTextSize] = useState<TextSize>("normal");
+  const [textSize, setTextSize] = useState<TextSize>("large");
   const [isHighContrast, setIsHighContrast] = useState<boolean>(false);
 
   useEffect(() => {
     const savedSize = localStorage.getItem("alonsorios_text_size") as TextSize;
+    // Si hay preferencia guardada, úsala; si no, usa "large" como predeterminado
     if (savedSize) setTextSize(savedSize);
 
     const savedContrast = localStorage.getItem("alonsorios_high_contrast");
@@ -33,9 +34,9 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (typeof document !== "undefined") {
       if (textSize === "large") {
-        document.documentElement.style.fontSize = "112.5%";
+        document.documentElement.style.fontSize = "120%";
       } else if (textSize === "xlarge") {
-        document.documentElement.style.fontSize = "125%";
+        document.documentElement.style.fontSize = "140%";
       } else {
         document.documentElement.style.fontSize = "100%";
       }

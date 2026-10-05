@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { Plus, Edit2, Trash2, Image as ImageIcon, CheckCircle, XCircle, Save, X, Eye } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import dynamic from "next/dynamic";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 
-const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
+const MDEditor = lazy(() => import("@uiw/react-md-editor"));
 
 interface BlogPost {
   _id?: string;
@@ -306,13 +305,15 @@ export default function BlogClient() {
                 La imagen se está subiendo... el link se insertará donde esté tu cursor.
               </div>
             )}
-            <MDEditor
-              value={editingPost.content}
-              onChange={(val) => setEditingPost({ ...editingPost, content: val || "" })}
-              height={500}
-              preview="edit"
-              className="w-full bg-[#0a1120] border border-gray-700 rounded-lg overflow-hidden"
-            />
+            <Suspense fallback={<div className="h-[500px] bg-[#0a1120] text-gray-400 p-4 border border-gray-700 rounded-lg flex items-center justify-center">Cargando editor visual...</div>}>
+              <MDEditor
+                value={editingPost.content}
+                onChange={(val) => setEditingPost({ ...editingPost, content: val || "" })}
+                height={500}
+                preview="edit"
+                className="w-full bg-[#0a1120] border border-gray-700 rounded-lg overflow-hidden"
+              />
+            </Suspense>
           </div>
         </div>
       </div>

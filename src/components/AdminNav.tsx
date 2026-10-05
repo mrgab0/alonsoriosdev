@@ -36,7 +36,7 @@ export default function AdminNav({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#070d19] text-white flex flex-col font-sans">
+    <div className="admin-panel min-h-screen bg-[#070d19] text-white flex flex-col font-sans">
       {/* Top Admin Header */}
       <header className="bg-[#0b1324] border-b border-[#1e2a42] px-6 py-4 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">

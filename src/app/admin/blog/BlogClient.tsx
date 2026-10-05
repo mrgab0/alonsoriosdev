@@ -181,7 +181,7 @@ export default function BlogClient() {
                 type="text"
                 value={editingPost.title}
                 onChange={(e) => setEditingPost({ ...editingPost, title: e.target.value })}
-                className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-3 text-white focus:border-amber-400 focus:outline-none"
+                className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-3 text-white focus:border-amber-400 focus:outline-none placeholder-white placeholder-opacity-100 font-bold"
                 placeholder="El ttulo de tu artculo"
               />
             </div>
@@ -191,7 +191,7 @@ export default function BlogClient() {
                 type="text"
                 value={editingPost.slug}
                 onChange={(e) => setEditingPost({ ...editingPost, slug: e.target.value })}
-                className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-3 text-white focus:border-amber-400 focus:outline-none"
+                className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-3 text-white focus:border-amber-400 focus:outline-none placeholder-white placeholder-opacity-100 font-bold"
                 placeholder="mi-articulo-genial (Opcional, se autogenera)"
               />
             </div>
@@ -202,7 +202,7 @@ export default function BlogClient() {
             <textarea
               value={editingPost.excerpt}
               onChange={(e) => setEditingPost({ ...editingPost, excerpt: e.target.value })}
-              className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-3 text-white focus:border-amber-400 focus:outline-none h-20"
+              className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-3 text-white focus:border-amber-400 focus:outline-none h-20 placeholder-white placeholder-opacity-100 font-bold"
               placeholder="Breve descripcin de qu trata el artculo..."
             />
           </div>
@@ -216,13 +216,13 @@ export default function BlogClient() {
               <label className="cursor-pointer bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 text-sm transition">
                 <ImageIcon className="w-4 h-4" />
                 {uploadingImage ? "Subiendo..." : "Subir a GitHub"}
-                <input type="file" accept="image/*" className="hidden" onChange={(e) => handleUploadImage(e, true)} disabled={uploadingImage} />
+                <input type="file" accept="image/*" className="hidden placeholder-white placeholder-opacity-100 font-bold" onChange={(e) => handleUploadImage(e, true)} disabled={uploadingImage} />
               </label>
               <input
                 type="text"
                 value={editingPost.coverImage}
                 onChange={(e) => setEditingPost({ ...editingPost, coverImage: e.target.value })}
-                className="flex-1 bg-[#0a1120] border border-gray-700 rounded-lg p-2 text-white text-sm focus:border-amber-400 focus:outline-none"
+                className="flex-1 bg-[#0a1120] border border-gray-700 rounded-lg p-2 text-white text-sm focus:border-amber-400 focus:outline-none placeholder-white placeholder-opacity-100 font-bold"
                 placeholder="O pega la URL de Medium/Hashnode aqu"
               />
             </div>
@@ -297,7 +297,7 @@ export default function BlogClient() {
               <label className="cursor-pointer bg-amber-400 hover:bg-amber-500 text-gray-900 px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition">
                 <ImageIcon className="w-4 h-4" />
                 {uploadingImage ? "Subiendo..." : "Subir a GitHub y Copiar Link"}
-                <input type="file" accept="image/*" className="hidden" onChange={(e) => handleUploadImage(e, false)} disabled={uploadingImage} />
+                <input type="file" accept="image/*" className="hidden placeholder-white placeholder-opacity-100 font-bold" onChange={(e) => handleUploadImage(e, false)} disabled={uploadingImage} />
               </label>
             </div>
             {uploadingImage && (
@@ -305,7 +305,7 @@ export default function BlogClient() {
                 La imagen se está subiendo... el link se insertará donde esté tu cursor.
               </div>
             )}
-            <Suspense fallback={<div className="h-[500px] bg-[#0a1120] text-white font-bold p-4 border border-gray-700 rounded-lg flex items-center justify-center">Cargando editor visual...</div>}>
+            <Suspense fallback={<div className="h-[500px] bg-[#0a1120] text-white font-bold p-4 border border-gray-700 rounded-lg flex items-center justify-center placeholder-white placeholder-opacity-100 font-bold">Cargando editor visual...</div>}>
               <MDEditor
                 value={editingPost.content}
                 onChange={(val) => setEditingPost({ ...editingPost, content: val || "" })}

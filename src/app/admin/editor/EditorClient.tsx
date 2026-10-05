@@ -377,7 +377,7 @@ export default function EditorClient() {
                       type="file"
                       id="avatar-file-input"
                       accept="image/*"
-                      className="hidden"
+                      className="hidden placeholder-white placeholder-opacity-100 font-bold"
                       onChange={async (e) => {
                         const file = e.target.files?.[0];
                         if (file) {
@@ -397,7 +397,7 @@ export default function EditorClient() {
                       }}
                     />
                     <label htmlFor="avatar-file-input" className="w-full h-full cursor-pointer block">
-                      <div className="w-full h-full bg-[#0a1120] rounded-[14px] overflow-hidden flex items-center justify-center text-white font-black text-xl">
+                      <div className="w-full h-full bg-[#0a1120] rounded-[14px] overflow-hidden flex items-center justify-center text-white font-black text-xl placeholder-white placeholder-opacity-100 font-bold">
                         {config.sections?.hero?.avatarUrl ? (
                           <img
                             src={config.sections.hero.avatarUrl}
@@ -542,7 +542,7 @@ export default function EditorClient() {
                         },
                       })
                     }
-                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                   />
                 </div>
 
@@ -563,7 +563,7 @@ export default function EditorClient() {
                           },
                         })
                       }
-                      className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                      className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                     />
                   </div>
 
@@ -583,7 +583,7 @@ export default function EditorClient() {
                           },
                         })
                       }
-                      className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                      className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                     />
                   </div>
                 </div>
@@ -602,7 +602,7 @@ export default function EditorClient() {
                         },
                       })
                     }
-                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                   />
                 </div>
               </div>
@@ -644,7 +644,7 @@ export default function EditorClient() {
                           theme: { ...config.theme, backgroundColor: e.target.value },
                         })
                       }
-                      className="flex-1 bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                      className="flex-1 bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                     />
                   </div>
                 </div>
@@ -674,7 +674,7 @@ export default function EditorClient() {
                           theme: { ...config.theme, cardBackgroundColor: e.target.value },
                         })
                       }
-                      className="flex-1 bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                      className="flex-1 bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                     />
                   </div>
                 </div>
@@ -704,7 +704,7 @@ export default function EditorClient() {
                           theme: { ...config.theme, buttonColor: e.target.value },
                         })
                       }
-                      className="flex-1 bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                      className="flex-1 bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                     />
                   </div>
                 </div>
@@ -721,7 +721,7 @@ export default function EditorClient() {
                         theme: { ...config.theme, buttonBorderRadius: e.target.value },
                       })
                     }
-                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                   >
                     <option value="rounded-none">Sin Bordes (Rectangular 0px)</option>
                     <option value="rounded-md">Redondeado Suave (6px)</option>
@@ -756,7 +756,7 @@ export default function EditorClient() {
                       },
                     })
                   }
-                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                 />
               </div>
 
@@ -776,7 +776,7 @@ export default function EditorClient() {
                       },
                     })
                   }
-                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                 />
               </div>
             </div>
@@ -808,7 +808,7 @@ export default function EditorClient() {
                       },
                     })
                   }
-                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                 />
               </div>
 
@@ -831,7 +831,7 @@ export default function EditorClient() {
                       },
                     })
                   }
-                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                 />
               </div>
             </div>
@@ -861,7 +861,7 @@ export default function EditorClient() {
                         },
                       })
                     }
-                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                   />
                 </div>
 
@@ -881,7 +881,7 @@ export default function EditorClient() {
                         },
                       })
                     }
-                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black"
+                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-black placeholder-white placeholder-opacity-100 font-bold"
                   />
                 </div>
               </div>
@@ -903,7 +903,7 @@ export default function EditorClient() {
                       },
                     })
                   }
-                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-mono font-black"
+                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-mono font-black placeholder-white placeholder-opacity-100 font-bold"
                 />
                 <span className="text-[11px] text-white font-extrabold mt-1 block">
                   Recibe avisos de usuarios y chats del bot directamente en tu Telegram.
@@ -927,7 +927,7 @@ export default function EditorClient() {
                       },
                     })
                   }
-                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-mono font-black"
+                  className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-mono font-black placeholder-white placeholder-opacity-100 font-bold"
                 />
               </div>
             </div>
@@ -954,7 +954,7 @@ export default function EditorClient() {
               {/* Profile Card Preview */}
               <div className="flex flex-col items-center text-center p-3 bg-[#121b2d] rounded-2xl border border-[#1e2a42] mb-3">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-amber-400 p-0.5 overflow-hidden mb-2">
-                  <div className="w-full h-full bg-[#0a1120] rounded-[14px] overflow-hidden flex items-center justify-center text-white font-black text-lg">
+                  <div className="w-full h-full bg-[#0a1120] rounded-[14px] overflow-hidden flex items-center justify-center text-white font-black text-lg placeholder-white placeholder-opacity-100 font-bold">
                     {config.sections?.hero?.avatarUrl ? (
                       <img
                         src={config.sections.hero.avatarUrl}

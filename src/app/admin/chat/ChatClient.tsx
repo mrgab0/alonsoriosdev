@@ -44,7 +44,7 @@ export default function ChatClient() {
 
         <button
           onClick={fetchLogs}
-          className="bg-[#0a1120] hover:bg-[#1e2a42] border border-[#1e2a42] text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2"
+          className="bg-[#0a1120] hover:bg-[#1e2a42] border border-[#1e2a42] text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 placeholder-white placeholder-opacity-100 font-bold"
         >
           <RefreshCw className={`w-4 h-4 text-amber-400 ${loading ? "animate-spin" : ""}`} />
           <span>Actualizar Conversaciones</span>

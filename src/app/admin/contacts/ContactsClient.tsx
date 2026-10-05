@@ -69,7 +69,7 @@ export default function ContactsClient() {
           </p>
         </div>
 
-        <div className="bg-[#0a1120] px-4 py-2 rounded-xl border border-[#1e2a42] text-xs font-bold text-white font-bold">
+        <div className="bg-[#0a1120] px-4 py-2 rounded-xl border border-[#1e2a42] text-xs font-bold text-white font-bold placeholder-white placeholder-opacity-100 font-bold">
           Total: <span className="text-amber-400 font-extrabold">{leads.length} mensajes</span>
         </div>
       </div>
@@ -114,7 +114,7 @@ export default function ContactsClient() {
               </div>
             </div>
 
-            <div className="bg-[#0a1120] p-4 rounded-2xl border border-[#1e2a42] text-xs text-white font-bold leading-relaxed">
+            <div className="bg-[#0a1120] p-4 rounded-2xl border border-[#1e2a42] text-xs text-white font-bold leading-relaxed placeholder-white placeholder-opacity-100 font-bold">
               "{l.message}"
             </div>
 

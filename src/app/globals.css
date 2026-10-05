@@ -50,3 +50,9 @@ body {
 .status-pulse {
   animation: pulseGlow 2s infinite;
 }
+
+/* EXTREME ADMIN CONTRAST OVERRIDES */
+.admin-panel input::placeholder, .admin-panel textarea::placeholder { color: #ffffff !important; opacity: 1 !important; font-weight: bold !important; }
+.w-md-editor-text-input { color: #ffffff !important; font-weight: bold !important; }
+.w-md-editor-text-pre > code, .w-md-editor-text-pre > code span { color: #ffffff !important; font-weight: bold !important; }
+.w-md-editor-preview { color: #ffffff !important; font-weight: bold !important; }

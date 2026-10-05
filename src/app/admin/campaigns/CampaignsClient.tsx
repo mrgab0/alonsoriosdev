@@ -85,7 +85,7 @@ export default function CampaignsClient() {
                 placeholder="Ej: Nuevos capítulos disponibles en mi libro de Android"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="w-full bg-[#0a1120] border border-[#1e2a42] px-4 py-3 rounded-xl text-xs text-white outline-none focus:border-rose-500"
+                className="w-full bg-[#0a1120] border border-[#1e2a42] px-4 py-3 rounded-xl text-xs text-white outline-none focus:border-rose-500 placeholder-white placeholder-opacity-100 font-bold"
               />
             </div>
 
@@ -98,7 +98,7 @@ export default function CampaignsClient() {
                 placeholder="re_123456789..."
                 value={resendApiKey}
                 onChange={(e) => setResendApiKey(e.target.value)}
-                className="w-full bg-[#0a1120] border border-[#1e2a42] px-4 py-3 rounded-xl text-xs text-white font-mono outline-none"
+                className="w-full bg-[#0a1120] border border-[#1e2a42] px-4 py-3 rounded-xl text-xs text-white font-mono outline-none placeholder-white placeholder-opacity-100 font-bold"
               />
             </div>
 
@@ -112,7 +112,7 @@ export default function CampaignsClient() {
                 placeholder="Hola! Te escribo para comentarte sobre las últimas novedades de alonsorios.dev..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="w-full bg-[#0a1120] border border-[#1e2a42] px-4 py-3 rounded-xl text-xs text-white outline-none focus:border-rose-500 font-sans leading-relaxed"
+                className="w-full bg-[#0a1120] border border-[#1e2a42] px-4 py-3 rounded-xl text-xs text-white outline-none focus:border-rose-500 font-sans leading-relaxed placeholder-white placeholder-opacity-100 font-bold"
               />
             </div>
 

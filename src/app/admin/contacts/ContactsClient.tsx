@@ -64,12 +64,12 @@ export default function ContactsClient() {
             Leads & Solicitudes de Clientes
           </span>
           <h2 className="text-2xl font-black text-white mt-1">Contactos Reales Recibidos</h2>
-          <p className="text-xs text-slate-300">
+          <p className="text-xs text-white font-bold">
             Revisa las consultas recibidas desde el formulario web y cotizador interactivo.
           </p>
         </div>
 
-        <div className="bg-[#0a1120] px-4 py-2 rounded-xl border border-[#1e2a42] text-xs font-bold text-slate-300">
+        <div className="bg-[#0a1120] px-4 py-2 rounded-xl border border-[#1e2a42] text-xs font-bold text-white font-bold">
           Total: <span className="text-amber-400 font-extrabold">{leads.length} mensajes</span>
         </div>
       </div>
@@ -87,7 +87,7 @@ export default function ContactsClient() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-white leading-tight">{l.name}</h3>
-                  <div className="flex items-center gap-3 text-xs text-slate-400">
+                  <div className="flex items-center gap-3 text-xs text-white font-bold">
                     <span>{l.email}</span>
                     {l.phone && <span>• {l.phone}</span>}
                   </div>
@@ -114,12 +114,12 @@ export default function ContactsClient() {
               </div>
             </div>
 
-            <div className="bg-[#0a1120] p-4 rounded-2xl border border-[#1e2a42] text-xs text-slate-200 leading-relaxed">
+            <div className="bg-[#0a1120] p-4 rounded-2xl border border-[#1e2a42] text-xs text-white font-bold leading-relaxed">
               "{l.message}"
             </div>
 
             <div className="flex items-center justify-between text-xs pt-2">
-              <span className="text-slate-400">
+              <span className="text-white font-bold">
                 Recibido: {new Date(l.createdAt).toLocaleDateString()}
               </span>
 

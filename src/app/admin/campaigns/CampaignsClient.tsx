@@ -54,7 +54,7 @@ export default function CampaignsClient() {
           Email Marketing con Resend API
         </span>
         <h2 className="text-2xl font-black text-white mt-1">Enviar Campaña de Correo</h2>
-        <p className="text-xs text-slate-300">
+        <p className="text-xs text-white font-bold">
           Redacta mensajes para anunciar nuevos libros, lanzamientos de cursos o promociones de servicios.
         </p>
       </div>
@@ -76,7 +76,7 @@ export default function CampaignsClient() {
 
           <form onSubmit={handleSendCampaign} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-400 mb-1">
+              <label className="block text-xs font-bold text-white font-bold mb-1">
                 Asunto del Correo *
               </label>
               <input
@@ -90,7 +90,7 @@ export default function CampaignsClient() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-400 mb-1">
+              <label className="block text-xs font-bold text-white font-bold mb-1">
                 Resend API Key (Opcional si ya la guardaste en Editor)
               </label>
               <input
@@ -103,7 +103,7 @@ export default function CampaignsClient() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-400 mb-1">
+              <label className="block text-xs font-bold text-white font-bold mb-1">
                 Contenido del Correo *
               </label>
               <textarea
@@ -142,8 +142,8 @@ export default function CampaignsClient() {
                     {c.status}
                   </span>
                 </div>
-                <p className="text-slate-400 line-clamp-2">{c.content}</p>
-                <div className="text-[11px] text-slate-500 pt-1 border-t border-[#1e2a42] flex justify-between">
+                <p className="text-white font-bold line-clamp-2">{c.content}</p>
+                <div className="text-[11px] text-white font-bold pt-1 border-t border-[#1e2a42] flex justify-between">
                   <span>Destinatarios: {c.recipientCount || 1}</span>
                   <span>{new Date(c.sentAt || c.createdAt).toLocaleDateString()}</span>
                 </div>

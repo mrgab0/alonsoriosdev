@@ -176,7 +176,7 @@ export default function BlogClient() {
         <div className="bg-[#121b2d] border border-gray-800 rounded-2xl p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-1">Ttulo</label>
+              <label className="block text-sm font-semibold text-white font-bold mb-1">Ttulo</label>
               <input
                 type="text"
                 value={editingPost.title}
@@ -186,7 +186,7 @@ export default function BlogClient() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-1">URL amigable (Slug)</label>
+              <label className="block text-sm font-semibold text-white font-bold mb-1">URL amigable (Slug)</label>
               <input
                 type="text"
                 value={editingPost.slug}
@@ -198,7 +198,7 @@ export default function BlogClient() {
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-1">Resumen (Excerpt)</label>
+            <label className="block text-sm font-semibold text-white font-bold mb-1">Resumen (Excerpt)</label>
             <textarea
               value={editingPost.excerpt}
               onChange={(e) => setEditingPost({ ...editingPost, excerpt: e.target.value })}
@@ -208,7 +208,7 @@ export default function BlogClient() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="block text-sm font-semibold text-gray-400">Imagen de Portada</label>
+            <label className="block text-sm font-semibold text-white font-bold">Imagen de Portada</label>
             <div className="flex gap-4 items-center">
               {editingPost.coverImage && (
                 <img src={editingPost.coverImage} alt="Cover" className="w-32 h-20 object-cover rounded-lg border border-gray-700" />
@@ -239,7 +239,7 @@ export default function BlogClient() {
                   onChange={(e) => setEditingPost({ ...editingPost, published: e.target.checked })}
                   className="w-4 h-4 accent-amber-400"
                 />
-                <label htmlFor="published" className="text-sm text-gray-300 cursor-pointer">
+                <label htmlFor="published" className="text-sm text-white font-bold cursor-pointer">
                   Artculo Pblico (Visible en alonsorios.dev)
                 </label>
               </div>
@@ -257,7 +257,7 @@ export default function BlogClient() {
                     onChange={(e) => setEditingPost({ ...editingPost, crosspostDevTo: e.target.checked })}
                     className="w-4 h-4 accent-amber-400"
                   />
-                  <label htmlFor="cp-devto" className="text-sm text-gray-300 cursor-pointer">
+                  <label htmlFor="cp-devto" className="text-sm text-white font-bold cursor-pointer">
                     Clonar a Dev.to {editingPost.devtoUrl && "(Ya clonado)"}
                   </label>
                 </div>
@@ -270,7 +270,7 @@ export default function BlogClient() {
                     onChange={(e) => setEditingPost({ ...editingPost, crosspostMedium: e.target.checked })}
                     className="w-4 h-4 accent-amber-400"
                   />
-                  <label htmlFor="cp-medium" className="text-sm text-gray-300 cursor-pointer">
+                  <label htmlFor="cp-medium" className="text-sm text-white font-bold cursor-pointer">
                     Clonar a Medium {editingPost.mediumUrl && "(Ya clonado)"}
                   </label>
                 </div>
@@ -283,7 +283,7 @@ export default function BlogClient() {
                     onChange={(e) => setEditingPost({ ...editingPost, crosspostHashnode: e.target.checked })}
                     className="w-4 h-4 accent-amber-400"
                   />
-                  <label htmlFor="cp-hashnode" className="text-sm text-gray-300 cursor-pointer">
+                  <label htmlFor="cp-hashnode" className="text-sm text-white font-bold cursor-pointer">
                     Clonar a Hashnode {editingPost.hashnodeUrl && "(Ya clonado)"}
                   </label>
                 </div>
@@ -293,7 +293,7 @@ export default function BlogClient() {
 
           <div className="pt-4 border-t border-gray-800" data-color-mode="dark">
             <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-semibold text-gray-400">Contenido (Visual Markdown)</label>
+              <label className="block text-sm font-semibold text-white font-bold">Contenido (Visual Markdown)</label>
               <label className="cursor-pointer bg-amber-400 hover:bg-amber-500 text-gray-900 px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition">
                 <ImageIcon className="w-4 h-4" />
                 {uploadingImage ? "Subiendo..." : "Subir a GitHub y Copiar Link"}
@@ -305,7 +305,7 @@ export default function BlogClient() {
                 La imagen se está subiendo... el link se insertará donde esté tu cursor.
               </div>
             )}
-            <Suspense fallback={<div className="h-[500px] bg-[#0a1120] text-gray-400 p-4 border border-gray-700 rounded-lg flex items-center justify-center">Cargando editor visual...</div>}>
+            <Suspense fallback={<div className="h-[500px] bg-[#0a1120] text-white font-bold p-4 border border-gray-700 rounded-lg flex items-center justify-center">Cargando editor visual...</div>}>
               <MDEditor
                 value={editingPost.content}
                 onChange={(val) => setEditingPost({ ...editingPost, content: val || "" })}
@@ -325,7 +325,7 @@ export default function BlogClient() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-black text-amber-400 mb-2">Blog Admin</h1>
-          <p className="text-gray-400">Gestiona tus artculos y cross-posting</p>
+          <p className="text-white font-bold">Gestiona tus artculos y cross-posting</p>
         </div>
         <button
           onClick={() => setEditingPost({ ...emptyPost })}
@@ -340,16 +340,16 @@ export default function BlogClient() {
         <table className="w-full text-left">
           <thead className="bg-[#0a1120] border-b border-gray-800">
             <tr>
-              <th className="px-6 py-4 text-sm font-bold text-gray-400">Artculo</th>
-              <th className="px-6 py-4 text-sm font-bold text-gray-400">Estado</th>
-              <th className="px-6 py-4 text-sm font-bold text-gray-400">Fecha</th>
-              <th className="px-6 py-4 text-sm font-bold text-gray-400 text-right">Acciones</th>
+              <th className="px-6 py-4 text-sm font-bold text-white font-bold">Artculo</th>
+              <th className="px-6 py-4 text-sm font-bold text-white font-bold">Estado</th>
+              <th className="px-6 py-4 text-sm font-bold text-white font-bold">Fecha</th>
+              <th className="px-6 py-4 text-sm font-bold text-white font-bold text-right">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {posts.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
+                <td colSpan={4} className="px-6 py-8 text-center text-white font-bold">
                   No tienes ningn artculo publicado.
                 </td>
               </tr>
@@ -358,7 +358,7 @@ export default function BlogClient() {
                 <tr key={post._id} className="border-b border-gray-800 hover:bg-white/5 transition">
                   <td className="px-6 py-4">
                     <div className="font-bold text-white mb-1">{post.title}</div>
-                    <div className="text-xs text-gray-500 truncate max-w-md">{post.slug}</div>
+                    <div className="text-xs text-white font-bold truncate max-w-md">{post.slug}</div>
                   </td>
                   <td className="px-6 py-4">
                     {post.published ? (
@@ -366,12 +366,12 @@ export default function BlogClient() {
                         <CheckCircle className="w-3.5 h-3.5" /> Publicado
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1.5 bg-gray-500/10 text-gray-400 text-xs font-bold px-2.5 py-1 rounded-full border border-gray-500/20">
+                      <span className="inline-flex items-center gap-1.5 bg-gray-500/10 text-white font-bold text-xs font-bold px-2.5 py-1 rounded-full border border-gray-500/20">
                         <Eye className="w-3.5 h-3.5" /> Borrador
                       </span>
                     )}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-400">
+                  <td className="px-6 py-4 text-sm text-white font-bold">
                     {post.createdAt ? format(new Date(post.createdAt), "dd MMM yyyy", { locale: es }) : "-"}
                   </td>
                   <td className="px-6 py-4 text-right">

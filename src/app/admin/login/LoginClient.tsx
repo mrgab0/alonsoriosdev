@@ -52,7 +52,7 @@ export default function LoginClient() {
         <div className="flex justify-between items-center mb-6">
           <Link
             href="/"
-            className="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 transition"
+            className="text-xs text-white font-bold hover:text-white flex items-center gap-1.5 transition"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Volver al sitio</span>
@@ -70,7 +70,7 @@ export default function LoginClient() {
           <h1 className="text-2xl font-black tracking-tight text-white mb-2">
             Panel de Administración
           </h1>
-          <p className="text-xs text-slate-400 max-w-xs mx-auto">
+          <p className="text-xs text-white font-bold max-w-xs mx-auto">
             Ingresa tu contraseña de acceso administrativo para gestionar el sitio web.
           </p>
         </div>
@@ -84,11 +84,11 @@ export default function LoginClient() {
           )}
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-2">
+            <label className="block text-xs font-semibold text-white font-bold mb-2">
               Contraseña de Administrador
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-white font-bold">
                 <Lock className="w-4 h-4" />
               </div>
               <input
@@ -102,7 +102,7 @@ export default function LoginClient() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-white transition"
+                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-white font-bold hover:text-white transition"
               >
                 {showPassword ? (
                   <EyeOff className="w-4 h-4" />
@@ -130,7 +130,7 @@ export default function LoginClient() {
         </form>
 
         <div className="mt-8 text-center border-t border-[#1e2a42] pt-4">
-          <p className="text-[11px] text-slate-500">
+          <p className="text-[11px] text-white font-bold">
             Acceso privado restringido solo para administradores autorizados.
           </p>
         </div>

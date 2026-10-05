@@ -23,7 +23,7 @@ export default function AnalyticsClient() {
           Métricas en Tiempo Real
         </span>
         <h2 className="text-2xl font-black text-white mt-1">Estadísticas de Visitas</h2>
-        <p className="text-xs text-slate-300">
+        <p className="text-xs text-white font-bold">
           Monitorea cuántos clientes entran a tu portafolio y desde qué canales llegan.
         </p>
       </div>
@@ -31,7 +31,7 @@ export default function AnalyticsClient() {
       {/* Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-[#121b2d] p-6 rounded-3xl border border-[#1e2a42]">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+          <div className="flex items-center justify-between text-white font-bold mb-2">
             <span className="text-xs font-bold uppercase">Páginas Vistas Totales</span>
             <Eye className="w-5 h-5 text-blue-400" />
           </div>
@@ -40,21 +40,21 @@ export default function AnalyticsClient() {
         </div>
 
         <div className="bg-[#121b2d] p-6 rounded-3xl border border-[#1e2a42]">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+          <div className="flex items-center justify-between text-white font-bold mb-2">
             <span className="text-xs font-bold uppercase">Visitantes Únicos Estimados</span>
             <Users className="w-5 h-5 text-emerald-400" />
           </div>
           <div className="text-4xl font-black text-white">{data?.uniqueVisitors || 106}</div>
-          <div className="text-xs text-slate-400 mt-1">Sesiones independientes</div>
+          <div className="text-xs text-white font-bold mt-1">Sesiones independientes</div>
         </div>
 
         <div className="bg-[#121b2d] p-6 rounded-3xl border border-[#1e2a42]">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+          <div className="flex items-center justify-between text-white font-bold mb-2">
             <span className="text-xs font-bold uppercase">Canal Principal</span>
             <Globe className="w-5 h-5 text-amber-400" />
           </div>
           <div className="text-2xl font-black text-amber-400">Tráfico Directo</div>
-          <div className="text-xs text-slate-400 mt-1">Seguido de Búsquedas en Google</div>
+          <div className="text-xs text-white font-bold mt-1">Seguido de Búsquedas en Google</div>
         </div>
       </div>
 
@@ -74,7 +74,7 @@ export default function AnalyticsClient() {
               { _id: "2026-08-24", count: 31 },
             ]).map((d: any, i: number) => (
               <div key={i} className="flex items-center gap-4 text-xs">
-                <span className="w-24 text-slate-400 font-mono">{d._id}</span>
+                <span className="w-24 text-white font-bold font-mono">{d._id}</span>
                 <div className="flex-1 bg-[#0a1120] h-6 rounded-lg overflow-hidden p-0.5 border border-[#1e2a42]">
                   <div
                     className="bg-emerald-500 h-full rounded-md transition-all duration-500"

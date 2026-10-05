@@ -276,7 +276,7 @@ export default function EditorClient() {
                   ? "bg-slate-700 text-amber-400" 
                   : saveStatus === "saving"
                     ? "bg-[#fbbf24] text-[#0a1120]"
-                    : "bg-[#1e2a42] text-slate-400"
+                    : "bg-[#1e2a42] text-white font-bold"
             }`}
           >
             {saveStatus === "saved" ? (
@@ -428,7 +428,7 @@ export default function EditorClient() {
                           },
                         })
                       }
-                      className="w-full bg-[#121b2d] border border-[#1e2a42] px-3 py-2 rounded-xl text-xs text-white font-black placeholder:text-slate-500"
+                      className="w-full bg-[#121b2d] border border-[#1e2a42] px-3 py-2 rounded-xl text-xs text-white font-black placeholder:text-white font-bold"
                     />
                     <span className="text-[11px] text-white font-extrabold block">
                       Selecciona una foto haciendo clic en el avatar o pega su URL.

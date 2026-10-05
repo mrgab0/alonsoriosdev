@@ -37,7 +37,7 @@ export default function ChatClient() {
             Monitoreo en Tiempo Real
           </span>
           <h2 className="text-2xl font-black text-white mt-1">Logs del Chatbot AI</h2>
-          <p className="text-xs text-slate-300">
+          <p className="text-xs text-white font-bold">
             Revisa las conversaciones mantenidas por el asistente virtual y notificadas a tu celular por Telegram.
           </p>
         </div>
@@ -68,7 +68,7 @@ export default function ChatClient() {
             className={`p-4 rounded-2xl border text-xs flex items-start gap-3 ${
               log.sender === "user"
                 ? "bg-blue-950/40 border-blue-800 text-blue-100"
-                : "bg-[#121b2d] border-[#1e2a42] text-slate-200"
+                : "bg-[#121b2d] border-[#1e2a42] text-white font-bold"
             }`}
           >
             <div
@@ -84,7 +84,7 @@ export default function ChatClient() {
                 <span className="font-bold text-white uppercase">
                   {log.sender === "user" ? "👤 Cliente" : "🤖 Alonso Ríos AI"}
                 </span>
-                <span className="text-slate-400 font-mono">
+                <span className="text-white font-bold font-mono">
                   {new Date(log.timestamp).toLocaleTimeString()}
                 </span>
               </div>

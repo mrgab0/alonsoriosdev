@@ -38,7 +38,7 @@ export default function DashboardClient() {
           <h2 className="text-3xl font-black text-white mt-2">
             Panel de Control alonsorios.dev
           </h2>
-          <p className="text-sm text-slate-300 mt-1 max-w-xl">
+          <p className="text-sm text-white font-bold mt-1 max-w-xl">
             Edita secciones, personaliza colores y botones del Home, revisa estadísticas de visitas, gestiona contactos reales y envía campañas con Resend.
           </p>
         </div>
@@ -55,7 +55,7 @@ export default function DashboardClient() {
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-[#121b2d] p-6 rounded-3xl border border-[#1e2a42]">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+          <div className="flex items-center justify-between text-white font-bold mb-2">
             <span className="text-xs font-bold uppercase">Visitas Totales</span>
             <Eye className="w-5 h-5 text-blue-400" />
           </div>
@@ -66,16 +66,16 @@ export default function DashboardClient() {
         </div>
 
         <div className="bg-[#121b2d] p-6 rounded-3xl border border-[#1e2a42]">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+          <div className="flex items-center justify-between text-white font-bold mb-2">
             <span className="text-xs font-bold uppercase">Visitantes Únicos</span>
             <Users className="w-5 h-5 text-emerald-400" />
           </div>
           <div className="text-3xl font-black text-white">{stats.uniqueVisitors}</div>
-          <div className="text-xs text-slate-400 mt-1">Tráfico orgánico & directo</div>
+          <div className="text-xs text-white font-bold mt-1">Tráfico orgánico & directo</div>
         </div>
 
         <div className="bg-[#121b2d] p-6 rounded-3xl border border-[#1e2a42]">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+          <div className="flex items-center justify-between text-white font-bold mb-2">
             <span className="text-xs font-bold uppercase">Contactos Recibidos</span>
             <Mail className="w-5 h-5 text-purple-400" />
           </div>
@@ -84,7 +84,7 @@ export default function DashboardClient() {
         </div>
 
         <div className="bg-[#121b2d] p-6 rounded-3xl border border-[#1e2a42]">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+          <div className="flex items-center justify-between text-white font-bold mb-2">
             <span className="text-xs font-bold uppercase">Chats Chatbot AI</span>
             <MessageSquare className="w-5 h-5 text-amber-400" />
           </div>
@@ -104,7 +104,7 @@ export default function DashboardClient() {
               <Palette className="w-7 h-7" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Editor del Home & Tema</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-white font-bold leading-relaxed">
               Modifica textos de Inicio, Servicios, Libros/Cursos, colores de fondo, tipos de botones y tipografía.
             </p>
           </div>
@@ -123,7 +123,7 @@ export default function DashboardClient() {
               <BarChart3 className="w-7 h-7" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Estadísticas de Visitas</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-white font-bold leading-relaxed">
               Visualiza el desglose de páginas vistas, fuentes de tráfico (Google, WhatsApp, directo) y dispositivos.
             </p>
           </div>
@@ -142,7 +142,7 @@ export default function DashboardClient() {
               <Send className="w-7 h-7" />
             </div>
             <h3 className="text-xl font-bold text-white mb-2">Campañas Email Marketing</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-white font-bold leading-relaxed">
               Redacta y envía correos masivos a tus clientes y alumnos usando la API de Resend.
             </p>
           </div>

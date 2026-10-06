@@ -109,3 +109,40 @@ export async function crossPostToHashnode(title: string, contentMarkdown: string
 
   return data.data.publishPost.post.url;
 }
+
+export async function crossPostToSteem(title: string, contentMarkdown: string, canonicalUrl: string, username: string, token: string) {
+  const permlink = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now();
+  
+  const content = `# ${title}\n\n${contentMarkdown}\n\n---\n*Originalmente publicado en [alonsorios.dev](${canonicalUrl})*`;
+
+  const operations = [
+    [
+      "comment",
+      {
+        parent_author: "",
+        parent_permlink: "blog",
+        author: username,
+        permlink: permlink,
+        title: title,
+        body: content,
+        json_metadata: JSON.stringify({ tags: ["blog", "programming"], app: "alonsorios.dev" }),
+      }
+    ]
+  ];
+
+  const res = await fetch("https://steemconnect.com/api/broadcast", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": token,
+    },
+    body: JSON.stringify({ operations }),
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Steem API Error: ${errorText}`);
+  }
+
+  return `https://steemit.com/blog/@${username}/${permlink}`;
+}

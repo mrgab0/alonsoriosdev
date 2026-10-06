@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import BlogPost from "@/models/BlogPost";
 
-import { crossPostToDevTo, crossPostToMedium, crossPostToHashnode } from "@/lib/crosspost";
+import { crossPostToDevTo, crossPostToMedium, crossPostToHashnode, crossPostToSteem } from "@/lib/crosspost";
 
 export const dynamic = "force-dynamic";
 
@@ -27,10 +27,10 @@ export async function GET(request: Request) {
 }
 
 async function handleCrossPosting(postBody: any, existingPost: any = null) {
-  const { title, content, coverImage, slug, crosspostDevTo, crosspostMedium, crosspostHashnode } = postBody;
+  const { title, content, coverImage, slug, crosspostDevTo, crosspostMedium, crosspostHashnode, crosspostSteem } = postBody;
   
   // Solamente crosspostear si est marcado
-  if (!crosspostDevTo && !crosspostMedium && !crosspostHashnode) return {};
+  if (!crosspostDevTo && !crosspostMedium && !crosspostHashnode && !crosspostSteem) return {};
 
   const canonicalUrl = `https://alonsorios.dev/blog/${slug}`;
   const updates: any = {};
@@ -69,6 +69,19 @@ async function handleCrossPosting(postBody: any, existingPost: any = null) {
       }
     } catch (err: any) {
       console.error("Hashnode Crosspost error:", err.message);
+    }
+  }
+
+  if (crosspostSteem && (!existingPost || !existingPost.steemUrl)) {
+    try {
+      const steemToken = process.env.STEEM_TOKEN;
+      const steemUser = process.env.STEEM_USERNAME;
+      if (steemToken && steemUser) {
+        const url = await crossPostToSteem(title, content, canonicalUrl, steemUser, steemToken);
+        updates.steemUrl = url;
+      }
+    } catch (err: any) {
+      console.error("Steem Crosspost error:", err.message);
     }
   }
 

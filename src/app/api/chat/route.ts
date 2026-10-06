@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import ChatMessage from "@/models/ChatMessage";
 import SiteConfig from "@/models/SiteConfig";
+import CourseBook from "@/models/CourseBook";
+import CaseStudy from "@/models/CaseStudy";
 
 // System Instructions for Gemini 1.5 Flash AI Agent
 const SYSTEM_PROMPT = `
@@ -24,7 +26,7 @@ Instrucciones de Respuesta:
 `;
 
 // Gemini 1.5 Flash AI API Call (Free Tier: 1,500 requests/day)
-async function getGeminiAiResponse(userMessage: string): Promise<string | null> {
+async function getGeminiAiResponse(userMessage: string, dynamicPrompt: string): Promise<string | null> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
@@ -38,7 +40,7 @@ async function getGeminiAiResponse(userMessage: string): Promise<string | null> 
           contents: [
             {
               role: "user",
-              parts: [{ text: `${SYSTEM_PROMPT}\n\nConsulta del usuario: ${userMessage}` }],
+              parts: [{ text: `${dynamicPrompt}\n\nConsulta del usuario: ${userMessage}` }],
             },
           ],
           generationConfig: {
@@ -159,8 +161,53 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Mensaje vacío" }, { status: 400 });
     }
 
+    let config = null;
+    let dynamicPrompt = SYSTEM_PROMPT; // fallback to the static prompt
+
+    try {
+      if (process.env.MONGODB_URI) {
+        await connectToDatabase();
+        config = await SiteConfig.findOne({ key: "main_config" });
+        const courses = await CourseBook.find();
+        const projects = await CaseStudy.find({ featured: true });
+
+        const whatsapp = config?.sections?.contact?.whatsappNumber || "+58 412 991 2840";
+        const email = config?.sections?.contact?.email || "iirockalonso@gmail.com";
+
+        const coursesText = courses.map((c: any) => `- [${c.type.toUpperCase()}] ${c.title}: Precio ${c.price}. Detalles: ${c.description}. LINK DE COMPRA: ${c.purchaseUrl || 'Pedir por WhatsApp'}`).join('\\n');
+        const projectsText = projects.map((p: any) => `- Proyecto ${p.title} (${p.category}): Problema: ${p.problemDescription}. Solución: ${p.solutionDescription}. Cliente: ${p.clientName}`).join('\\n');
+
+        dynamicPrompt = `
+Eres el asistente virtual oficial de Alonso Ríos (alonsorios.dev), diseñado para VENDER y AYUDAR proactivamente.
+Aquí está tu base de conocimientos actualizada en tiempo real con lo que ofrecemos:
+
+PRECIOS Y SERVICIOS BASE:
+- Diseño Web: $760 USD
+- App Android: $1,140 USD
+- Recuperación de sitios: $190 - $380 USD
+
+MIS REDES Y CONTACTO DIRECTO:
+- WhatsApp: ${whatsapp}
+- Email: ${email}
+
+LIBROS Y CURSOS DISPONIBLES PARA VENDER:
+${coursesText || "Sin cursos registrados en este momento."}
+
+PROYECTOS Y CASOS DE ÉXITO (Úsalos para dar confianza cuando pregunten por servicios):
+${projectsText || "Sin proyectos destacados por ahora."}
+
+INSTRUCCIONES DE VENTA:
+1. Si preguntan por aprender, ofrece inmediatamente el libro o curso relacionado e incluye explícitamente el LINK DE COMPRA para que lo adquieran.
+2. Si preguntan por servicios o si has hecho cosas parecidas, menciona un Caso de Éxito relevante para dar confianza y ofréceles hablar por WhatsApp para cotizar.
+3. Sé persuasivo, amable y muy profesional.
+`;
+      }
+    } catch (e) {
+      console.warn("Error fetching dynamic context for chatbot:", e);
+    }
+
     // Try Gemini AI first (if API key configured), fallback to knowledge base
-    let reply = await getGeminiAiResponse(message);
+    let reply = await getGeminiAiResponse(message, dynamicPrompt);
     let suggestWhatsapp = true;
 
     if (!reply) {
@@ -169,13 +216,8 @@ export async function POST(request: Request) {
       suggestWhatsapp = fallbackResult.suggestWhatsapp;
     }
 
-    // Get config for webhooks
-    let config = null;
     try {
       if (process.env.MONGODB_URI) {
-        await connectToDatabase();
-        config = await SiteConfig.findOne({ key: "main_config" });
-
         // Save chat log to MongoDB for admin viewing
         await ChatMessage.create({ sessionId, sender: "user", text: message });
         await ChatMessage.create({ sessionId, sender: "bot", text: reply, escalatedToWhatsapp: suggestWhatsapp });

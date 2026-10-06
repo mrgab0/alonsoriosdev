@@ -9,6 +9,7 @@ const BlogPostSchema = new mongoose.Schema({
   mediumUrl: { type: String },
   devtoUrl: { type: String },
   hashnodeUrl: { type: String },
+  steemUrl: { type: String },
   published: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

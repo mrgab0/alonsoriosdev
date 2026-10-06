@@ -19,9 +19,11 @@ interface BlogPost {
   mediumUrl?: string;
   devtoUrl?: string;
   hashnodeUrl?: string;
+  steemUrl?: string;
   crosspostMedium?: boolean;
   crosspostDevTo?: boolean;
   crosspostHashnode?: boolean;
+  crosspostSteem?: boolean;
   published: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -36,6 +38,7 @@ const emptyPost: BlogPost = {
   crosspostMedium: false,
   crosspostDevTo: false,
   crosspostHashnode: false,
+  crosspostSteem: false,
   published: false,
 };
 
@@ -287,6 +290,19 @@ export default function BlogClient() {
                     Clonar a Hashnode {editingPost.hashnodeUrl && "(Ya clonado)"}
                   </label>
                 </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="cp-steem"
+                    checked={editingPost.crosspostSteem}
+                    disabled={!!editingPost.steemUrl}
+                    onChange={(e) => setEditingPost({ ...editingPost, crosspostSteem: e.target.checked })}
+                    className="w-4 h-4 accent-amber-400"
+                  />
+                  <label htmlFor="cp-steem" className="text-sm text-white font-bold cursor-pointer">
+                    Clonar a Steem {editingPost.steemUrl && "(Ya clonado)"}
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -308,7 +324,7 @@ export default function BlogClient() {
             <Suspense fallback={<div className="h-[500px] bg-[#0a1120] text-white font-bold p-4 border border-gray-700 rounded-lg flex items-center justify-center placeholder-white placeholder-opacity-100 font-bold">Cargando editor visual...</div>}>
               <MDEditor
                 value={editingPost.content}
-                onChange={(val) => setEditingPost({ ...editingPost, content: val || "" })}
+                onChange={(val: string | undefined) => setEditingPost({ ...editingPost, content: val || "" })}
                 height={500}
                 preview="edit"
                 className="w-full bg-[#0a1120] border border-gray-700 rounded-lg overflow-hidden"

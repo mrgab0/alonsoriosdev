@@ -1,4 +1,10 @@
+export function cleanLockedContentForExternal(markdown: string, canonicalUrl: string) {
+  const regex = /::locked{[^}]*}([\s\S]*?)::/g;
+  return markdown.replace(regex, `> 🔒 **Contenido Bloqueado:** Hay recursos exclusivos ocultos en esta sección. [Visita el artículo oficial en alonsorios.dev](${canonicalUrl}) para desbloquearlos.`);
+}
+
 export async function crossPostToDevTo(title: string, contentMarkdown: string, coverImage: string, canonicalUrl: string, token: string) {
+  contentMarkdown = cleanLockedContentForExternal(contentMarkdown, canonicalUrl);
   const res = await fetch("https://dev.to/api/articles", {
     method: "POST",
     headers: {
@@ -26,6 +32,7 @@ export async function crossPostToDevTo(title: string, contentMarkdown: string, c
 }
 
 export async function crossPostToMedium(title: string, contentMarkdown: string, canonicalUrl: string, token: string) {
+  contentMarkdown = cleanLockedContentForExternal(contentMarkdown, canonicalUrl);
   // First, get the user ID
   const meRes = await fetch("https://api.medium.com/v1/me", {
     headers: { Authorization: `Bearer ${token}` },
@@ -63,6 +70,7 @@ export async function crossPostToMedium(title: string, contentMarkdown: string, 
 }
 
 export async function crossPostToHashnode(title: string, contentMarkdown: string, coverImage: string, canonicalUrl: string, token: string, publicationId: string) {
+  contentMarkdown = cleanLockedContentForExternal(contentMarkdown, canonicalUrl);
   // Using the new Hashnode GraphQL API (https://gql.hashnode.com/)
   const query = `
     mutation PublishPost($input: PublishPostInput!) {
@@ -111,6 +119,7 @@ export async function crossPostToHashnode(title: string, contentMarkdown: string
 }
 
 export async function crossPostToSteem(title: string, contentMarkdown: string, canonicalUrl: string, username: string, token: string) {
+  contentMarkdown = cleanLockedContentForExternal(contentMarkdown, canonicalUrl);
   const permlink = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now();
   
   const content = `# ${title}\n\n${contentMarkdown}\n\n---\n*Originalmente publicado en [alonsorios.dev](${canonicalUrl})*`;

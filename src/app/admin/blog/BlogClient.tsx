@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
-import { Plus, Edit2, Trash2, Image as ImageIcon, CheckCircle, XCircle, Save, X, Eye } from "lucide-react";
+import { Plus, Edit2, Trash2, Image as ImageIcon, CheckCircle, XCircle, Save, X, Eye, Lock } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import "@uiw/react-md-editor/markdown-editor.css";
@@ -146,6 +146,24 @@ export default function BlogClient() {
       alert("Error subiendo imagen");
     }
     setUploadingImage(false);
+  };
+
+  const handleInsertLockedSnippet = () => {
+    if (!editingPost) return;
+    const snippet = `\n\n::locked{type="email" title="Déjame tu email para desbloquear este recurso"}\nAquí va el contenido secreto, descargas o código fuente...\n::\n\n`;
+    
+    let newContent = editingPost.content;
+    if (contentTextareaRef.current) {
+      const textarea = contentTextareaRef.current;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const before = newContent.substring(0, start);
+      const after = newContent.substring(end);
+      newContent = before + snippet + after;
+    } else {
+      newContent += snippet;
+    }
+    setEditingPost({ ...editingPost, content: newContent });
   };
 
   if (loading && !editingPost) {
@@ -310,11 +328,20 @@ export default function BlogClient() {
           <div className="pt-4 border-t border-gray-800" data-color-mode="dark">
             <div className="flex justify-between items-center mb-2">
               <label className="block text-sm font-semibold text-white font-bold">Contenido (Visual Markdown)</label>
-              <label className="cursor-pointer bg-amber-400 hover:bg-amber-500 text-gray-900 px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition">
-                <ImageIcon className="w-4 h-4" />
-                {uploadingImage ? "Subiendo..." : "Subir a GitHub y Copiar Link"}
-                <input type="file" accept="image/*" className="hidden placeholder-white placeholder-opacity-100 font-bold" onChange={(e) => handleUploadImage(e, false)} disabled={uploadingImage} />
-              </label>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={handleInsertLockedSnippet}
+                  className="bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition"
+                >
+                  <Lock className="w-4 h-4" /> Insertar Bloqueo (Paywall)
+                </button>
+                <label className="cursor-pointer bg-amber-400 hover:bg-amber-500 text-gray-900 px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition">
+                  <ImageIcon className="w-4 h-4" />
+                  {uploadingImage ? "Subiendo..." : "Subir a GitHub y Copiar Link"}
+                  <input type="file" accept="image/*" className="hidden placeholder-white placeholder-opacity-100 font-bold" onChange={(e) => handleUploadImage(e, false)} disabled={uploadingImage} />
+                </label>
+              </div>
             </div>
             {uploadingImage && (
               <div className="mb-2 text-xs text-amber-400 bg-amber-400/10 p-2 rounded border border-amber-400/20">

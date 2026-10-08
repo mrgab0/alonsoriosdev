@@ -97,11 +97,12 @@ export default function AnalyticsClient() {
               <div className="text-xs text-gray-500 py-4">No hay fuentes registradas.</div>
             ) : (
               (data?.referrers || []).map((r: any, i: number) => (
-              <div key={i} className="flex items-center justify-between p-3 bg-[#0a1120] rounded-xl border border-[#1e2a42] text-xs">
-                <span className="font-bold text-white capitalize">{r._id}</span>
-                <span className="text-amber-400 font-extrabold">{r.count} visitas</span>
-              </div>
-            ))}
+                <div key={i} className="flex items-center justify-between p-3 bg-[#0a1120] rounded-xl border border-[#1e2a42] text-xs">
+                  <span className="font-bold text-white capitalize">{r._id}</span>
+                  <span className="text-amber-400 font-extrabold">{r.count} visitas</span>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

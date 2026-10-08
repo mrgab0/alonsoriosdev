@@ -104,48 +104,65 @@ export default function BlogClient() {
   };
 
   const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>, isCover: boolean = false) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
 
     setUploadingImage(true);
-    const formData = new FormData();
-    formData.append("file", file);
 
     try {
-      const res = await fetch("/api/admin/upload", {
-        method: "POST",
-        body: formData,
+      const uploadPromises = files.map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch("/api/admin/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const json = await res.json();
+        if (json.success) {
+          return { success: true, url: json.url, name: file.name };
+        }
+        return { success: false, error: json.error };
       });
-      const json = await res.json();
 
-      if (json.success) {
-        const imageUrl = json.url;
-        
+      const results = await Promise.all(uploadPromises);
+      
+      const successfulUploads = results.filter(r => r.success);
+      const failedUploads = results.filter(r => !r.success);
+
+      if (failedUploads.length > 0) {
+        alert(`Hubo error al subir ${failedUploads.length} imágenes.`);
+      }
+
+      if (successfulUploads.length > 0) {
         if (isCover) {
-          setEditingPost(prev => prev ? { ...prev, coverImage: imageUrl } : null);
+          setEditingPost(prev => prev ? { ...prev, coverImage: successfulUploads[0].url } : null);
         } else {
-          if (editingPost) {
-            let newContent = editingPost.content;
+          const markdownToAppend = successfulUploads.map(r => `\n![${r.name}](${r.url})\n`).join("");
+          
+          setEditingPost(prev => {
+            if (!prev) return prev;
+            let newContent = prev.content;
             if (contentTextareaRef.current) {
               const textarea = contentTextareaRef.current;
               const start = textarea.selectionStart;
               const end = textarea.selectionEnd;
               const before = newContent.substring(0, start);
               const after = newContent.substring(end);
-              newContent = before + `\n![${file.name}](${imageUrl})\n` + after;
+              newContent = before + markdownToAppend + after;
             } else {
-              newContent += `\n![${file.name}](${imageUrl})\n`;
+              newContent += markdownToAppend;
             }
-            setEditingPost({ ...editingPost, content: newContent });
-          }
+            return { ...prev, content: newContent };
+          });
         }
-      } else {
-        alert("Error subiendo imagen: " + json.error);
       }
     } catch (err) {
-      alert("Error subiendo imagen");
+      alert("Error subiendo imágenes");
     }
     setUploadingImage(false);
+    
+    // Limpiar input para permitir subir la misma imagen si se desea de nuevo
+    e.target.value = "";
   };
 
   const handleInsertLockedSnippet = () => {
@@ -364,7 +381,7 @@ export default function BlogClient() {
                 <label className="cursor-pointer bg-amber-400 hover:bg-amber-500 text-gray-900 px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition">
                   <ImageIcon className="w-4 h-4" />
                   {uploadingImage ? "Subiendo..." : "Subir a GitHub y Copiar Link"}
-                  <input type="file" accept="image/*" className="hidden placeholder-white placeholder-opacity-100 font-bold" onChange={(e) => handleUploadImage(e, false)} disabled={uploadingImage} />
+                  <input type="file" accept="image/*" multiple className="hidden placeholder-white placeholder-opacity-100 font-bold" onChange={(e) => handleUploadImage(e, false)} disabled={uploadingImage} />
                 </label>
               </div>
             </div>

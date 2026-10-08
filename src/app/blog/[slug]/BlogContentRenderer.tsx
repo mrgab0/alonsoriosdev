@@ -31,7 +31,7 @@ export default function BlogContentRenderer({ content }: BlogContentRendererProp
       if (normalText) {
         result.push(
           <div key={`md-${lastIndex}`} className="prose dark:prose-invert max-w-none mb-4">
-            <MarkdownPreview source={normalText} style={{ backgroundColor: 'transparent' }} />
+            <MarkdownPreview source={normalText} style={{ backgroundColor: 'transparent' }} wrapperElement={{ "data-color-mode": "dark" }} />
           </div>
         );
       }
@@ -52,7 +52,7 @@ export default function BlogContentRenderer({ content }: BlogContentRendererProp
         <div key={`locked-${match.index}`} className="my-8">
           <LockedSnippet type={type} title={title}>
             <div className="prose dark:prose-invert max-w-none">
-              <MarkdownPreview source={lockedContent} style={{ backgroundColor: 'transparent' }} />
+              <MarkdownPreview source={lockedContent} style={{ backgroundColor: 'transparent' }} wrapperElement={{ "data-color-mode": "dark" }} />
             </div>
           </LockedSnippet>
         </div>
@@ -66,14 +66,14 @@ export default function BlogContentRenderer({ content }: BlogContentRendererProp
     if (remainingText) {
       result.push(
         <div key={`md-last`} className="prose dark:prose-invert max-w-none">
-          <MarkdownPreview source={remainingText} style={{ backgroundColor: 'transparent' }} />
+          <MarkdownPreview source={remainingText} style={{ backgroundColor: 'transparent' }} wrapperElement={{ "data-color-mode": "dark" }} />
         </div>
       );
     }
 
     return result.length > 0 ? result : (
       <div className="prose dark:prose-invert max-w-none">
-        <MarkdownPreview source={processedContent} style={{ backgroundColor: 'transparent' }} />
+        <MarkdownPreview source={processedContent} style={{ backgroundColor: 'transparent' }} wrapperElement={{ "data-color-mode": "dark" }} />
       </div>
     );
   }, [processedContent]);

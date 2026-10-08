@@ -79,7 +79,7 @@ export default function BlogContentRenderer({ content }: BlogContentRendererProp
   }, [processedContent]);
 
   return (
-    <div className="w-full">
+    <div className="w-full" data-color-mode="dark">
       {blocks}
     </div>
   );

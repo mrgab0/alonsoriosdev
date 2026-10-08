@@ -44,8 +44,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
 
         {post.coverImage && (
-          <div className="mb-12 rounded-2xl overflow-hidden border border-gray-800 shadow-2xl">
-            <img src={post.coverImage} alt={post.title} className="w-full h-auto object-cover max-h-[500px]" />
+          <div className="mb-12 rounded-2xl overflow-hidden border border-gray-800 shadow-2xl bg-black/20">
+            <img src={post.coverImage} alt={post.title} className="w-full h-auto object-contain" />
           </div>
         )}
 

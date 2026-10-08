@@ -16,7 +16,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   let post = null;
   try {
     await connectToDatabase();
-    post = await BlogPost.findOne({ slug: params.slug, published: true }).lean();
+    const decodedSlug = decodeURIComponent(params.slug);
+    post = await BlogPost.findOne({ slug: decodedSlug, published: true }).lean();
   } catch (error) {
     console.error("Error fetching blog post:", error);
   }

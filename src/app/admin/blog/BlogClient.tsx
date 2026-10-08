@@ -236,7 +236,15 @@ export default function BlogClient() {
               <input
                 type="text"
                 value={editingPost.title}
-                onChange={(e) => setEditingPost({ ...editingPost, title: e.target.value })}
+                onChange={(e) => {
+                  const newTitle = e.target.value;
+                  const autoSlug = newTitle.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+                  setEditingPost(prev => prev ? { 
+                    ...prev, 
+                    title: newTitle,
+                    slug: prev._id ? prev.slug : autoSlug
+                  } : null);
+                }}
                 className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-3 text-white focus:border-amber-400 focus:outline-none placeholder-white placeholder-opacity-100 font-bold"
                 placeholder="El ttulo de tu artculo"
               />
@@ -246,7 +254,10 @@ export default function BlogClient() {
               <input
                 type="text"
                 value={editingPost.slug}
-                onChange={(e) => setEditingPost({ ...editingPost, slug: e.target.value })}
+                onChange={(e) => {
+                  const sanitized = e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
+                  setEditingPost({ ...editingPost, slug: sanitized });
+                }}
                 className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-3 text-white focus:border-amber-400 focus:outline-none placeholder-white placeholder-opacity-100 font-bold"
                 placeholder="mi-articulo-genial (Opcional, se autogenera)"
               />

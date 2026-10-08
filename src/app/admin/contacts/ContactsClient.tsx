@@ -16,44 +16,57 @@ interface ContactLead {
 
 export default function ContactsClient() {
   const [leads, setLeads] = useState<ContactLead[]>([]);
-  const [, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+
+  const fetchContacts = async () => {
+    try {
+      const res = await fetch("/api/admin/contacts");
+      const json = await res.json();
+      if (json.success) {
+        setLeads(json.data);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setLeads([
-      {
-        _id: "lead-1",
-        name: "Carlos Méndez",
-        email: "carlos@sanmartin.com",
-        phone: "+56 9 8888 7777",
-        serviceType: "Recuperación Web",
-        message: "Hola Alonso, mi sitio web muestra pantalla blanca por un virus y no podemos vender. Necesito solución urgente hoy.",
-        status: "new",
-        createdAt: new Date().toISOString(),
-      },
-      {
-        _id: "lead-2",
-        name: "Dra. Carolina Silva",
-        email: "carolina@consultoriodental.cl",
-        phone: "+56 9 7777 6666",
-        serviceType: "Página Web Nueva",
-        message: "Quisiera cotizar una página web para mi clínica dental que sea muy fácil de usar para mis pacientes.",
-        status: "contacted",
-        createdAt: new Date(Date.now() - 86400000).toISOString(),
-      },
-    ]);
-    setLoading(false);
+    fetchContacts();
   }, []);
 
-  const toggleStatus = (id: string) => {
+  const toggleStatus = async (id: string) => {
+    const currentLead = leads.find((l) => l._id === id);
+    if (!currentLead) return;
+
+    const nextStatus =
+      currentLead.status === "new"
+        ? "contacted"
+        : currentLead.status === "contacted"
+        ? "completed"
+        : "new";
+
+    // Update optimistically
     setLeads((prev) =>
-      prev.map((l) => {
-        if (l._id === id) {
-          const nextStatus = l.status === "new" ? "contacted" : l.status === "contacted" ? "completed" : "new";
-          return { ...l, status: nextStatus };
-        }
-        return l;
-      })
+      prev.map((l) => (l._id === id ? { ...l, status: nextStatus } : l))
     );
+
+    try {
+      await fetch("/api/admin/contacts", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: nextStatus }),
+      });
+    } catch (err) {
+      console.error("Error updating status:", err);
+      // Revert if failed
+      setLeads((prev) =>
+        prev.map((l) =>
+          l._id === id ? { ...l, status: currentLead.status } : l
+        )
+      );
+    }
   };
 
   return (

@@ -35,7 +35,7 @@ export default function AnalyticsClient() {
             <span className="text-xs font-bold uppercase">Páginas Vistas Totales</span>
             <Eye className="w-5 h-5 text-blue-400" />
           </div>
-          <div className="text-4xl font-black text-white">{data?.totalViews || 148}</div>
+          <div className="text-4xl font-black text-white">{data?.totalViews || 0}</div>
           <div className="text-xs text-emerald-400 font-semibold mt-1">✓ Registro de servidor activo</div>
         </div>
 
@@ -44,7 +44,7 @@ export default function AnalyticsClient() {
             <span className="text-xs font-bold uppercase">Visitantes Únicos Estimados</span>
             <Users className="w-5 h-5 text-emerald-400" />
           </div>
-          <div className="text-4xl font-black text-white">{data?.uniqueVisitors || 106}</div>
+          <div className="text-4xl font-black text-white">{data?.uniqueVisitors || 0}</div>
           <div className="text-xs text-white font-bold mt-1">Sesiones independientes</div>
         </div>
 
@@ -53,8 +53,8 @@ export default function AnalyticsClient() {
             <span className="text-xs font-bold uppercase">Canal Principal</span>
             <Globe className="w-5 h-5 text-amber-400" />
           </div>
-          <div className="text-2xl font-black text-amber-400">Tráfico Directo</div>
-          <div className="text-xs text-white font-bold mt-1">Seguido de Búsquedas en Google</div>
+          <div className="text-2xl font-black text-amber-400">{data?.referrers?.[0]?._id || "Ninguno"}</div>
+          <div className="text-xs text-white font-bold mt-1">Principal fuente de tráfico</div>
         </div>
       </div>
 
@@ -67,23 +67,22 @@ export default function AnalyticsClient() {
           </h3>
 
           <div className="space-y-3 pt-2">
-            {(data?.dailyViews || [
-              { _id: "2026-08-27", count: 42 },
-              { _id: "2026-08-26", count: 38 },
-              { _id: "2026-08-25", count: 29 },
-              { _id: "2026-08-24", count: 31 },
-            ]).map((d: any, i: number) => (
-              <div key={i} className="flex items-center gap-4 text-xs">
-                <span className="w-24 text-white font-bold font-mono">{d._id}</span>
-                <div className="flex-1 bg-[#0a1120] h-6 rounded-lg overflow-hidden p-0.5 border border-[#1e2a42]">
-                  <div
-                    className="bg-emerald-500 h-full rounded-md transition-all duration-500"
-                    style={{ width: `${Math.min(100, (d.count / 50) * 100)}%` }}
-                  />
+            {(data?.dailyViews || []).length === 0 ? (
+              <div className="text-xs text-gray-500 py-4">No hay datos de visitas recientes.</div>
+            ) : (
+              (data?.dailyViews || []).map((d: any, i: number) => (
+                <div key={i} className="flex items-center gap-4 text-xs">
+                  <span className="w-24 text-white font-bold font-mono">{d._id}</span>
+                  <div className="flex-1 bg-[#0a1120] h-6 rounded-lg overflow-hidden p-0.5 border border-[#1e2a42]">
+                    <div
+                      className="bg-emerald-500 h-full rounded-md transition-all duration-500"
+                      style={{ width: `${Math.min(100, (d.count / (data.dailyViews[0]?.count || 1)) * 100)}%` }}
+                    />
+                  </div>
+                  <span className="w-12 font-bold text-white text-right">{d.count} v.</span>
                 </div>
-                <span className="w-12 font-bold text-white text-right">{d.count} v.</span>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
@@ -94,11 +93,10 @@ export default function AnalyticsClient() {
           </h3>
 
           <div className="space-y-3">
-            {(data?.referrers || [
-              { _id: "direct", count: 82 },
-              { _id: "google.com", count: 45 },
-              { _id: "whatsapp", count: 21 },
-            ]).map((r: any, i: number) => (
+            {(data?.referrers || []).length === 0 ? (
+              <div className="text-xs text-gray-500 py-4">No hay fuentes registradas.</div>
+            ) : (
+              (data?.referrers || []).map((r: any, i: number) => (
               <div key={i} className="flex items-center justify-between p-3 bg-[#0a1120] rounded-xl border border-[#1e2a42] text-xs">
                 <span className="font-bold text-white capitalize">{r._id}</span>
                 <span className="text-amber-400 font-extrabold">{r.count} visitas</span>

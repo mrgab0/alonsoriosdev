@@ -31,41 +31,17 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       data: {
-        totalViews: totalViews || 148,
-        uniqueVisitors: Math.round((totalViews || 148) * 0.72),
-        dailyViews: dailyViews.length > 0 ? dailyViews : [
-          { _id: "2026-08-27", count: 42 },
-          { _id: "2026-08-26", count: 38 },
-          { _id: "2026-08-25", count: 29 },
-          { _id: "2026-08-24", count: 31 },
-          { _id: "2026-08-23", count: 25 },
-        ],
-        referrers: referrers.length > 0 ? referrers : [
-          { _id: "direct", count: 82 },
-          { _id: "google.com", count: 45 },
-          { _id: "whatsapp", count: 21 },
-        ],
+        totalViews: totalViews || 0,
+        uniqueVisitors: Math.round((totalViews || 0) * 0.72),
+        dailyViews: dailyViews.length > 0 ? dailyViews : [],
+        referrers: referrers.length > 0 ? referrers : [],
       },
     });
   } catch (error) {
-    console.warn("Analytics fallback active:", error);
+    console.warn("Analytics Error:", error);
     return NextResponse.json({
-      success: true,
-      data: {
-        totalViews: 148,
-        uniqueVisitors: 106,
-        dailyViews: [
-          { _id: "2026-08-27", count: 42 },
-          { _id: "2026-08-26", count: 38 },
-          { _id: "2026-08-25", count: 29 },
-          { _id: "2026-08-24", count: 31 },
-        ],
-        referrers: [
-          { _id: "direct", count: 82 },
-          { _id: "google.com", count: 45 },
-          { _id: "whatsapp", count: 21 },
-        ],
-      },
-    });
+      success: false,
+      error: "Error fetching analytics data",
+    }, { status: 500 });
   }
 }

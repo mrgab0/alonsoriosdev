@@ -41,6 +41,8 @@ export const metadata: Metadata = {
   },
 };
 
+import Tracker from "@/components/Tracker";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -50,7 +52,10 @@ export default function RootLayout({
     <html lang="es" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
         <ConfigProvider>
-          <AccessibilityProvider>{children}</AccessibilityProvider>
+          <AccessibilityProvider>
+            <Tracker />
+            {children}
+          </AccessibilityProvider>
         </ConfigProvider>
       </body>
     </html>

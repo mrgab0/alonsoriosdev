@@ -12,11 +12,13 @@ import BlogContentRenderer from "./BlogContentRenderer";
 
 export const dynamic = "force-dynamic";
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   let post = null;
   try {
     await connectToDatabase();
-    const decodedSlug = decodeURIComponent(params.slug);
+    // Resolvemos la promesa de los parámetros (Requisito Next.js 15+)
+    const resolvedParams = await params;
+    const decodedSlug = decodeURIComponent(resolvedParams.slug);
     post = await BlogPost.findOne({ slug: decodedSlug, published: true }).lean();
   } catch (error) {
     console.error("Error fetching blog post:", error);

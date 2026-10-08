@@ -62,3 +62,9 @@ body {
 .w-md-editor-toolbar li button svg { width: 24px !important; height: 24px !important; }
 .w-md-editor-toolbar { padding: 8px !important; height: auto !important; }
 .w-md-editor-toolbar-divider { height: 32px !important; margin: 0 8px !important; }
+
+/* Blog Markdown Text Color & Weight Override */
+.wmde-markdown, .wmde-markdown p, .wmde-markdown li, .wmde-markdown span, .wmde-markdown strong, .wmde-markdown h1, .wmde-markdown h2, .wmde-markdown h3, .wmde-markdown h4, .wmde-markdown h5, .wmde-markdown h6, .wmde-markdown a {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}

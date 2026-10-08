@@ -43,12 +43,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         </div>
 
-        {post.coverImage && (
-          <div className="mb-12 rounded-2xl overflow-hidden border border-gray-800 shadow-2xl bg-black/20">
-            <img src={post.coverImage} alt={post.title} className="w-full h-auto object-contain" />
-          </div>
-        )}
-
         {/* Renderizador de Markdown que detecta y procesa los bloques de bloqueo */}
         <div className="bg-[#121b2d] rounded-3xl p-6 md:p-12 border border-gray-800 shadow-2xl">
           <BlogContentRenderer content={post.content} />

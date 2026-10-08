@@ -1,6 +1,13 @@
 export function cleanLockedContentForExternal(markdown: string, canonicalUrl: string) {
+  // Primero cortamos por ::locked_rest
+  const readMoreRegex = /::locked_rest(?:{[^}]*})?::([\s\S]*)/;
+  if (readMoreRegex.test(markdown)) {
+    markdown = markdown.replace(readMoreRegex, `\n\n> 🎁 **¡Hay un regalo especial para ti!**\n> Sigue leyendo la Parte 2 de este artículo y descubre contenido exclusivo en mi sitio web oficial: [Haz clic aquí para continuar leyendo en alonsorios.dev](${canonicalUrl})`);
+  }
+
+  // Luego procesamos los ::locked normales que estén antes del read more
   const regex = /::locked{[^}]*}([\s\S]*?)::/g;
-  return markdown.replace(regex, `> 🔒 **Contenido Bloqueado:** Hay recursos exclusivos ocultos en esta sección. [Visita el artículo oficial en alonsorios.dev](${canonicalUrl}) para desbloquearlos.`);
+  return markdown.replace(regex, `\n> 🔒 **Contenido Bloqueado:** Hay recursos exclusivos ocultos en esta sección. [Visita el artículo oficial en alonsorios.dev](${canonicalUrl}) para desbloquearlos.`);
 }
 
 export async function crossPostToDevTo(title: string, contentMarkdown: string, coverImage: string, canonicalUrl: string, token: string) {

@@ -27,6 +27,12 @@ export function LockedSnippet({ type, title, children }: LockedSnippetProps) {
       window.open("https://wa.me/584129912840?text=Hola,%20quiero%20desbloquear%20el%20recurso%20oculto", "_blank");
     } else if (type === "social") {
       window.open("https://twitter.com/intent/tweet?text=Excelente%20artículo%20de%20@alonsoriosdev%20https://alonsorios.dev", "_blank");
+    } else if (type === "youtube") {
+      window.open("https://youtube.com/@alonsoriosdev?sub_confirmation=1", "_blank");
+    } else if (type === "gumroad") {
+      window.open("https://gumroad.com/alonsoriosdev", "_blank");
+    } else if (type === "kofi") {
+      window.open("https://ko-fi.com/alonsoriosdev", "_blank");
     }
 
     setUnlocked(true);
@@ -71,7 +77,10 @@ export function LockedSnippet({ type, title, children }: LockedSnippetProps) {
             {type === "email" && "Déjame tu mejor correo para acceder a este material exclusivo."}
             {type === "whatsapp" && "Envíame un mensaje rápido por WhatsApp para darte el acceso."}
             {type === "social" && "Comparte este artículo en tus redes para desbloquear la guía."}
-            {!["email", "whatsapp", "social"].includes(type) && "Realiza la acción solicitada para desbloquear."}
+            {type === "youtube" && "Suscríbete a mi canal de YouTube para continuar leyendo."}
+            {type === "gumroad" && "Visita mi tienda en Gumroad para desbloquear este contenido."}
+            {type === "kofi" && "Apóyame en Ko-fi para acceder a este material exclusivo."}
+            {!["email", "whatsapp", "social", "youtube", "gumroad", "kofi"].includes(type) && "Realiza la acción solicitada para desbloquear."}
           </p>
 
           <form onSubmit={handleUnlock} className="flex flex-col gap-3">
@@ -96,6 +105,9 @@ export function LockedSnippet({ type, title, children }: LockedSnippetProps) {
                   {type === "email" && <Mail className="w-4 h-4" />}
                   {type === "whatsapp" && <MessageCircle className="w-4 h-4" />}
                   {type === "social" && <ExternalLink className="w-4 h-4" />}
+                  {type === "youtube" && <ExternalLink className="w-4 h-4" />}
+                  {type === "gumroad" && <ExternalLink className="w-4 h-4" />}
+                  {type === "kofi" && <ExternalLink className="w-4 h-4" />}
                   {type === "email" ? "Desbloquear Ahora" : "Continuar para Desbloquear"}
                 </>
               )}

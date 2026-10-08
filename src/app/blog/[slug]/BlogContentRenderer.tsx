@@ -9,6 +9,14 @@ interface BlogContentRendererProps {
 }
 
 export default function BlogContentRenderer({ content }: BlogContentRendererProps) {
+  // Pre-procesar ::locked_rest para convertirlo en un ::locked estándar que envuelve el resto del documento
+  const processedContent = useMemo(() => {
+    const readMoreRegex = /::locked_rest\{([^}]+)\}::([\s\S]*)/;
+    return content.replace(readMoreRegex, (match, attrs, restOfArticle) => {
+      return `::locked{${attrs}}\n${restOfArticle}\n::`;
+    });
+  }, [content]);
+
   // Regex para hacer match de ::locked{type="loquesea" title="loquesea"}contenido::
   const lockedRegex = /::locked\{([^}]+)\}([\s\S]*?)::/g;
 
@@ -17,9 +25,9 @@ export default function BlogContentRenderer({ content }: BlogContentRendererProp
     let lastIndex = 0;
     let match;
 
-    while ((match = lockedRegex.exec(content)) !== null) {
+    while ((match = lockedRegex.exec(processedContent)) !== null) {
       // 1. Agregar contenido normal antes del match
-      const normalText = content.substring(lastIndex, match.index);
+      const normalText = processedContent.substring(lastIndex, match.index);
       if (normalText) {
         result.push(
           <div key={`md-${lastIndex}`} className="prose dark:prose-invert max-w-none mb-4">
@@ -54,7 +62,7 @@ export default function BlogContentRenderer({ content }: BlogContentRendererProp
     }
 
     // 4. Agregar texto restante si hay
-    const remainingText = content.substring(lastIndex);
+    const remainingText = processedContent.substring(lastIndex);
     if (remainingText) {
       result.push(
         <div key={`md-last`} className="prose dark:prose-invert max-w-none">
@@ -65,10 +73,10 @@ export default function BlogContentRenderer({ content }: BlogContentRendererProp
 
     return result.length > 0 ? result : (
       <div className="prose dark:prose-invert max-w-none">
-        <MarkdownPreview source={content} style={{ backgroundColor: 'transparent' }} />
+        <MarkdownPreview source={processedContent} style={{ backgroundColor: 'transparent' }} />
       </div>
     );
-  }, [content]);
+  }, [processedContent]);
 
   return (
     <div className="w-full">

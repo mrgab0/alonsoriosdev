@@ -166,6 +166,24 @@ export default function BlogClient() {
     setEditingPost({ ...editingPost, content: newContent });
   };
 
+  const handleInsertReadMoreSnippet = () => {
+    if (!editingPost) return;
+    const snippet = `\n\n::locked_rest{type="youtube" title="Suscríbete a YouTube para leer la Parte 2"}::\n\n`;
+    
+    let newContent = editingPost.content;
+    if (contentTextareaRef.current) {
+      const textarea = contentTextareaRef.current;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const before = newContent.substring(0, start);
+      const after = newContent.substring(end);
+      newContent = before + snippet + after;
+    } else {
+      newContent += snippet;
+    }
+    setEditingPost({ ...editingPost, content: newContent });
+  };
+
   if (loading && !editingPost) {
     return <div className="p-8 text-white">Cargando posts...</div>;
   }
@@ -335,6 +353,13 @@ export default function BlogClient() {
                   className="bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition"
                 >
                   <Lock className="w-4 h-4" /> Insertar Bloqueo (Paywall)
+                </button>
+                <button
+                  type="button"
+                  onClick={handleInsertReadMoreSnippet}
+                  className="bg-red-500 hover:bg-red-400 text-white px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition"
+                >
+                  <Lock className="w-4 h-4" /> Bloquear Resto (Leer Más)
                 </button>
                 <label className="cursor-pointer bg-amber-400 hover:bg-amber-500 text-gray-900 px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition">
                   <ImageIcon className="w-4 h-4" />

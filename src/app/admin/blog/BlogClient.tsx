@@ -404,8 +404,8 @@ export default function BlogClient() {
         </button>
       </div>
 
-      <div className="bg-[#121b2d] border border-gray-800 rounded-2xl overflow-hidden">
-        <table className="w-full text-left">
+      <div className="bg-[#121b2d] border border-gray-800 rounded-2xl overflow-x-auto">
+        <table className="w-full text-left min-w-[600px]">
           <thead className="bg-[#0a1120] border-b border-gray-800">
             <tr>
               <th className="px-6 py-4 text-sm font-bold text-white font-bold">Artculo</th>
@@ -423,7 +423,11 @@ export default function BlogClient() {
               </tr>
             ) : (
               posts.map((post) => (
-                <tr key={post._id} className="border-b border-gray-800 hover:bg-white/5 transition">
+                <tr 
+                  key={post._id} 
+                  onClick={() => setEditingPost(post)}
+                  className="border-b border-gray-800 hover:bg-white/5 transition cursor-pointer"
+                >
                   <td className="px-6 py-4">
                     <div className="font-bold text-white mb-1">{post.title}</div>
                     <div className="text-xs text-white font-bold truncate max-w-md">{post.slug}</div>
@@ -445,14 +449,14 @@ export default function BlogClient() {
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <button
-                        onClick={() => setEditingPost(post)}
+                        onClick={(e) => { e.stopPropagation(); setEditingPost(post); }}
                         className="p-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 rounded-lg transition"
                         title="Editar"
                       >
                         <Edit2 className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => post._id && handleDelete(post._id)}
+                        onClick={(e) => { e.stopPropagation(); post._id && handleDelete(post._id); }}
                         className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition"
                         title="Eliminar"
                       >

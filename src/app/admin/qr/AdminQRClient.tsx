@@ -16,6 +16,7 @@ import {
   RefreshCw,
   Search,
   X,
+} from "lucide-react";
 import { generateQRSvg, renderQRToCanvas } from "@/lib/qrcode";
 import PagoMovilDesigner from "./PagoMovilDesigner";
 

@@ -13,6 +13,7 @@ import {
   ArrowLeft,
   LogOut,
   Type,
+  QrCode,
 } from "lucide-react";
 import { useAccessibility } from "@/components/AccessibilityContext";
 
@@ -178,6 +179,17 @@ export default function AdminNav({ children }: { children: React.ReactNode }) {
             >
               <LayoutDashboard className="w-4 h-4 text-cyan-400" />
               <span>Blog Editor</span>
+            </Link>
+            <Link
+              href="/admin/qr"
+              className={`px-3.5 py-2 rounded-xl flex items-center gap-2 border border-[#1e2a42] transition ${
+                pathname === "/admin/qr"
+                  ? "bg-amber-400/10 text-amber-400 border-amber-400/30"
+                  : "bg-[#121b2d] hover:bg-[#1e2a42] text-white font-bold"
+              }`}
+            >
+              <QrCode className="w-4 h-4 text-amber-400" />
+              <span>Gestor QR</span>
             </Link>
           </nav>
 

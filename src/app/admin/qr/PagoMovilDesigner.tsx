@@ -14,6 +14,7 @@ import {
   QrCode,
   Check,
   Copy,
+  Upload,
 } from "lucide-react";
 import {
   VENEZUELA_BANKS,
@@ -46,9 +47,13 @@ export default function PagoMovilDesigner() {
   // Notifications
   const [copiedPayload, setCopiedPayload] = useState(false);
 
+  // Logo upload
+  const [logoDataUrl, setLogoDataUrl] = useState<string | null>(null);
+
   // Canvas refs
   const singleQrCanvasRef = useRef<HTMLCanvasElement>(null);
   const acrylicCanvasRef = useRef<HTMLCanvasElement>(null);
+  const logoImgRef = useRef<HTMLImageElement>(null);
   const printContainerRef = useRef<HTMLDivElement>(null);
 
   // Selected Bank Object
@@ -100,6 +105,17 @@ export default function PagoMovilDesigner() {
       });
     }
   }, [qrPayload]);
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setLogoDataUrl(event.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
 
   // Render the FULL ACRYLIC STAND to high-resolution Canvas (300 DPI, 1200x1800 px)
   const drawAcrylicToCanvas = () => {
@@ -161,28 +177,46 @@ export default function PagoMovilDesigner() {
     ctx.lineWidth = 8;
     ctx.strokeRect(30, 30, width - 60, height - 60);
 
+    // Draw logo if exists
+    let headerYOffset = 0;
+    if (logoImgRef.current && logoDataUrl) {
+      try {
+        const logoMaxH = 120;
+        const logoMaxW = 300;
+        const imgW = logoImgRef.current.naturalWidth || 200;
+        const imgH = logoImgRef.current.naturalHeight || 100;
+        const ratio = Math.min(logoMaxW / imgW, logoMaxH / imgH);
+        const drawW = imgW * ratio;
+        const drawH = imgH * ratio;
+        ctx.drawImage(logoImgRef.current, (width - drawW) / 2, 60, drawW, drawH);
+        headerYOffset = 70;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
     // 2. Header banner / Title
     ctx.fillStyle = primaryColor;
-    ctx.font = "bold 64px sans-serif";
+    ctx.font = "bold 60px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(headerTitle.toUpperCase(), width / 2, 130);
+    ctx.fillText(headerTitle.toUpperCase(), width / 2, 130 + headerYOffset);
 
     ctx.fillStyle = textMuted;
-    ctx.font = "bold 28px sans-serif";
-    ctx.fillText(headerSubtitle, width / 2, 180);
+    ctx.font = "bold 26px sans-serif";
+    ctx.fillText(headerSubtitle, width / 2, 175 + headerYOffset);
 
     // Divider line
     ctx.strokeStyle = isDark ? "#334155" : "#e2e8f0";
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(100, 220);
-    ctx.lineTo(width - 100, 220);
+    ctx.moveTo(100, 205 + headerYOffset);
+    ctx.lineTo(width - 100, 205 + headerYOffset);
     ctx.stroke();
 
     // 3. QR Code Box (white background with rounded border)
-    const qrBoxSize = 640;
+    const qrBoxSize = 630;
     const qrBoxX = (width - qrBoxSize) / 2;
-    const qrBoxY = 260;
+    const qrBoxY = 235 + headerYOffset;
 
     // Draw white card for QR
     ctx.fillStyle = "#ffffff";
@@ -327,6 +361,7 @@ export default function PagoMovilDesigner() {
       {/* Hidden canvases for rendering */}
       <canvas ref={singleQrCanvasRef} className="hidden" />
       <canvas ref={acrylicCanvasRef} className="hidden" />
+      {logoDataUrl && <img ref={logoImgRef} src={logoDataUrl} alt="Logo" className="hidden" />}
 
       {/* Intro info banner */}
       <div className="bg-gradient-to-r from-amber-500/10 via-[#121b2d] to-blue-500/10 border border-amber-500/30 rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -486,6 +521,29 @@ export default function PagoMovilDesigner() {
             </h4>
 
             <div className="space-y-4">
+              {/* Logo Upload */}
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Subir Logo del Negocio (Opcional)
+                </label>
+                <div className="flex items-center gap-3">
+                  <label className="cursor-pointer bg-[#0a1120] hover:bg-slate-800 border border-slate-700 px-4 py-2.5 rounded-xl flex items-center gap-2 text-xs font-bold text-slate-200 transition">
+                    <Upload className="w-4 h-4 text-amber-400" />
+                    <span>{logoDataUrl ? "Cambiar Logo" : "Subir Logo PNG / JPG"}</span>
+                    <input type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
+                  </label>
+                  {logoDataUrl && (
+                    <button
+                      type="button"
+                      onClick={() => setLogoDataUrl(null)}
+                      className="text-xs text-rose-400 hover:text-rose-300 font-bold"
+                    >
+                      Quitar Logo
+                    </button>
+                  )}
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <button
                   type="button"
@@ -630,6 +688,11 @@ export default function PagoMovilDesigner() {
           >
             {/* Header */}
             <div className="text-center mb-4">
+              {logoDataUrl && (
+                <div className="mb-2 max-h-12 max-w-[180px] mx-auto overflow-hidden flex items-center justify-center">
+                  <img src={logoDataUrl} alt="Logo Comercio" className="max-h-12 object-contain" />
+                </div>
+              )}
               <h2
                 className={`text-2xl font-black tracking-tight ${
                   theme === "dark"

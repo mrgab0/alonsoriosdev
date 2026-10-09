@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { MessageCircle, Menu, X, ShieldCheck, ChevronDown, QrCode, Sparkles, FileText } from "lucide-react";
+import { MessageCircle, Menu, X, ShieldCheck, ChevronDown, QrCode, Sparkles, FileText, CreditCard } from "lucide-react";
 
 export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -96,6 +96,24 @@ export const Header: React.FC = () => {
                   </div>
                 </Link>
 
+                <Link
+                  href="/herramientas/creador-qr-pago-movil"
+                  className="p-2.5 rounded-xl hover:bg-slate-800/80 transition flex items-start gap-3 group/item"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-yellow-400/10 text-yellow-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <CreditCard className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-white font-bold text-sm group-hover/item:text-yellow-400 transition-colors flex items-center gap-1.5">
+                      <span>🇻🇪 Pago Móvil QR</span>
+                      <span className="text-[10px] bg-yellow-400/20 text-yellow-300 px-1.5 py-0.5 rounded font-black">Comercios</span>
+                    </div>
+                    <div className="text-xs text-slate-400 font-normal">
+                      Diseña tu cartel de mostrador en acrílico
+                    </div>
+                  </div>
+                </Link>
+
                 <div className="p-2.5 rounded-xl opacity-60 flex items-start gap-3 cursor-not-allowed">
                   <div className="w-8 h-8 rounded-lg bg-purple-400/10 text-purple-400 flex items-center justify-center shrink-0 mt-0.5">
                     <FileText className="w-4 h-4" />
@@ -185,6 +203,14 @@ export const Header: React.FC = () => {
                 >
                   <Sparkles className="w-4 h-4 text-emerald-400" />
                   <span>Creador QR Dinámico (Editable)</span>
+                </Link>
+                <Link
+                  href="/herramientas/creador-qr-pago-movil"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2 py-1.5 text-yellow-300 hover:text-white"
+                >
+                  <CreditCard className="w-4 h-4 text-yellow-400" />
+                  <span>🇻🇪 QR Pago Móvil & Acrílicos</span>
                 </Link>
               </div>
             )}

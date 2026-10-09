@@ -16,8 +16,8 @@ import {
   RefreshCw,
   Search,
   X,
-} from "lucide-react";
 import { generateQRSvg, renderQRToCanvas } from "@/lib/qrcode";
+import PagoMovilDesigner from "./PagoMovilDesigner";
 
 interface DynamicQRItem {
   _id: string;
@@ -34,6 +34,7 @@ interface DynamicQRItem {
 }
 
 export default function AdminQRClient() {
+  const [activeTab, setActiveTab] = useState<"dynamic" | "pagomovil">("dynamic");
   const [qrs, setQrs] = useState<DynamicQRItem[]>([]);
   const [stats, setStats] = useState({ total: 0, totalScans: 0, activeCount: 0 });
   const [loading, setLoading] = useState(true);
@@ -233,13 +234,46 @@ export default function AdminQRClient() {
 
   return (
     <div className="space-y-6">
-      {/* Top Header & Metrics */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-black text-amber-400 flex items-center gap-2">
-            <QrCode className="w-6 h-6" />
-            <span>Gestor de Códigos QR Dinámicos</span>
-          </h2>
+      {/* Top Tab Switcher */}
+      <div className="flex flex-wrap items-center gap-2 border-b border-[#1e2a42] pb-4">
+        <button
+          onClick={() => setActiveTab("dynamic")}
+          className={`px-4 py-2.5 rounded-xl text-sm font-black flex items-center gap-2 transition cursor-pointer ${
+            activeTab === "dynamic"
+              ? "bg-amber-400 text-black shadow-md"
+              : "bg-[#121b2d] text-slate-300 hover:text-white border border-[#1e2a42]"
+          }`}
+        >
+          <QrCode className="w-4 h-4" />
+          <span>Gestor QR Dinámico Global</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("pagomovil")}
+          className={`px-4 py-2.5 rounded-xl text-sm font-black flex items-center gap-2 transition cursor-pointer ${
+            activeTab === "pagomovil"
+              ? "bg-amber-400 text-black shadow-md"
+              : "bg-[#121b2d] text-slate-300 hover:text-white border border-[#1e2a42]"
+          }`}
+        >
+          <span>🇻🇪 Pago Móvil QR & Diseñador de Acrílicos</span>
+          <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-black">
+            Para Clientes
+          </span>
+        </button>
+      </div>
+
+      {activeTab === "pagomovil" ? (
+        <PagoMovilDesigner />
+      ) : (
+        <>
+          {/* Top Header & Metrics */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-black text-amber-400 flex items-center gap-2">
+                <QrCode className="w-6 h-6" />
+                <span>Gestor de Códigos QR Dinámicos</span>
+              </h2>
           <p className="text-slate-400 text-sm font-bold">
             Administra, redirige y analiza los escaneos de todos los códigos QR del sistema.
           </p>
@@ -613,6 +647,8 @@ export default function AdminQRClient() {
             </div>
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   );

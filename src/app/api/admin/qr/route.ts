@@ -4,6 +4,7 @@ import { connectToDatabase } from "@/lib/mongodb";
 import DynamicQR from "@/models/DynamicQR";
 import { AUTH_COOKIE_NAME, verifySessionToken } from "@/lib/auth";
 import crypto from "crypto";
+import { sendQREditTokenEmail } from "@/lib/sendQREmail";
 
 export const dynamic = "force-dynamic";
 
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { customCode, targetUrl, title, type = "url", fgColor = "#000000", bgColor = "#ffffff" } = body;
+    const { customCode, targetUrl, title, creatorEmail, type = "url", fgColor = "#000000", bgColor = "#ffffff" } = body;
 
     if (!targetUrl) {
       return NextResponse.json({ success: false, error: "targetUrl es requerida" }, { status: 400 });
@@ -76,6 +77,7 @@ export async function POST(request: Request) {
       targetUrl: targetUrl.trim(),
       title: title?.trim() || "QR Admin",
       type,
+      creatorEmail: creatorEmail?.trim() || undefined,
       editToken,
       scans: 0,
       active: true,
@@ -83,7 +85,25 @@ export async function POST(request: Request) {
       bgColor,
     });
 
-    return NextResponse.json({ success: true, data: newQR });
+    const host = request.headers.get("host") || "alonsorios.dev";
+    const protocol = host.includes("localhost") ? "http" : "https";
+    const shortUrl = `${protocol}://${host}/qr/${code}`;
+
+    let emailSent = false;
+    if (creatorEmail && typeof creatorEmail === "string" && creatorEmail.includes("@")) {
+      const emailResult = await sendQREditTokenEmail({
+        email: creatorEmail.trim(),
+        code: newQR.code,
+        editToken: newQR.editToken,
+        shortUrl,
+        targetUrl: newQR.targetUrl,
+        title: newQR.title,
+        host,
+      });
+      emailSent = emailResult.success;
+    }
+
+    return NextResponse.json({ success: true, data: { ...newQR.toObject(), emailSent, shortUrl } });
   } catch (error: any) {
     console.error("Error en Admin QR POST:", error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

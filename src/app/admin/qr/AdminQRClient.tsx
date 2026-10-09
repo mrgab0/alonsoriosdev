@@ -16,6 +16,7 @@ import {
   RefreshCw,
   Search,
   X,
+  Mail,
 } from "lucide-react";
 import { generateQRSvg, renderQRToCanvas } from "@/lib/qrcode";
 import PagoMovilDesigner from "./PagoMovilDesigner";
@@ -46,6 +47,7 @@ export default function AdminQRClient() {
   const [createCustomCode, setCreateCustomCode] = useState("");
   const [createTargetUrl, setCreateTargetUrl] = useState("");
   const [createTitle, setCreateTitle] = useState("");
+  const [createCreatorEmail, setCreateCreatorEmail] = useState("");
   const [submittingCreate, setSubmittingCreate] = useState(false);
 
   // Edit target inline / modal
@@ -95,6 +97,7 @@ export default function AdminQRClient() {
           customCode: createCustomCode.trim() || undefined,
           targetUrl: createTargetUrl.trim(),
           title: createTitle.trim() || "QR Admin",
+          creatorEmail: createCreatorEmail.trim() || undefined,
         }),
       });
 
@@ -104,7 +107,11 @@ export default function AdminQRClient() {
         setCreateCustomCode("");
         setCreateTargetUrl("");
         setCreateTitle("");
+        setCreateCreatorEmail("");
         fetchQRs();
+        if (json.data?.emailSent) {
+          alert(`¡QR creado y token secreto enviado exitosamente a ${json.data.creatorEmail}!`);
+        }
       } else {
         alert(json.error || "Error al crear el QR");
       }
@@ -369,6 +376,12 @@ export default function AdminQRClient() {
                   <tr key={item._id} className="hover:bg-white/[0.02] transition">
                     <td className="px-6 py-4">
                       <div className="font-bold text-white">{item.title}</div>
+                      {item.creatorEmail && (
+                        <div className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
+                          <Mail className="w-3 h-3 text-slate-500 shrink-0" />
+                          <span className="truncate max-w-[180px]">{item.creatorEmail}</span>
+                        </div>
+                      )}
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-xs font-mono font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-md">
                           /qr/{item.code}
@@ -520,6 +533,22 @@ export default function AdminQRClient() {
                   placeholder="https://wa.me/584129912840 o tu web"
                   className="w-full bg-[#090f1d] border border-slate-700 rounded-xl p-3 text-white font-bold focus:border-amber-400 focus:outline-none"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1">
+                  Correo Electrónico del Cliente / Creador (Opcional)
+                </label>
+                <input
+                  type="email"
+                  value={createCreatorEmail}
+                  onChange={(e) => setCreateCreatorEmail(e.target.value)}
+                  placeholder="cliente@ejemplo.com (le enviará el token de gestión)"
+                  className="w-full bg-[#090f1d] border border-slate-700 rounded-xl p-3 text-white font-bold focus:border-amber-400 focus:outline-none"
+                />
+                <p className="text-[11px] text-slate-500 mt-1">
+                  Si se especifica, el token de edición y enlace directo se enviarán automáticamente a su buzón.
+                </p>
               </div>
 
               <div className="pt-4 flex gap-3">

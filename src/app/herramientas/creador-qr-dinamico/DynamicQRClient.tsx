@@ -17,6 +17,7 @@ import {
   MessageCircle,
   PlusCircle,
   Clock,
+  Mail,
 } from "lucide-react";
 import { generateQRSvg, renderQRToCanvas } from "@/lib/qrcode";
 
@@ -46,6 +47,8 @@ export default function DynamicQRClient() {
     editToken: string;
     title: string;
     targetUrl: string;
+    creatorEmail?: string;
+    emailSent?: boolean;
   } | null>(null);
 
   // Manage / Edit QR states
@@ -169,6 +172,21 @@ export default function DynamicQRClient() {
       setLoadingQR(false);
     }
   };
+
+  // Detectar enlace mágico desde el correo (?code=...&token=...)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const codeParam = params.get("code");
+      const tokenParam = params.get("token");
+      if (codeParam && tokenParam) {
+        setActiveTab("manage");
+        setManageCode(codeParam);
+        setManageToken(tokenParam);
+        handleFetchQRToManage(codeParam, tokenParam);
+      }
+    }
+  }, []);
 
   const handleUpdateTargetUrl = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -414,6 +432,17 @@ export default function DynamicQRClient() {
                     <Check className="w-5 h-5" />
                     <span>¡Tu QR Dinámico ha sido creado con éxito!</span>
                   </div>
+
+                  {createdResult.creatorEmail && (
+                    <div className="p-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-center gap-2.5 text-xs text-emerald-300">
+                      <Mail className="w-4 h-4 shrink-0 text-emerald-400" />
+                      <span>
+                        {createdResult.emailSent
+                          ? `Enviamos una copia de tu token y enlace directo de gestión a ${createdResult.creatorEmail}`
+                          : `Guardamos tu correo (${createdResult.creatorEmail}) para enviarte el respaldo de tu token.`}
+                      </span>
+                    </div>
+                  )}
 
                   <div>
                     <label className="text-xs font-bold text-slate-300 block mb-1">

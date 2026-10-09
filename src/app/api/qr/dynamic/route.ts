@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import DynamicQR from "@/models/DynamicQR";
 import crypto from "crypto";
+import { sendQREditTokenEmail } from "@/lib/sendQREmail";
 
 export const dynamic = "force-dynamic";
 
@@ -58,6 +59,20 @@ export async function POST(request: Request) {
     const protocol = host.includes("localhost") ? "http" : "https";
     const shortUrl = `${protocol}://${host}/qr/${code}`;
 
+    let emailSent = false;
+    if (creatorEmail && typeof creatorEmail === "string" && creatorEmail.includes("@")) {
+      const emailResult = await sendQREditTokenEmail({
+        email: creatorEmail.trim(),
+        code: newQR.code,
+        editToken: newQR.editToken,
+        shortUrl,
+        targetUrl: newQR.targetUrl,
+        title: newQR.title,
+        host,
+      });
+      emailSent = emailResult.success;
+    }
+
     return NextResponse.json({
       success: true,
       data: {
@@ -66,6 +81,8 @@ export async function POST(request: Request) {
         editToken: newQR.editToken,
         title: newQR.title,
         targetUrl: newQR.targetUrl,
+        creatorEmail: newQR.creatorEmail,
+        emailSent,
         scans: newQR.scans,
         fgColor: newQR.fgColor,
         bgColor: newQR.bgColor,

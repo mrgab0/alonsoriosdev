@@ -56,7 +56,7 @@ const DynamicQRSchema = new Schema<IDynamicQR>(
       default: 0,
     },
     active: {
-      type: boolean as any || Boolean,
+      type: Boolean,
       default: true,
     },
     fgColor: {

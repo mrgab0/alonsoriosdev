@@ -10,20 +10,22 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-white">
         
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm">
+          <div className="w-8 h-8 rounded-lg bg-[#0f172a] border border-slate-700/80 flex items-center justify-center text-amber-400 font-black text-xs">
             AR
           </div>
           <div>
-            <span className="font-black text-white text-sm block">Alonso Ríos</span>
-            <span className="text-white font-extrabold">Sitios Web • Apps Android • SEO • Cursos</span>
+            <span className="font-editorial text-sm text-white font-normal block leading-tight">Alonso Ríos</span>
+            <span className="text-[11px] text-slate-400 font-mono">Sitios Web · Apps · SEO · Cursos</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-6 font-black text-white">
-          <a href="#inicio" className="hover:text-amber-400 transition">Inicio</a>
-          <a href="#servicios" className="hover:text-amber-400 transition">Servicios</a>
-          <a href="#libros-cursos" className="hover:text-amber-400 transition">Cursos y Libros</a>
-          <a href="#contacto" className="hover:text-amber-400 transition">Contacto</a>
+        <div className="flex flex-wrap items-center justify-center gap-6 font-mono text-xs text-slate-300">
+          <Link href="/#inicio" className="hover:text-amber-400 transition">Inicio</Link>
+          <Link href="/#servicios" className="hover:text-amber-400 transition">Servicios</Link>
+          <Link href="/#libros-cursos" className="hover:text-amber-400 transition">Cursos</Link>
+          <Link href="/blog" className="hover:text-amber-400 transition">Blog</Link>
+          <Link href="/herramientas/creador-qr-dinamico" className="hover:text-amber-400 transition">Herramientas</Link>
+          <Link href="/#contacto" className="hover:text-amber-400 transition">Contacto</Link>
         </div>
 
         <div className="flex items-center gap-2 font-black text-white">

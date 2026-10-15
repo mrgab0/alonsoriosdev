@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
-import { Plus, Edit2, Trash2, Image as ImageIcon, CheckCircle, XCircle, Save, X, Eye, Lock } from "lucide-react";
+import { Plus, Edit2, Trash2, Image as ImageIcon, CheckCircle, XCircle, Save, X, Eye, Lock, Sparkles, Activity, Quote, Zap, Star, Clock } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import "@uiw/react-md-editor/markdown-editor.css";
@@ -16,6 +16,15 @@ interface BlogPost {
   content: string;
   excerpt: string;
   coverImage: string;
+  category?: string;
+  readingTime?: string;
+  featured?: boolean;
+  telemetry?: {
+    beforeTime?: string;
+    afterTime?: string;
+    score?: string;
+    label?: string;
+  };
   mediumUrl?: string;
   devtoUrl?: string;
   hashnodeUrl?: string;
@@ -35,6 +44,15 @@ const emptyPost: BlogPost = {
   content: "",
   excerpt: "",
   coverImage: "",
+  category: "Desarrollo Web & Rendimiento",
+  readingTime: "5 min de lectura",
+  featured: false,
+  telemetry: {
+    beforeTime: "",
+    afterTime: "",
+    score: "",
+    label: "",
+  },
   crosspostMedium: false,
   crosspostDevTo: false,
   crosspostHashnode: false,
@@ -165,10 +183,8 @@ export default function BlogClient() {
     e.target.value = "";
   };
 
-  const handleInsertLockedSnippet = () => {
+  const insertSnippetAtCursor = (snippet: string) => {
     if (!editingPost) return;
-    const snippet = `\n\n::locked{type="email" title="Déjame tu email para desbloquear este recurso"}\nAquí va el contenido secreto, descargas o código fuente...\n::\n\n`;
-    
     let newContent = editingPost.content;
     if (contentTextareaRef.current) {
       const textarea = contentTextareaRef.current;
@@ -183,22 +199,35 @@ export default function BlogClient() {
     setEditingPost({ ...editingPost, content: newContent });
   };
 
+  const handleInsertLockedSnippet = () => {
+    insertSnippetAtCursor(`\n\n::locked{type="email" title="Déjame tu email para desbloquear este recurso"}\nAquí va el contenido secreto, descargas o código fuente...\n::\n\n`);
+  };
+
   const handleInsertReadMoreSnippet = () => {
+    insertSnippetAtCursor(`\n\n::locked_rest{type="youtube" title="Suscríbete a YouTube para leer la Parte 2"}::\n\n`);
+  };
+
+  const handleInsertAuditSnippet = () => {
+    insertSnippetAtCursor(`\n\n::audit{before="6.4s" after="0.58s" score="100/100" label="Lighthouse Web Vitals · Caso Real"}::\n\n`);
+  };
+
+  const handleInsertStatsSnippet = () => {
+    insertSnippetAtCursor(`\n\n::stats{stat1="+42% Conversión" stat2="-61% Tasa de Rebote" stat3="100/100 PageSpeed"}::\n\n`);
+  };
+
+  const handleInsertQuoteSnippet = () => {
+    insertSnippetAtCursor(`\n\n> **"Aquí va una cita técnica, reflexión o mantra de arquitectura destacada..."**\n\n`);
+  };
+
+  const handleInsertTipSnippet = () => {
+    insertSnippetAtCursor(`\n\n::tip{title="Regla de Oro de Arquitectura"}\nAquí redactas la recomendación técnica o lección aprendida...\n::\n\n`);
+  };
+
+  const autoCalculateReadingTime = () => {
     if (!editingPost) return;
-    const snippet = `\n\n::locked_rest{type="youtube" title="Suscríbete a YouTube para leer la Parte 2"}::\n\n`;
-    
-    let newContent = editingPost.content;
-    if (contentTextareaRef.current) {
-      const textarea = contentTextareaRef.current;
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const before = newContent.substring(0, start);
-      const after = newContent.substring(end);
-      newContent = before + snippet + after;
-    } else {
-      newContent += snippet;
-    }
-    setEditingPost({ ...editingPost, content: newContent });
+    const words = editingPost.content.trim().split(/\s+/).filter(Boolean).length;
+    const minutes = Math.max(1, Math.round(words / 200));
+    setEditingPost({ ...editingPost, readingTime: `${minutes} min de lectura` });
   };
 
   if (loading && !editingPost) {
@@ -290,8 +319,131 @@ export default function BlogClient() {
                 value={editingPost.coverImage}
                 onChange={(e) => setEditingPost({ ...editingPost, coverImage: e.target.value })}
                 className="flex-1 bg-[#0a1120] border border-gray-700 rounded-lg p-2 text-white text-sm focus:border-amber-400 focus:outline-none placeholder-white placeholder-opacity-100 font-bold"
-                placeholder="O pega la URL de Medium/Hashnode aqu"
+                placeholder="O pega la URL de Medium/Hashnode aquí"
               />
+            </div>
+          </div>
+
+          {/* Categoría y Tiempo de Lectura */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-white font-bold mb-1">Categoría Temática</label>
+              <select
+                value={editingPost.category || "Desarrollo Web & Rendimiento"}
+                onChange={(e) => setEditingPost({ ...editingPost, category: e.target.value })}
+                className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-3 text-white font-bold focus:border-amber-400 focus:outline-none"
+              >
+                <option value="Desarrollo Web & Rendimiento">Desarrollo Web & Rendimiento</option>
+                <option value="Android & Kotlin">Android & Kotlin</option>
+                <option value="SEO & Negocios">SEO & Negocios</option>
+                <option value="Seguridad & Servidores">Seguridad & Servidores</option>
+                <option value="Tutoriales Paso a Paso">Tutoriales Paso a Paso</option>
+                <option value="Filosofía & Aprendizaje">Filosofía & Aprendizaje</option>
+              </select>
+            </div>
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <label className="text-sm font-semibold text-white font-bold">Tiempo de Lectura</label>
+                <button
+                  type="button"
+                  onClick={autoCalculateReadingTime}
+                  className="text-xs text-amber-400 hover:underline flex items-center gap-1 font-bold"
+                >
+                  <Clock className="w-3 h-3" /> Calcular auto
+                </button>
+              </div>
+              <input
+                type="text"
+                value={editingPost.readingTime || "5 min de lectura"}
+                onChange={(e) => setEditingPost({ ...editingPost, readingTime: e.target.value })}
+                className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-3 text-white font-bold focus:border-amber-400 focus:outline-none"
+                placeholder="Ej. 8 min de lectura"
+              />
+            </div>
+          </div>
+
+          {/* Destacado Hero y Telemetría Lighthouse */}
+          <div className="p-4 bg-amber-500/10 rounded-xl border border-amber-500/30 space-y-3">
+            <div className="flex items-center justify-between">
+              <label htmlFor="featured-hero" className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="featured-hero"
+                  checked={!!editingPost.featured}
+                  onChange={(e) => setEditingPost({ ...editingPost, featured: e.target.checked })}
+                  className="w-5 h-5 accent-amber-400"
+                />
+                <div>
+                  <span className="text-sm font-black text-amber-400 flex items-center gap-1.5">
+                    <Star className="w-4 h-4 fill-amber-400" /> Marcar como Artículo Principal (Hero Destacado en /blog)
+                  </span>
+                  <span className="text-xs text-slate-300 block font-medium">
+                    Se mostrará con diseño monumental y tarjeta de telemetría en la cabecera de la página de Blog.
+                  </span>
+                </div>
+              </label>
+            </div>
+
+            {/* Opciones de Telemetría Before / After */}
+            <div className="pt-2 border-t border-amber-500/20">
+              <span className="text-xs font-bold text-slate-300 block mb-2 flex items-center gap-1">
+                <Activity className="w-3.5 h-3.5 text-emerald-400" />
+                Métricas de Auditoría Lighthouse (Opcional, para widget de telemetría):
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-0.5">Antes (ej. 6.4s)</label>
+                  <input
+                    type="text"
+                    value={editingPost.telemetry?.beforeTime || ""}
+                    onChange={(e) => setEditingPost({
+                      ...editingPost,
+                      telemetry: { ...editingPost.telemetry, beforeTime: e.target.value }
+                    })}
+                    placeholder="6.4s"
+                    className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-2 text-xs text-rose-400 font-mono font-bold focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-0.5">Después (ej. 0.58s)</label>
+                  <input
+                    type="text"
+                    value={editingPost.telemetry?.afterTime || ""}
+                    onChange={(e) => setEditingPost({
+                      ...editingPost,
+                      telemetry: { ...editingPost.telemetry, afterTime: e.target.value }
+                    })}
+                    placeholder="0.58s"
+                    className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-2 text-xs text-emerald-400 font-mono font-bold focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-0.5">Score (ej. 100/100)</label>
+                  <input
+                    type="text"
+                    value={editingPost.telemetry?.score || ""}
+                    onChange={(e) => setEditingPost({
+                      ...editingPost,
+                      telemetry: { ...editingPost.telemetry, score: e.target.value }
+                    })}
+                    placeholder="100/100"
+                    className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-2 text-xs text-amber-400 font-mono font-bold focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] text-slate-400 block mb-0.5">Etiqueta</label>
+                  <input
+                    type="text"
+                    value={editingPost.telemetry?.label || ""}
+                    onChange={(e) => setEditingPost({
+                      ...editingPost,
+                      telemetry: { ...editingPost.telemetry, label: e.target.value }
+                    })}
+                    placeholder="Web Vitals"
+                    className="w-full bg-[#0a1120] border border-gray-700 rounded-lg p-2 text-xs text-white font-mono font-bold focus:outline-none"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -372,26 +524,58 @@ export default function BlogClient() {
           </div>
 
           <div className="pt-4 border-t border-gray-800" data-color-mode="dark">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
               <label className="block text-sm font-semibold text-white font-bold">Contenido (Visual Markdown)</label>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-1.5 items-center">
+                <button
+                  type="button"
+                  onClick={handleInsertAuditSnippet}
+                  title="Insertar widget de Auditoría Before vs After"
+                  className="bg-emerald-600/80 hover:bg-emerald-600 text-white px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs font-bold transition shadow-sm"
+                >
+                  <Activity className="w-3.5 h-3.5" /> Auditoría
+                </button>
+                <button
+                  type="button"
+                  onClick={handleInsertStatsSnippet}
+                  title="Insertar tarjetas de métricas de impacto"
+                  className="bg-blue-600/80 hover:bg-blue-600 text-white px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs font-bold transition shadow-sm"
+                >
+                  <Zap className="w-3.5 h-3.5" /> Métricas
+                </button>
+                <button
+                  type="button"
+                  onClick={handleInsertQuoteSnippet}
+                  title="Insertar cita o frase editorial destacada"
+                  className="bg-slate-700 hover:bg-slate-600 text-white px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs font-bold transition shadow-sm"
+                >
+                  <Quote className="w-3.5 h-3.5" /> Cita
+                </button>
+                <button
+                  type="button"
+                  onClick={handleInsertTipSnippet}
+                  title="Insertar recuadro de recomendación o regla de oro"
+                  className="bg-amber-600/80 hover:bg-amber-600 text-white px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs font-bold transition shadow-sm"
+                >
+                  <Sparkles className="w-3.5 h-3.5" /> Tip / Alerta
+                </button>
                 <button
                   type="button"
                   onClick={handleInsertLockedSnippet}
-                  className="bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition"
+                  className="bg-purple-600/80 hover:bg-purple-600 text-white px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs font-bold transition shadow-sm"
                 >
-                  <Lock className="w-4 h-4" /> Insertar Bloqueo (Paywall)
+                  <Lock className="w-3.5 h-3.5" /> Paywall
                 </button>
                 <button
                   type="button"
                   onClick={handleInsertReadMoreSnippet}
-                  className="bg-red-500 hover:bg-red-400 text-white px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition"
+                  className="bg-rose-600/80 hover:bg-rose-600 text-white px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs font-bold transition shadow-sm"
                 >
-                  <Lock className="w-4 h-4" /> Bloquear Resto (Leer Más)
+                  <Lock className="w-3.5 h-3.5" /> Leer Más
                 </button>
-                <label className="cursor-pointer bg-amber-400 hover:bg-amber-500 text-gray-900 px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition">
-                  <ImageIcon className="w-4 h-4" />
-                  {uploadingImage ? "Subiendo..." : "Subir a GitHub y Copiar Link"}
+                <label className="cursor-pointer bg-amber-400 hover:bg-amber-500 text-gray-900 px-3 py-1 rounded-lg flex items-center gap-1.5 text-xs font-bold transition shadow-sm">
+                  <ImageIcon className="w-3.5 h-3.5" />
+                  {uploadingImage ? "Subiendo..." : "Subir Imagen"}
                   <input type="file" accept="image/*" multiple className="hidden placeholder-white placeholder-opacity-100 font-bold" onChange={(e) => handleUploadImage(e, false)} disabled={uploadingImage} />
                 </label>
               </div>
@@ -457,8 +641,20 @@ export default function BlogClient() {
                   className="border-b border-gray-800 hover:bg-white/5 transition cursor-pointer"
                 >
                   <td className="px-6 py-4">
-                    <div className="font-bold text-white mb-1">{post.title}</div>
-                    <div className="text-xs text-white font-bold truncate max-w-md">{post.slug}</div>
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      {post.featured && (
+                        <span className="inline-flex items-center gap-1 bg-amber-400/20 text-amber-300 text-[10px] font-black px-2 py-0.5 rounded-full border border-amber-400/30">
+                          <Star className="w-3 h-3 fill-amber-400" /> HERO
+                        </span>
+                      )}
+                      {post.category && (
+                        <span className="text-[11px] font-bold text-slate-300 bg-slate-800 px-2 py-0.5 rounded-md">
+                          {post.category}
+                        </span>
+                      )}
+                    </div>
+                    <div className="font-bold text-white mb-0.5">{post.title}</div>
+                    <div className="text-xs text-slate-400 font-mono truncate max-w-md">/blog/{post.slug}</div>
                   </td>
                   <td className="px-6 py-4">
                     {post.published ? (

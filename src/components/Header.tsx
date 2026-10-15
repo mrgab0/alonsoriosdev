@@ -11,11 +11,19 @@ export const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 bg-[#080e1e] border-b border-slate-800 shadow-md">
       {/* Top Banner for non-tech clients */}
-      <div className="bg-[#050914] text-white text-xs sm:text-sm py-1.5 px-4 text-center border-b border-slate-800/60 font-bold">
-        <div className="max-w-7xl mx-auto w-full flex items-center justify-center font-extrabold text-white text-center">
-          <div className="flex items-center gap-2 font-extrabold text-white">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>Atención personal en español claro | Sin términos técnicos confusos</span>
+      <div className="bg-[#050914] text-white text-xs py-2 px-4 border-b border-slate-800/80 font-mono">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between font-bold text-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#67dba9] animate-pulse" />
+            <span className="text-white font-medium">Disponible para Sitios Web, Apps Android y Cursos</span>
+          </div>
+          <div className="hidden sm:flex items-center gap-3 text-slate-400 text-xs">
+            <div className="flex items-center gap-1.5 text-slate-300">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span>Atención personal en español claro | Sin términos confusos</span>
+            </div>
+            <span className="text-slate-600">/</span>
+            <span className="text-amber-400 font-mono font-bold">Tarifa $19 USD/h</span>
           </div>
         </div>
       </div>
@@ -24,15 +32,15 @@ export const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-xl shadow-md group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-[#0f172a] border border-slate-700/80 flex items-center justify-center text-amber-400 font-black text-lg shadow-inner group-hover:border-amber-400/50 transition">
             AR
           </div>
           <div className="flex flex-col">
-            <span className="font-black text-xl tracking-tight text-white group-hover:text-amber-400 transition-colors">
+            <span className="font-editorial text-xl tracking-tight text-white group-hover:text-amber-400 transition-colors leading-tight font-normal">
               Alonso Ríos
             </span>
-            <span className="text-xs text-white font-extrabold">
-              Sitios Web • Apps • SEO • Cursos
+            <span className="text-[11px] text-slate-400 font-mono uppercase tracking-wider">
+              Sitios Web · Apps · SEO · Cursos
             </span>
           </div>
         </Link>
@@ -137,16 +145,26 @@ export const Header: React.FC = () => {
           </Link>
         </nav>
 
-        {/* Action Button */}
+        {/* Action Button: Live Telemetry Pill */}
         <div className="hidden sm:flex items-center gap-3">
           <a
             href="https://wa.me/584129912840?text=Hola%20Alonso,%20quisiera%20consultar%20sobre%20tus%20servicios"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-emerald-600 hover:bg-emerald-500 text-white font-black px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-md transition transform hover:scale-105 text-sm"
+            className="group flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#0f172a] hover:bg-slate-800 border border-slate-700/80 transition shadow-lg text-left"
           >
-            <MessageCircle className="w-4 h-4" />
-            <span>WhatsApp Directo</span>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_8px_#67dba9]"></span>
+            </span>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold leading-none">
+                Disponible
+              </span>
+              <span className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors leading-tight">
+                +58 412 991 2840
+              </span>
+            </div>
           </a>
         </div>
 

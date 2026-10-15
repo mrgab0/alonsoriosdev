@@ -98,6 +98,10 @@ export async function POST(request: Request) {
       body.slug = body.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
     }
 
+    if (body.featured) {
+      await BlogPost.updateMany({}, { $set: { featured: false } });
+    }
+
     const crossPostUrls = await handleCrossPosting(body);
     const postData = { ...body, ...crossPostUrls };
 
@@ -127,6 +131,10 @@ export async function PUT(request: Request) {
 
     updateData.updatedAt = new Date();
     
+    if (updateData.featured) {
+      await BlogPost.updateMany({ _id: { $ne: _id } }, { $set: { featured: false } });
+    }
+
     const crossPostUrls = await handleCrossPosting(body, existingPost);
     const finalUpdateData = { ...updateData, ...crossPostUrls };
     

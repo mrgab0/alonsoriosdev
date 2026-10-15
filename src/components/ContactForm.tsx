@@ -43,7 +43,7 @@ export const ContactForm: React.FC = () => {
   };
 
   return (
-    <section id="contacto" className="py-16 md:py-24 bg-[#0a1120] text-white relative border-t border-[#1e2a42]">
+    <section id="contacto" className="py-16 md:py-24 bg-[#070d19] text-white relative border-t border-slate-800/80">
       
       {/* Floating WhatsApp Button */}
       <a
@@ -59,12 +59,15 @@ export const ContactForm: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest block mb-2">
+            Conversación Directa
+          </span>
+          <h2 className="font-editorial text-3xl sm:text-5xl text-white font-normal tracking-tight">
             Contacto Directo
           </h2>
-          <p className="text-sm sm:text-base text-white font-extrabold mt-2">
-            Respuestas en menos de 24 horas. Atención directa y en español claro por Alonso Ríos.
+          <p className="text-sm sm:text-base text-slate-300 font-medium mt-2">
+            Respuestas en menos de 15 minutos en horario diurno. Atención personal sin intermediarios por Alonso Ríos.
           </p>
         </div>
 
@@ -72,8 +75,8 @@ export const ContactForm: React.FC = () => {
           
           {/* Left Column: Direct Info */}
           <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className="bg-[#121b2d] p-7 rounded-3xl border border-[#1e2a42] shadow-xl space-y-6">
-              <h3 className="text-xl font-black text-white">Medios Rápidos</h3>
+            <div className="bg-[#090f1d] p-7 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl space-y-6">
+              <h3 className="font-editorial text-2xl text-white font-normal">Medios Rápidos</h3>
 
               <div className="space-y-4">
                 <a
@@ -134,9 +137,9 @@ export const ContactForm: React.FC = () => {
 
           {/* Right Column: Form */}
           <div className="lg:col-span-7">
-            <div className="bg-[#121b2d] p-7 sm:p-8 rounded-3xl border border-[#1e2a42] shadow-xl">
-              <h3 className="text-xl font-black text-white mb-2">Enviar Mensaje</h3>
-              <p className="text-xs text-white font-extrabold mb-6">
+            <div className="bg-[#090f1d] p-7 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl">
+              <h3 className="font-editorial text-2xl text-white font-normal mb-2">Enviar Mensaje</h3>
+              <p className="text-xs text-slate-400 font-medium mb-6">
                 Escribe tu consulta y me pondré en contacto contigo rápidamente.
               </p>
 
@@ -150,47 +153,46 @@ export const ContactForm: React.FC = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-black text-white mb-1">Nombre *</label>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">Nombre *</label>
                       <input
                         type="text"
                         required
                         placeholder="Tu Nombre"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl border border-[#1e2a42] bg-[#0a1120] text-white font-black text-sm focus:border-amber-400 outline-none placeholder:text-slate-400"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-700/80 bg-[#070d19] text-white font-bold text-sm focus:border-amber-400 outline-none placeholder:text-slate-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-black text-white mb-1">Correo *</label>
+                      <label className="block text-xs font-bold text-slate-300 mb-1">Correo *</label>
                       <input
                         type="email"
                         required
                         placeholder="tu@correo.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl border border-[#1e2a42] bg-[#0a1120] text-white font-black text-sm focus:border-amber-400 outline-none placeholder:text-slate-400"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-700/80 bg-[#070d19] text-white font-bold text-sm focus:border-amber-400 outline-none placeholder:text-slate-500"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-black text-white mb-1">Mensaje *</label>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">Mensaje *</label>
                     <textarea
                       required
-                      rows={3}
+                      rows={4}
                       placeholder="Cuéntame qué necesitas..."
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl border border-[#1e2a42] bg-[#0a1120] text-white font-black text-sm focus:border-amber-400 outline-none placeholder:text-slate-400"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-700/80 bg-[#070d19] text-white font-bold text-sm focus:border-amber-400 outline-none placeholder:text-slate-500"
                     />
                   </div>
 
-                  {/* Yellow button -> Black text */}
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="w-full bg-[#fbbf24] hover:bg-[#f59e0b] text-[#0a1120] font-black py-3.5 px-6 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-md"
+                    className="w-full bg-gradient-to-r from-orange-500 via-amber-400 to-amber-300 hover:brightness-110 text-slate-950 font-black py-4 px-6 rounded-2xl transition text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl shadow-amber-400/20 cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
                     <span>{status === "loading" ? "Enviando..." : "Enviar Mensaje"}</span>

@@ -94,20 +94,20 @@ Paso 1: Reclamar tu perfil oficial en Google...`,
   ];
 
   return (
-    <section id="libros-cursos" className="py-12 md:py-20 bg-[#0a1120] text-white">
+    <section id="libros-cursos" className="py-16 md:py-24 bg-[#070d19] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto flex flex-col gap-3 mb-12">
-          <div className="inline-flex items-center gap-2 justify-center bg-amber-400/20 text-amber-300 border border-amber-400/40 px-3.5 py-1 rounded-full text-xs font-black w-fit mx-auto">
+        <div className="text-center max-w-3xl mx-auto flex flex-col gap-3 mb-16">
+          <div className="inline-flex items-center gap-2 justify-center bg-[#0f172a] text-amber-400 border border-slate-800 px-3.5 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider w-fit mx-auto">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Aprende Conmigo • Contenido Educativo</span>
+            <span>Formación Práctica · Contenido Educativo</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-            Mis Libros y Cursos de Aprendizaje
+          <h2 className="font-editorial text-3xl sm:text-5xl text-white font-normal tracking-tight">
+            Mi Librería y Cursos de Aprendizaje
           </h2>
-          <p className="text-base text-white font-extrabold">
-            Material educativo pensado para enseñar tecnología de forma amigable, paso a paso y sin tecnicismos innecesarios.
+          <p className="text-slate-300 text-sm sm:text-base font-medium">
+            Material educativo pensado para enseñar tecnología de forma transparente, paso a paso y sin tecnicismos innecesarios.
           </p>
         </div>
 
@@ -116,24 +116,24 @@ Paso 1: Reclamar tu perfil oficial en Google...`,
           {resources.map((r) => (
             <div
               key={r.id}
-              className="bg-[#121b2d] rounded-3xl p-7 border border-[#1e2a42] shadow-2xl flex flex-col justify-between hover:border-amber-400/40 transition-all duration-300 group"
+              className="bg-[#090f1d] rounded-3xl p-7 sm:p-8 border border-slate-800/90 shadow-2xl flex flex-col justify-between hover:border-amber-400/50 transition-all duration-300 group hover:-translate-y-1"
             >
               <div>
                 {/* Header Icon & Badge */}
                 <div className="flex items-center justify-between mb-6">
-                  <div className="p-3 bg-[#0a1120] rounded-2xl text-amber-400 border border-[#1e2a42]">
-                    {r.type === "book" ? <BookOpen className="w-7 h-7" /> : <Video className="w-7 h-7" />}
+                  <div className="p-3 bg-[#0f172a] rounded-2xl text-amber-400 border border-slate-700/80 group-hover:border-amber-400/40 transition">
+                    {r.type === "book" ? <BookOpen className="w-6 h-6" /> : <Video className="w-6 h-6" />}
                   </div>
-                  <span className="text-xs font-black bg-amber-400/20 text-amber-300 border border-amber-400/40 px-3 py-1 rounded-full">
+                  <span className="text-[11px] font-mono font-bold bg-amber-400/10 text-amber-400 border border-amber-400/20 px-3 py-1 rounded-full uppercase tracking-wider">
                     {r.badge}
                   </span>
                 </div>
 
                 {/* Title & Subtitle */}
-                <h3 className="text-2xl font-black text-white mb-2 leading-snug group-hover:text-amber-400 transition-colors">
+                <h3 className="font-editorial text-2xl text-white font-normal mb-2 leading-snug group-hover:text-amber-400 transition-colors">
                   {r.title}
                 </h3>
-                <p className="text-xs font-extrabold text-white mb-4">{r.subtitle}</p>
+                <p className="text-xs font-mono font-bold text-slate-400 mb-4">{r.subtitle}</p>
 
                 {/* Description */}
                 <p className="text-sm text-white font-extrabold mb-6 leading-relaxed">{r.description}</p>

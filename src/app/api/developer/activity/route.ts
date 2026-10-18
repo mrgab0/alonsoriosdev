@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+import { connectToDatabase } from "@/lib/mongodb";
+import SiteConfig from "@/models/SiteConfig";
+import liveWorkstationStatus from "@/data/live_workstation_status.json";
 
 export const revalidate = 60; // Cache for 60 seconds
 
@@ -31,6 +34,14 @@ interface GithubRepo {
   homepage: string | null;
 }
 
+function cleanCommitMessage(msg: string): string {
+  if (!msg) return "Actualización de código y nuevas características";
+  const firstLine = msg.split("\n")[0].trim();
+  // Clean conventional commits prefixes
+  const cleaned = firstLine.replace(/^(feat|fix|style|refactor|perf|chore|docs|test)(\([a-z0-9_-]+\))?:\s*/i, "");
+  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+}
+
 export async function GET() {
   try {
     const headers: Record<string, string> = {
@@ -42,8 +53,8 @@ export async function GET() {
       headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
     }
 
-    // Fetch Events and Repos concurrently
-    const [eventsRes, reposRes] = await Promise.allSettled([
+    // Fetch Events, Repos and DB Config concurrently
+    const [eventsRes, reposRes, dbConfigResult] = await Promise.allSettled([
       fetch("https://api.github.com/users/mrgab0/events?per_page=10", {
         headers,
         next: { revalidate: 60 },
@@ -52,6 +63,14 @@ export async function GET() {
         headers,
         next: { revalidate: 60 },
       }),
+      (async () => {
+        try {
+          await connectToDatabase();
+          return await SiteConfig.findOne({ key: "main_config" }).lean();
+        } catch {
+          return null;
+        }
+      })(),
     ]);
 
     let rawEvents: GithubEvent[] = [];
@@ -64,30 +83,55 @@ export async function GET() {
       rawRepos = await reposRes.value.json();
     }
 
-    // Parse latest push activity
-    const pushEvents = rawEvents.filter((e) => e.type === "PushEvent");
-    const latestPush = pushEvents[0] || null;
+    const dbConfig: any = dbConfigResult.status === "fulfilled" ? dbConfigResult.value : null;
+    const dbDevStatus = dbConfig?.sections?.developerStatus;
 
+    // Determine Latest Activity using Triple-Layer Detection:
+    // 1. Manual override in DB
+    // 2. Local workstation telemetry file
+    // 3. GitHub events API
     let latestActivity = {
-      repoName: "alonsoriosdev",
-      cleanRepoName: "alonsorios.dev",
-      message: "Suite de Códigos QR, Pago Móvil Suiche 7B & Rediseño Obsidian Cinema",
-      timestamp: new Date().toISOString(),
-      url: "https://github.com/mrgab0/alonsoriosdev",
-      branch: "main",
+      repoName: liveWorkstationStatus.project || "alonsoriosdev",
+      cleanRepoName: liveWorkstationStatus.cleanRepoName || "alonsorios.dev",
+      message: liveWorkstationStatus.message || "Telemetría de desarrollo en vivo y monitor de roadmap",
+      timestamp: liveWorkstationStatus.timestamp || new Date().toISOString(),
+      url: liveWorkstationStatus.url || "https://github.com/mrgab0/alonsoriosdev",
+      branch: liveWorkstationStatus.branch || "main",
     };
 
-    if (latestPush) {
-      const commit = latestPush.payload?.commits?.[latestPush.payload.commits.length - 1];
-      const repoClean = latestPush.repo.name.replace("mrgab0/", "");
+    if (dbDevStatus && dbDevStatus.isManualOverride && dbDevStatus.activity) {
+      // Priority 1: Manual Override explicitly set by developer
       latestActivity = {
-        repoName: latestPush.repo.name,
-        cleanRepoName: repoClean,
-        message: commit?.message?.split("\n")[0] || "Actualización de código y nuevas características",
-        timestamp: latestPush.created_at,
-        url: `https://github.com/${latestPush.repo.name}`,
-        branch: latestPush.payload?.ref?.replace("refs/heads/", "") || "main",
+        repoName: dbDevStatus.project || "alonsoriosdev",
+        cleanRepoName: dbDevStatus.cleanRepoName || dbDevStatus.project || "alonsorios.dev",
+        message: dbDevStatus.activity,
+        timestamp: dbDevStatus.updatedAt ? new Date(dbDevStatus.updatedAt).toISOString() : new Date().toISOString(),
+        url: dbDevStatus.url || `https://github.com/mrgab0/${dbDevStatus.cleanRepoName || "alonsoriosdev"}`,
+        branch: dbDevStatus.branch || "main",
       };
+    } else {
+      // Priority 2: Check GitHub push event vs workstation status file
+      const pushEvents = rawEvents.filter((e) => e.type === "PushEvent");
+      const latestPush = pushEvents[0] || null;
+
+      if (latestPush) {
+        const ghDate = new Date(latestPush.created_at).getTime();
+        const fileDate = new Date(liveWorkstationStatus.timestamp || 0).getTime();
+
+        // If GitHub push is newer than workstation session, prioritize GitHub
+        if (ghDate > fileDate) {
+          const commit = latestPush.payload?.commits?.[latestPush.payload.commits.length - 1];
+          const repoClean = latestPush.repo.name.replace("mrgab0/", "");
+          latestActivity = {
+            repoName: latestPush.repo.name,
+            cleanRepoName: repoClean,
+            message: cleanCommitMessage(commit?.message || ""),
+            timestamp: latestPush.created_at,
+            url: `https://github.com/${latestPush.repo.name}`,
+            branch: latestPush.payload?.ref?.replace("refs/heads/", "") || "main",
+          };
+        }
+      }
     }
 
     // Clean active repos list
@@ -222,7 +266,7 @@ export async function GET() {
         latestActivity: {
           repoName: "alonsoriosdev",
           cleanRepoName: "alonsorios.dev",
-          message: "Suite de Herramientas QR & Rediseño Obsidian Cinema",
+          message: "Detección de telemetría de desarrollo en vivo y monitor de roadmap",
           timestamp: new Date().toISOString(),
           url: "https://github.com/mrgab0/alonsoriosdev",
           branch: "main",

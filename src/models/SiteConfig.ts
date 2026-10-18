@@ -55,6 +55,15 @@ export interface ISiteConfig extends Document {
       discordWebhookUrl?: string;
       resendApiKey?: string;
     };
+    developerStatus?: {
+      isManualOverride: boolean;
+      project: string;
+      cleanRepoName: string;
+      activity: string;
+      branch: string;
+      url?: string;
+      updatedAt?: Date;
+    };
   };
   updatedAt: Date;
 }
@@ -119,6 +128,15 @@ const SiteConfigSchema: Schema = new Schema({
       telegramWebhookUrl: { type: String, default: "" },
       discordWebhookUrl: { type: String, default: "" },
       resendApiKey: { type: String, default: "" },
+    },
+    developerStatus: {
+      isManualOverride: { type: Boolean, default: false },
+      project: { type: String, default: "alonsorios.dev" },
+      cleanRepoName: { type: String, default: "alonsorios.dev" },
+      activity: { type: String, default: "Detección de telemetría de desarrollo en vivo y monitor de roadmap" },
+      branch: { type: String, default: "main" },
+      url: { type: String, default: "https://github.com/mrgab0/alonsoriosdev" },
+      updatedAt: { type: Date, default: Date.now },
     },
   },
   updatedAt: { type: Date, default: Date.now },

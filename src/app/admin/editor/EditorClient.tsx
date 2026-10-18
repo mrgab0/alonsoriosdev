@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Palette, Save, CheckCircle2, RefreshCw, Eye, ExternalLink, RotateCcw, Layout, MessageSquare, BookOpen, Wrench, Camera, User } from "lucide-react";
+import { Palette, Save, CheckCircle2, RefreshCw, Eye, ExternalLink, RotateCcw, Layout, MessageSquare, BookOpen, Wrench, Camera, User, FolderGit2 } from "lucide-react";
 import { useConfig } from "@/context/ConfigContext";
 
 const DEFAULT_CONFIG = {
@@ -121,7 +121,7 @@ export default function EditorClient() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [resetting, setResetting] = useState(false);
-  const [activeTab, setActiveTab] = useState<"theme" | "hero" | "services" | "courses" | "contact">("hero");
+  const [activeTab, setActiveTab] = useState<"theme" | "hero" | "services" | "courses" | "contact" | "devstatus">("hero");
 
   const [saveStatus, setSaveStatus] = useState<"idle" | "editing" | "saving" | "saved">("idle");
   const lastSavedConfig = React.useRef<any>(null);
@@ -354,6 +354,16 @@ export default function EditorClient() {
         >
           <MessageSquare className="w-4 h-4" />
           <span>5. Contacto & Webhooks</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("devstatus")}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition shrink-0 ${
+            activeTab === "devstatus" ? "bg-amber-400 text-[#0a1120]" : "text-white hover:bg-[#1e2a42]"
+          }`}
+        >
+          <FolderGit2 className="w-4 h-4" />
+          <span>6. Telemetría de Trabajo (Roadmap)</span>
         </button>
       </div>
 
@@ -929,6 +939,212 @@ export default function EditorClient() {
                   }
                   className="w-full bg-[#0a1120] border border-[#1e2a42] px-3 py-2.5 rounded-xl text-xs text-white font-mono font-black placeholder-white placeholder-opacity-100 font-bold"
                 />
+              </div>
+            </div>
+          )}
+
+          {/* TAB 6: DEVELOPER WORK TELEMETRY */}
+          {activeTab === "devstatus" && (
+            <div className="bg-[#121b2d] p-7 rounded-3xl border border-[#1e2a42] space-y-6">
+              <div className="border-b border-[#1e2a42] pb-4">
+                <h2 className="text-xl font-editorial font-bold text-white flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#67dba9]" />
+                  Telemetría de Trabajo en Vivo (Footer & Roadmap)
+                </h2>
+                <p className="text-xs text-white font-semibold mt-1">
+                  Controla lo que se muestra en la franja modesta del pie de página y en la cabecera de /roadmap.
+                </p>
+              </div>
+
+              {/* Mode Toggle */}
+              <div className="bg-[#0a1120] p-4 rounded-2xl border border-[#1e2a42] space-y-3">
+                <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider block">
+                  Modo de Detección
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setConfig({
+                        ...config,
+                        sections: {
+                          ...config.sections,
+                          developerStatus: {
+                            ...(config.sections?.developerStatus || {}),
+                            isManualOverride: false,
+                          },
+                        },
+                      })
+                    }
+                    className={`p-3.5 rounded-xl border text-left transition flex items-start gap-3 cursor-pointer ${
+                      !config.sections?.developerStatus?.isManualOverride
+                        ? "bg-emerald-500/15 border-emerald-500/50 text-white"
+                        : "bg-[#121b2d] border-[#1e2a42] text-slate-300 hover:text-white"
+                    }`}
+                  >
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 mt-1 shrink-0" />
+                    <div>
+                      <div className="text-xs font-mono font-bold text-emerald-400">
+                        🔄 Automático con GitHub
+                      </div>
+                      <div className="text-[11px] text-white font-medium mt-0.5">
+                        Detecta automáticamente cuando haces push en tus repositorios (RemoteWifiKeyboard, alonsoriosdev, etc.).
+                      </div>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setConfig({
+                        ...config,
+                        sections: {
+                          ...config.sections,
+                          developerStatus: {
+                            ...(config.sections?.developerStatus || {}),
+                            isManualOverride: true,
+                          },
+                        },
+                      })
+                    }
+                    className={`p-3.5 rounded-xl border text-left transition flex items-start gap-3 cursor-pointer ${
+                      config.sections?.developerStatus?.isManualOverride
+                        ? "bg-amber-400/15 border-amber-400/50 text-white"
+                        : "bg-[#121b2d] border-[#1e2a42] text-slate-300 hover:text-white"
+                    }`}
+                  >
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400 mt-1 shrink-0" />
+                    <div>
+                      <div className="text-xs font-mono font-bold text-amber-400">
+                        ✍️ Manual Personalizado
+                      </div>
+                      <div className="text-[11px] text-white font-medium mt-0.5">
+                        Escribe tú mismo en qué estás trabajando ahora para que se refleje inmediatamente en vivo.
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Form Fields */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-black text-amber-400 mb-1">
+                    Proyecto / Repositorio Activo
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="alonsorios.dev o Remote WiFi Keyboard"
+                    value={config.sections?.developerStatus?.cleanRepoName || config.sections?.developerStatus?.project || ""}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        sections: {
+                          ...config.sections,
+                          developerStatus: {
+                            ...(config.sections?.developerStatus || {}),
+                            cleanRepoName: e.target.value,
+                            project: e.target.value,
+                          },
+                        },
+                      })
+                    }
+                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3.5 py-2.5 rounded-xl text-xs text-white font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-black text-amber-400 mb-1">
+                    ¿En qué estás trabajando ahora mismo? (Mensaje de la Franja)
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="ej: Programando servidor Android con sockets o Diseñando landing page para cliente"
+                    value={config.sections?.developerStatus?.activity || ""}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        sections: {
+                          ...config.sections,
+                          developerStatus: {
+                            ...(config.sections?.developerStatus || {}),
+                            activity: e.target.value,
+                          },
+                        },
+                      })
+                    }
+                    className="w-full bg-[#0a1120] border border-[#1e2a42] px-3.5 py-2.5 rounded-xl text-xs text-white font-bold leading-relaxed"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-black text-white mb-1">
+                      Rama / Branch
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="main"
+                      value={config.sections?.developerStatus?.branch || "main"}
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          sections: {
+                            ...config.sections,
+                            developerStatus: {
+                              ...(config.sections?.developerStatus || {}),
+                              branch: e.target.value,
+                            },
+                          },
+                        })
+                      }
+                      className="w-full bg-[#0a1120] border border-[#1e2a42] px-3.5 py-2.5 rounded-xl text-xs text-white font-mono font-bold"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-black text-white mb-1">
+                      URL del Repositorio (Opcional)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="https://github.com/mrgab0/alonsoriosdev"
+                      value={config.sections?.developerStatus?.url || ""}
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          sections: {
+                            ...config.sections,
+                            developerStatus: {
+                              ...(config.sections?.developerStatus || {}),
+                              url: e.target.value,
+                            },
+                          },
+                        })
+                      }
+                      className="w-full bg-[#0a1120] border border-[#1e2a42] px-3.5 py-2.5 rounded-xl text-xs text-white font-mono font-bold"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Live Preview of the Footer Strip */}
+              <div className="pt-4 border-t border-[#1e2a42]">
+                <span className="text-[11px] font-mono font-bold text-amber-300 uppercase block mb-2">
+                  Vista Previa de la Franja Modesta del Footer:
+                </span>
+                <div className="bg-[#02050e] p-3 rounded-xl border border-slate-800 flex items-center gap-2 font-mono text-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#67dba9] shrink-0" />
+                  <span className="text-emerald-400 font-bold uppercase text-[11px] shrink-0">
+                    Trabajando hoy:
+                  </span>
+                  <span className="text-white font-bold truncate">
+                    <strong className="text-amber-300 font-black">
+                      {config.sections?.developerStatus?.cleanRepoName || "alonsorios.dev"}
+                    </strong>{" "}
+                    · {config.sections?.developerStatus?.activity || "Optimizaciones y roadmap"}
+                  </span>
+                </div>
               </div>
             </div>
           )}

@@ -25,40 +25,44 @@ Instrucciones de Respuesta:
 - Invita siempre al usuario a hablar directamente con Alonso por WhatsApp para cotizar su proyecto.
 `;
 
-// Gemini 1.5 Flash AI API Call (Free Tier: 1,500 requests/day)
+// Gemini AI API Call with multi-model auto-fallback
 async function getGeminiAiResponse(userMessage: string, dynamicPrompt: string): Promise<string | null> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
-  try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: `${dynamicPrompt}\n\nConsulta del usuario: ${userMessage}` }],
-            },
-          ],
-          generationConfig: {
-            maxOutputTokens: 300,
-            temperature: 0.7,
-          },
-        }),
-      }
-    );
+  const models = ["gemini-3.5-flash-lite", "gemini-flash-latest", "gemini-3.8-flash"];
 
-    if (!res.ok) return null;
-    const data = await res.json();
-    const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    return candidateText ? candidateText.trim() : null;
-  } catch (err) {
-    console.warn("Gemini API Fallback to rule engine:", err);
-    return null;
+  for (const model of models) {
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: "user",
+                parts: [{ text: `${dynamicPrompt}\n\nConsulta del usuario: ${userMessage}` }],
+              },
+            ],
+            generationConfig: {
+              maxOutputTokens: 300,
+              temperature: 0.7,
+            },
+          }),
+        }
+      );
+
+      if (!res.ok) continue;
+      const data = await res.json();
+      const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (candidateText) return candidateText.trim();
+    } catch (err) {
+      console.warn(`Gemini API error on ${model}:`, err);
+    }
   }
+  return null;
 }
 
 // Smart human-like fallback knowledge base for Alonso Ríos

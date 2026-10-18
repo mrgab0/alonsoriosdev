@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 import { connectToDatabase } from "@/lib/mongodb";
 import ChatMessage from "@/models/ChatMessage";
 import SiteConfig from "@/models/SiteConfig";
 import CourseBook from "@/models/CourseBook";
 import CaseStudy from "@/models/CaseStudy";
+import Contact from "@/models/Contact";
+import PageView from "@/models/PageView";
+import BlogPost from "@/models/BlogPost";
 
 // System Instructions for Gemini 1.5 Flash AI Agent
 const SYSTEM_PROMPT = `
@@ -183,36 +188,79 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { message, sessionId = "session_default" } = body;
+    const { message, sessionId = "session_default", isAdmin = false, currentPath = "/" } = body;
 
     if (!message) {
       return NextResponse.json({ error: "Mensaje vacío" }, { status: 400 });
     }
 
-    let config = null;
+    let config: any = null;
     let dynamicPrompt = SYSTEM_PROMPT; // fallback to the static prompt
+    let suggestWhatsapp = !isAdmin;
 
     try {
       if (process.env.MONGODB_URI) {
         await connectToDatabase();
         config = await SiteConfig.findOne({ key: "main_config" });
-        const courses = await CourseBook.find();
-        const projects = await CaseStudy.find({ featured: true });
 
-        const whatsapp = config?.sections?.contact?.whatsappNumber || "+58 412 991 2840";
-        const email = config?.sections?.contact?.email || "iirockalonso@gmail.com";
+        if (isAdmin) {
+          // --- MODO ADMIN CO-PILOT ---
+          const [totalContacts, totalViews, totalPosts] = await Promise.all([
+            Contact.countDocuments(),
+            PageView.countDocuments(),
+            BlogPost.countDocuments({ published: true }),
+          ]);
 
-        const coursesText = courses.map((c: any) => `- [${c.type.toUpperCase()}] ${c.title}: Precio ${c.price}. Detalles: ${c.description}. LINK DE COMPRA: ${c.purchaseUrl || 'Pedir por WhatsApp'}`).join('\\n');
-        const projectsText = projects.map((p: any) => `- Proyecto ${p.title} (${p.category}): Problema: ${p.problemDescription}. Solución: ${p.solutionDescription}. Cliente: ${p.clientName}`).join('\\n');
+          const devStatus = config?.sections?.developerStatus;
+          const currentProject = devStatus?.project || "alonsoriosdev";
+          const currentTask = devStatus?.activity || "Mantenimiento y nuevas funciones";
 
-        dynamicPrompt = `
-Eres el asistente virtual oficial de Alonso Ríos (alonsorios.dev), diseñado para VENDER y AYUDAR proactivamente.
+          dynamicPrompt = `Eres "Alonso Co-Pilot", el copiloto inteligente de inteligencia artificial para la administración de alonsorios.dev.
+Tu misión es asistir a Alonso Ríos en la gestión operativa, desarrollo, analíticas y redacción técnica de su plataforma.
+
+Ruta actual del administrador en pantalla: ${currentPath}
+
+Módulos del Administrador y Enlaces Directos:
+1. Blog & Autopilot: [Gestionar Blog y Autopilot](/admin/blog) (Crear artículos técnicos en 1 clic con Gemini, traducir a inglés y editar contenido).
+2. Telemetría & Diseño: [Editor del Sitio y Roadmap](/admin/editor) (Configurar perfil, tarifas de $19/h, héroe y telemetría de trabajo).
+3. Analíticas & Leads: [Panel de Analíticas](/admin/analytics) y [Bandeja de Contactos](/admin/leads).
+4. Herramientas QR & Pagos: [Suite QR](/admin/qr) y [Configuración de Pagos](/admin/pagos).
+5. Roadmap Público: [Roadmap & Mirror GitHub](/roadmap).
+
+TELEMETRÍA Y MÉTRICAS EN VIVO DEL SISTEMA:
+- Leads / Contactos registrados: ${totalContacts}
+- Visitas acumuladas: ${totalViews}
+- Artículos técnicos publicados: ${totalPosts}
+- Proyecto activo actual: "${currentProject}" (Tarea: "${currentTask}")
+
+CAPACIDADES ACCIONABLES (TOOL CALLING):
+Si Alonso te solicita cambiar su estado o en qué está trabajando (ej: "pon que ando en...", "actualiza mi estado a...", "estoy programando en..."), extrae el nombre del proyecto y la tarea, y DEBES añadir OBLIGATORIAMENTE al final de tu respuesta el siguiente bloque de acción:
+[ACTION:UPDATE_STATUS:{"project":"NombreDelProyecto","activity":"DescripcionDeLaTarea"}]
+
+Reglas de Estilo Co-Pilot:
+- Sé directo, profesional, técnico y ágil (estilo Obsidian Cinema).
+- Responde siempre con formato Markdown y enlaces útiles hacia los módulos.
+- Nunca inventes datos: si te preguntan por métricas, usa los números en vivo provistos arriba.`;
+        } else {
+          // --- MODO CLIENTE / VISITANTE ---
+          const courses = await CourseBook.find();
+          const projects = await CaseStudy.find({ featured: true });
+
+          const whatsapp = config?.sections?.contact?.whatsappNumber || "+58 412 991 2840";
+          const email = config?.sections?.contact?.email || "iirockalonso@gmail.com";
+
+          const coursesText = courses.map((c: any) => `- [${c.type.toUpperCase()}] ${c.title}: Precio ${c.price}. Detalles: ${c.description}. LINK DE COMPRA: ${c.purchaseUrl || 'Pedir por WhatsApp'}`).join('\n');
+          const projectsText = projects.map((p: any) => `- Proyecto ${p.title} (${p.category}): Problema: ${p.problemDescription}. Solución: ${p.solutionDescription}. Cliente: ${p.clientName}`).join('\n');
+
+          dynamicPrompt = `Eres el asistente virtual oficial de Alonso Ríos (alonsorios.dev), diseñado para VENDER y AYUDAR proactivamente.
 Aquí está tu base de conocimientos actualizada en tiempo real con lo que ofrecemos:
 
 PRECIOS Y SERVICIOS BASE:
-- Diseño Web: $760 USD
-- App Android: $1,140 USD
-- Recuperación de sitios: $190 - $380 USD
+- Tarifa de ingeniería transparente: $19 USD / hora
+- Página Web Normal (40 hrs): $760 USD
+- App Móvil Nativa Android (60 hrs): $1,140 USD con publicación en Google Play
+- Sistemas Complejos a Medida (180 hrs): $3,420 USD
+- Recuperación urgente de sitios caídos o hackeados (10 a 20 hrs): $190 a $380 USD
 
 MIS REDES Y CONTACTO DIRECTO:
 - WhatsApp: ${whatsapp}
@@ -227,33 +275,92 @@ ${projectsText || "Sin proyectos destacados por ahora."}
 INSTRUCCIONES DE VENTA:
 1. Si preguntan por aprender, ofrece inmediatamente el libro o curso relacionado e incluye explícitamente el LINK DE COMPRA para que lo adquieran.
 2. Si preguntan por servicios o si has hecho cosas parecidas, menciona un Caso de Éxito relevante para dar confianza y ofréceles hablar por WhatsApp para cotizar.
-3. Sé persuasivo, amable y muy profesional.
-`;
+3. Sé persuasivo, amable y muy profesional.`;
+        }
       }
     } catch (e) {
       console.warn("Error fetching dynamic context for chatbot:", e);
     }
 
-    // Try Gemini AI first (if API key configured), fallback to knowledge base
+    // Try Gemini AI Cascade first
     let reply = await getGeminiAiResponse(message, dynamicPrompt);
-    let suggestWhatsapp = true;
 
     if (!reply) {
-      const fallbackResult = generateHumanLikeResponse(message);
-      reply = fallbackResult.reply;
-      suggestWhatsapp = fallbackResult.suggestWhatsapp;
+      if (isAdmin) {
+        reply = "⚡ **Alonso Co-Pilot:** Se agotaron los modelos de IA momentáneamente. Puedes acceder directamente a tus módulos en [Blog](/admin/blog) o [Editor](/admin/editor).";
+        suggestWhatsapp = false;
+      } else {
+        const fallbackResult = generateHumanLikeResponse(message);
+        reply = fallbackResult.reply;
+        suggestWhatsapp = fallbackResult.suggestWhatsapp;
+      }
+    }
+
+    // Intercept and execute Action Tags if present in Admin mode
+    if (isAdmin && reply.includes("[ACTION:UPDATE_STATUS:")) {
+      try {
+        const match = reply.match(/\[ACTION:UPDATE_STATUS:(\{.*?\})\]/);
+        if (match && match[1]) {
+          const actionData = JSON.parse(match[1]);
+          const project = actionData.project || "alonsoriosdev";
+          const activity = actionData.activity || "Desarrollo en curso";
+
+          // Update MongoDB SiteConfig
+          await SiteConfig.findOneAndUpdate(
+            { key: "main_config" },
+            {
+              $set: {
+                "sections.developerStatus.isManualOverride": true,
+                "sections.developerStatus.project": project,
+                "sections.developerStatus.cleanRepoName": project,
+                "sections.developerStatus.activity": activity,
+                "sections.developerStatus.updatedAt": new Date(),
+              },
+            },
+            { upsert: true }
+          );
+
+          // Update local workstation status file if accessible
+          try {
+            const dataDir = path.join(process.cwd(), "src", "data");
+            if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+            fs.writeFileSync(
+              path.join(dataDir, "live_workstation_status.json"),
+              JSON.stringify(
+                {
+                  activeProject: project,
+                  cleanRepoName: project,
+                  currentFocus: activity,
+                  branch: "main",
+                  lastPulse: new Date().toISOString(),
+                },
+                null,
+                2
+              ),
+              "utf8"
+            );
+          } catch {}
+
+          // Remove raw action tag and append nice feedback badge
+          reply = reply.replace(/\[ACTION:UPDATE_STATUS:\{.*?\}\]/, "").trim() +
+            `\n\n✅ **Telemetría de trabajo actualizada:** Proyecto: **${project}** | Tarea: **${activity}**. Ya está visible en vivo en el footer y en [/roadmap](/roadmap).`;
+        }
+      } catch (actionErr) {
+        console.warn("Error executing Co-Pilot action:", actionErr);
+      }
     }
 
     try {
       if (process.env.MONGODB_URI) {
-        // Save chat log to MongoDB for admin viewing
         await ChatMessage.create({ sessionId, sender: "user", text: message });
         await ChatMessage.create({ sessionId, sender: "bot", text: reply, escalatedToWhatsapp: suggestWhatsapp });
       }
     } catch {}
 
-    // Send real-time notification to Telegram / Discord for mobile live viewing!
-    sendLiveNotification(message, reply, config).catch(() => {});
+    // Only notify phone webhook for visitor messages (not admin sessions)
+    if (!isAdmin) {
+      sendLiveNotification(message, reply, config).catch(() => {});
+    }
 
     return NextResponse.json({
       success: true,

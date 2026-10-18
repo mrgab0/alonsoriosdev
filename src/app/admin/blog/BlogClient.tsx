@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
-import { Plus, Edit2, Trash2, Image as ImageIcon, CheckCircle, XCircle, Save, X, Eye, Lock, Sparkles, Activity, Quote, Zap, Star, Clock } from "lucide-react";
+import { Plus, Edit2, Trash2, Image as ImageIcon, CheckCircle, XCircle, Save, X, Eye, Lock, Sparkles, Activity, Quote, Zap, Star, Clock, Languages, Loader2, RefreshCw, Send, Check } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import "@uiw/react-md-editor/markdown-editor.css";
@@ -69,6 +69,18 @@ export default function BlogClient() {
   
   const contentTextareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Autopilot con IA states
+  const [isAutopilotOpen, setIsAutopilotOpen] = useState(false);
+  const [autopilotTopic, setAutopilotTopic] = useState("");
+  const [autopilotKeywords, setAutopilotKeywords] = useState("");
+  const [autopilotCategory, setAutopilotCategory] = useState("Desarrollo Web & Rendimiento");
+  const [autopilotLanguage, setAutopilotLanguage] = useState<"es" | "en">("es");
+  const [generatingAutopilot, setGeneratingAutopilot] = useState(false);
+  const [autopilotMode, setAutopilotMode] = useState<"editor" | "publish">("editor");
+  const [autopilotError, setAutopilotError] = useState("");
+  const [autopilotSuccessMsg, setAutopilotSuccessMsg] = useState("");
+  const [translatingId, setTranslatingId] = useState<string | null>(null);
+
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -118,6 +130,127 @@ export default function BlogClient() {
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleAutopilotGenerate = async (mode: "editor" | "publish") => {
+    if (!autopilotTopic.trim()) {
+      setAutopilotError("Por favor ingresa un tema o idea técnica.");
+      return;
+    }
+
+    setGeneratingAutopilot(true);
+    setAutopilotMode(mode);
+    setAutopilotError("");
+    setAutopilotSuccessMsg("");
+
+    try {
+      const res = await fetch("/api/admin/blog/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topic: autopilotTopic.trim(),
+          keywords: autopilotKeywords.trim(),
+          category: autopilotCategory,
+          language: autopilotLanguage,
+        }),
+      });
+
+      const json = await res.json();
+      if (!res.ok || !json.success || !json.post) {
+        setAutopilotError(json.error || "Error al generar contenido con la IA.");
+        setGeneratingAutopilot(false);
+        return;
+      }
+
+      const post = json.post;
+
+      if (mode === "publish") {
+        const saveRes = await fetch("/api/admin/blog", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: post.title,
+            slug: post.slug,
+            excerpt: post.excerpt,
+            content: post.content,
+            coverImage: post.suggestedImage,
+            category: post.category || autopilotCategory,
+            readingTime: post.readingTime || "6 min de lectura",
+            featured: false,
+            telemetry: post.telemetry,
+            published: true,
+          }),
+        });
+
+        const saveJson = await saveRes.json();
+        if (saveJson.success) {
+          setAutopilotSuccessMsg(`¡Publicado con éxito! "${post.title}"`);
+          fetchPosts();
+          setTimeout(() => {
+            setIsAutopilotOpen(false);
+            setAutopilotTopic("");
+            setAutopilotKeywords("");
+            setAutopilotSuccessMsg("");
+          }, 1800);
+        } else {
+          setAutopilotError(saveJson.error || "Artículo generado pero ocurrió un error al guardarlo.");
+        }
+      } else {
+        setEditingPost({
+          title: post.title,
+          slug: post.slug,
+          excerpt: post.excerpt,
+          content: post.content,
+          coverImage: post.suggestedImage,
+          category: post.category || autopilotCategory,
+          readingTime: post.readingTime || "6 min de lectura",
+          featured: false,
+          telemetry: post.telemetry,
+          published: true,
+          crosspostDevTo: false,
+          crosspostMedium: false,
+          crosspostHashnode: false,
+          crosspostSteem: false,
+        });
+        setIsAutopilotOpen(false);
+      }
+    } catch (err: any) {
+      setAutopilotError("Error de conexión al procesar la solicitud de Autopilot.");
+    } finally {
+      setGeneratingAutopilot(false);
+    }
+  };
+
+  const handleTranslate = async (post: BlogPost) => {
+    if (!post._id) return;
+    if (!confirm(`¿Deseas traducir el artículo "${post.title}" con Inteligencia Artificial?`)) return;
+
+    setTranslatingId(post._id);
+    try {
+      const res = await fetch("/api/admin/blog/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId: post._id, targetLanguage: "en" }),
+      });
+      const json = await res.json();
+      if (json.success && json.translation) {
+        setEditingPost({
+          ...post,
+          _id: undefined,
+          title: json.translation.title,
+          slug: json.translation.slug,
+          excerpt: json.translation.excerpt,
+          content: json.translation.content,
+          published: false,
+        });
+      } else {
+        alert("Error al traducir: " + (json.error || "Desconocido"));
+      }
+    } catch (err) {
+      alert("Error de conexión al traducir");
+    } finally {
+      setTranslatingId(null);
     }
   };
 
@@ -602,18 +735,27 @@ export default function BlogClient() {
 
   return (
     <div className="p-8 max-w-6xl mx-auto text-white">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-black text-amber-400 mb-2">Blog Admin</h1>
-          <p className="text-white font-bold">Gestiona tus artculos y cross-posting</p>
+          <p className="text-white font-bold">Gestiona tus artículos, Autopilot con IA y cross-posting</p>
         </div>
-        <button
-          onClick={() => setEditingPost({ ...emptyPost })}
-          className="bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition"
-        >
-          <Plus className="w-5 h-5" />
-          Nuevo Artculo
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsAutopilotOpen(true)}
+            className="bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:opacity-95 text-gray-950 font-black px-5 py-3 rounded-xl flex items-center gap-2 shadow-lg shadow-amber-500/20 transition transform active:scale-95"
+          >
+            <Sparkles className="w-5 h-5 fill-gray-950" />
+            Autopilot con IA
+          </button>
+          <button
+            onClick={() => setEditingPost({ ...emptyPost })}
+            className="bg-[#121b2d] hover:bg-[#1a263d] text-white border border-gray-700 font-bold px-5 py-3 rounded-xl flex items-center gap-2 transition"
+          >
+            <Plus className="w-5 h-5 text-amber-400" />
+            Nuevo Artículo
+          </button>
+        </div>
       </div>
 
       <div className="bg-[#121b2d] border border-gray-800 rounded-2xl overflow-x-auto">
@@ -673,6 +815,18 @@ export default function BlogClient() {
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <button
+                        onClick={(e) => { e.stopPropagation(); handleTranslate(post); }}
+                        disabled={translatingId === post._id}
+                        className="p-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-lg transition disabled:opacity-50"
+                        title="Traducir a Inglés con IA"
+                      >
+                        {translatingId === post._id ? (
+                          <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
+                        ) : (
+                          <Languages className="w-4 h-4" />
+                        )}
+                      </button>
+                      <button
                         onClick={(e) => { e.stopPropagation(); setEditingPost(post); }}
                         className="p-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 rounded-lg transition"
                         title="Editar"
@@ -694,6 +848,156 @@ export default function BlogClient() {
           </tbody>
         </table>
       </div>
+
+      {/* Modal de Autopilot con IA */}
+      {isAutopilotOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[#0b1220] border border-amber-500/40 rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative">
+            <button
+              onClick={() => !generatingAutopilot && setIsAutopilotOpen(false)}
+              className="absolute top-5 right-5 text-slate-400 hover:text-white transition"
+              disabled={generatingAutopilot}
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-amber-400 fill-amber-400" />
+              </div>
+              <div>
+                <h3 className="text-xl font-black text-amber-400">Autopilot Técnico con IA</h3>
+                <p className="text-xs text-white font-bold">Generación con Google Gemini (Cascada de 6 Modelos)</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-white mb-1.5">
+                  Tema o Idea Técnica del Artículo:
+                </label>
+                <input
+                  type="text"
+                  value={autopilotTopic}
+                  onChange={(e) => setAutopilotTopic(e.target.value)}
+                  placeholder="Ej: Cómo optimizar Core Web Vitals en Next.js 15 para alcanzar 100 en PageSpeed"
+                  className="w-full bg-[#070d19] border border-gray-700 rounded-xl p-3 text-white font-bold focus:border-amber-400 focus:outline-none"
+                  disabled={generatingAutopilot}
+                />
+              </div>
+
+              {/* Ideas Rápidas */}
+              <div>
+                <span className="text-xs font-bold text-amber-400 block mb-1">Ideas sugeridas de alta conversión:</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    "Optimización de LCP y Core Web Vitals en Next.js 15",
+                    "Arquitectura MVI en Android Nativo con Jetpack Compose",
+                    "Auditoría y Desinfección de Sitios Web Hackeados",
+                    "Por qué elegir TypeScript estricto en proyectos de alta escala",
+                  ].map((idea) => (
+                    <button
+                      key={idea}
+                      type="button"
+                      onClick={() => setAutopilotTopic(idea)}
+                      className="text-[11px] bg-white/5 hover:bg-amber-400/10 text-white font-bold border border-gray-700 hover:border-amber-400/50 px-2.5 py-1 rounded-lg transition"
+                      disabled={generatingAutopilot}
+                    >
+                      {idea}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-white mb-1">
+                    Categoría:
+                  </label>
+                  <select
+                    value={autopilotCategory}
+                    onChange={(e) => setAutopilotCategory(e.target.value)}
+                    className="w-full bg-[#070d19] border border-gray-700 rounded-xl p-2.5 text-xs text-white font-bold focus:border-amber-400 focus:outline-none"
+                    disabled={generatingAutopilot}
+                  >
+                    <option value="Desarrollo Web & Rendimiento">Desarrollo Web & Rendimiento</option>
+                    <option value="Apps Android Nativas">Apps Android Nativas</option>
+                    <option value="Ciberseguridad & Recuperación">Ciberseguridad & Recuperación</option>
+                    <option value="SEO Técnico & Google">SEO Técnico & Google</option>
+                    <option value="Tutoriales & Arquitectura">Tutoriales & Arquitectura</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-white mb-1">
+                    Palabras Clave Secundarias (Opcional):
+                  </label>
+                  <input
+                    type="text"
+                    value={autopilotKeywords}
+                    onChange={(e) => setAutopilotKeywords(e.target.value)}
+                    placeholder="Ej: LCP, FID, SSR, Vercel"
+                    className="w-full bg-[#070d19] border border-gray-700 rounded-xl p-2.5 text-xs text-white font-bold focus:border-amber-400 focus:outline-none"
+                    disabled={generatingAutopilot}
+                  />
+                </div>
+              </div>
+
+              {autopilotError && (
+                <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-xs text-red-400 font-bold">
+                  {autopilotError}
+                </div>
+              )}
+
+              {autopilotSuccessMsg && (
+                <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-xs text-emerald-400 font-bold flex items-center gap-2">
+                  <Check className="w-4 h-4" /> {autopilotSuccessMsg}
+                </div>
+              )}
+
+              {/* Botones de Acción */}
+              <div className="pt-2 flex flex-col sm:flex-row gap-3">
+                <button
+                  type="button"
+                  onClick={() => handleAutopilotGenerate("editor")}
+                  disabled={generatingAutopilot}
+                  className="flex-1 bg-[#121b2d] hover:bg-[#1a263d] text-white border border-amber-400/50 font-bold p-3.5 rounded-xl flex items-center justify-center gap-2 transition disabled:opacity-50"
+                >
+                  {generatingAutopilot && autopilotMode === "editor" ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-amber-400" />
+                      Redactando artículo...
+                    </>
+                  ) : (
+                    <>
+                      <Edit2 className="w-4 h-4 text-amber-400" />
+                      Cargar en Editor (Revisar)
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleAutopilotGenerate("publish")}
+                  disabled={generatingAutopilot}
+                  className="flex-1 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-gray-950 font-black p-3.5 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition disabled:opacity-50"
+                >
+                  {generatingAutopilot && autopilotMode === "publish" ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-gray-950" />
+                      Publicando con Autopilot...
+                    </>
+                  ) : (
+                    <>
+                      <Zap className="w-4 h-4 fill-gray-950" />
+                      Publicar en 1-Clic
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

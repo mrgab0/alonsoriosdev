@@ -2,11 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { MessageCircle, Menu, X, ShieldCheck, ChevronDown, QrCode, Sparkles, FileText, CreditCard } from "lucide-react";
+import { MessageCircle, Menu, X, ShieldCheck, ChevronDown, QrCode, Sparkles, FileText, CreditCard, GitBranch } from "lucide-react";
+import { useConfig } from "@/context/ConfigContext";
 
 export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileToolsOpen, setMobileToolsOpen] = useState(false);
+  const { config } = useConfig();
+  const avatarUrl = config?.sections?.hero?.avatarUrl || "https://github.com/mrgab0.png";
 
   return (
     <header className="sticky top-0 z-50 bg-[#080e1e] border-b border-slate-800 shadow-md">
@@ -30,10 +33,18 @@ export const Header: React.FC = () => {
 
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
-        {/* Brand Logo */}
+        {/* Brand Logo with Profile Picture */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-[#0f172a] border border-slate-700/80 flex items-center justify-center text-amber-400 font-black text-lg shadow-inner group-hover:border-amber-400/50 transition">
-            AR
+          <div className="relative w-10 h-10 rounded-xl bg-[#0f172a] border border-slate-700/80 flex items-center justify-center text-amber-400 font-black text-lg shadow-inner group-hover:border-amber-400/50 transition overflow-hidden">
+            <img
+              src={avatarUrl}
+              alt="Alonso Ríos"
+              className="w-full h-full object-cover rounded-xl relative z-10"
+              onError={(e) => {
+                (e.target as HTMLElement).style.display = "none";
+              }}
+            />
+            <span className="absolute text-amber-400 font-black text-sm z-0">AR</span>
           </div>
           <div className="flex flex-col">
             <span className="font-editorial text-xl tracking-tight text-white group-hover:text-amber-400 transition-colors leading-tight font-bold">
@@ -58,6 +69,10 @@ export const Header: React.FC = () => {
           </Link>
           <Link href="/blog" className="hover:text-amber-400 transition-colors">
             Blog
+          </Link>
+          <Link href="/roadmap" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+            <span>Roadmap</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#67dba9]" />
           </Link>
 
           {/* Dropdown Herramientas on Hover */}
@@ -193,6 +208,10 @@ export const Header: React.FC = () => {
           </Link>
           <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-400 py-1">
             Blog
+          </Link>
+          <Link href="/roadmap" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-400 py-1 flex items-center justify-between">
+            <span>Roadmap & Actividad GitHub</span>
+            <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono font-bold">En Vivo</span>
           </Link>
 
           {/* Herramientas Móvil */}

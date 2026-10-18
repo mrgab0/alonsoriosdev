@@ -25,14 +25,22 @@ Instrucciones de Respuesta:
 - Invita siempre al usuario a hablar directamente con Alonso por WhatsApp para cotizar su proyecto.
 `;
 
-// Gemini AI API Call with multi-model auto-fallback
+// Model Cascade configuration (Ordered by speed, reliability, and capability)
+const CASCADE_MODELS = [
+  "gemini-3.5-flash-lite",
+  "gemini-flash-lite-latest",
+  "gemini-flash-latest",
+  "gemini-3.8-flash",
+  "gemini-3.5-flash",
+  "gemini-3.1-flash-lite",
+];
+
+// Gemini AI API Call with multi-tier failover cascade and per-model timeout
 async function getGeminiAiResponse(userMessage: string, dynamicPrompt: string): Promise<string | null> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
-  const models = ["gemini-3.5-flash-lite", "gemini-flash-latest", "gemini-3.8-flash"];
-
-  for (const model of models) {
+  for (const model of CASCADE_MODELS) {
     try {
       const res = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
@@ -47,21 +55,37 @@ async function getGeminiAiResponse(userMessage: string, dynamicPrompt: string): 
               },
             ],
             generationConfig: {
-              maxOutputTokens: 300,
+              maxOutputTokens: 350,
               temperature: 0.7,
             },
           }),
+          signal: AbortSignal.timeout(4500), // 4.5s timeout per model before cascading
         }
       );
 
-      if (!res.ok) continue;
+      // If status is not 200 (429 rate limit, 404 deprecated, 503 overloaded), cascade to next
+      if (!res.ok) {
+        console.warn(`[AI Cascade] Model ${model} returned HTTP ${res.status}. Cascading to next candidate...`);
+        continue;
+      }
+
       const data = await res.json();
-      const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (candidateText) return candidateText.trim();
-    } catch (err) {
-      console.warn(`Gemini API error on ${model}:`, err);
+      const candidate = data?.candidates?.[0];
+
+      // Verify valid text was produced and not blocked by safety
+      const candidateText = candidate?.content?.parts?.[0]?.text;
+      if (candidateText && candidateText.trim().length > 0) {
+        return candidateText.trim();
+      }
+
+      console.warn(`[AI Cascade] Model ${model} returned empty or filtered content (${candidate?.finishReason}). Cascading...`);
+    } catch (err: any) {
+      console.warn(`[AI Cascade] Model ${model} error: ${err?.message || err}. Cascading to next candidate...`);
     }
   }
+
+  // All models in the cascade failed or timed out
+  console.warn("[AI Cascade] All models in cascade exhausted. Falling back to rule engine.");
   return null;
 }
 

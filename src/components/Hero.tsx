@@ -45,34 +45,37 @@ export const Hero: React.FC = () => {
               <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
                 {heroData.statusBadge || "Cupos Disponibles · Q2 2026"}
               </span>
-              <span className="w-1 h-1 rounded-full bg-slate-600" />
-              <span className="text-xs font-mono font-bold text-slate-300">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+              <span className="text-xs font-mono font-bold text-white">
                 Caracas & Global Remoto
               </span>
             </div>
 
-            {/* Main Headline (Monumental Newsreader Serif) */}
-            <div className="flex flex-col gap-1">
-              <span className="text-xs sm:text-sm font-mono tracking-widest text-slate-400 uppercase font-bold">
-                {heroData.title || "Páginas Web, Apps Android y SEO"}
-              </span>
-              <h1 className="font-editorial text-4xl sm:text-6xl lg:text-7xl text-white font-normal leading-[0.98] tracking-tight">
-                PROFESIONALES
-                <span className="text-amber-400 drop-shadow-[0_2px_24px_rgba(251,191,36,0.35)]">.</span>
+            {/* Main Headline (Harmonious & Proportional Editorial Balance - Zero Disproportion) */}
+            <div className="flex flex-col gap-3">
+              <div className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm tracking-widest uppercase font-black text-amber-300">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shadow-[0_0_8px_#ffd462]" />
+                <span>Ingeniería Digital & Posicionamiento Orgánico</span>
+              </div>
+              <h1 className="font-editorial text-3xl sm:text-5xl lg:text-[54px] text-white font-extrabold leading-[1.08] tracking-tight">
+                Páginas Web, Apps Android <br className="hidden md:inline" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-amber-200 font-black">
+                  y SEO Profesionales.
+                </span>
               </h1>
             </div>
 
-            {/* Body Pitch */}
-            <p className="text-base sm:text-lg text-slate-200 font-medium leading-relaxed max-w-xl">
+            {/* Body Pitch - High Contrast White Bold (Zero Grey) */}
+            <p className="text-base sm:text-lg text-white font-semibold leading-relaxed max-w-xl">
               {heroData.subtitle || (
                 <>
-                  Hola, soy <strong className="text-white font-black">Alonso Ríos</strong>. Ayudo a
-                  personas y negocios a crear sitios web profesionales{" "}
-                  <span className="text-amber-400 font-bold font-mono">($760 USD)</span>, recuperar
-                  páginas caídas{" "}
-                  <span className="text-amber-400 font-bold font-mono">($190 USD)</span>, desarrollar
-                  aplicaciones Android{" "}
-                  <span className="text-amber-400 font-bold font-mono">($1,140 USD)</span> y aprender
+                  Hola, soy <strong className="text-white font-black underline decoration-2 decoration-orange-500">Alonso Ríos</strong>. Ayudo a
+                  empresas, marcas y emprendedores a crear plataformas web profesionales{" "}
+                  <span className="text-amber-300 font-black font-mono px-1.5 py-0.5 rounded bg-amber-400/15 border border-amber-400/30">($760 USD)</span>, recuperar
+                  páginas caídas o hackeadas{" "}
+                  <span className="text-amber-300 font-black font-mono px-1.5 py-0.5 rounded bg-amber-400/15 border border-amber-400/30">($190 USD)</span>, desarrollar
+                  aplicaciones nativas Android{" "}
+                  <span className="text-amber-300 font-black font-mono px-1.5 py-0.5 rounded bg-amber-400/15 border border-amber-400/30">($1,140 USD)</span> y aprender
                   programación de forma transparente y sin enredos.
                 </>
               )}
@@ -82,28 +85,28 @@ export const Hero: React.FC = () => {
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <a
                 href="#servicios"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0f172a] hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold transition"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0f172a] hover:bg-slate-800 border border-slate-700/80 hover:border-orange-500/60 text-white text-xs font-bold transition shadow-sm"
               >
-                <Code2 className="w-3.5 h-3.5 text-blue-400" />
+                <Code2 className="w-3.5 h-3.5 text-orange-400" />
                 <span>Sitios Web</span>
               </a>
               <a
                 href="#servicios"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0f172a] hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold transition"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0f172a] hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-400/60 text-white text-xs font-bold transition shadow-sm"
               >
                 <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Apps Android</span>
               </a>
               <a
                 href="#servicios"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0f172a] hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold transition"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0f172a] hover:bg-slate-800 border border-slate-700/80 hover:border-amber-400/60 text-white text-xs font-bold transition shadow-sm"
               >
                 <Search className="w-3.5 h-3.5 text-amber-400" />
                 <span>SEO & Arreglos</span>
               </a>
               <a
                 href="#libros-cursos"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0f172a] hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold transition"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0f172a] hover:bg-slate-800 border border-slate-700/80 hover:border-purple-400/60 text-white text-xs font-bold transition shadow-sm"
               >
                 <BookOpen className="w-3.5 h-3.5 text-purple-400" />
                 <span>Cursos & Libros</span>
@@ -114,7 +117,7 @@ export const Hero: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-3 pt-2 w-full sm:w-auto">
               <a
                 href={heroData.primaryCtaUrl || "#servicios"}
-                className="px-7 py-4 rounded-2xl bg-gradient-to-r from-orange-500 via-amber-400 to-amber-300 hover:brightness-110 text-slate-950 text-sm font-black uppercase tracking-wider shadow-xl shadow-amber-400/20 transition transform hover:scale-[1.02] flex items-center justify-center gap-2 cursor-pointer"
+                className="px-7 py-4 rounded-2xl bg-gradient-to-r from-orange-500 via-amber-400 to-amber-300 hover:brightness-110 text-slate-950 text-sm font-black uppercase tracking-wider shadow-xl shadow-amber-400/20 transition transform hover:scale-[1.02] flex items-center justify-center gap-2 cursor-pointer border border-[#ffd462]/40"
               >
                 <span>{heroData.primaryCtaText || "Ver Servicios y Precios"}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -124,35 +127,36 @@ export const Hero: React.FC = () => {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-4 rounded-2xl bg-[#0f172a] hover:bg-slate-800 text-white border border-slate-700/80 text-sm font-bold transition flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                className="px-6 py-4 rounded-2xl bg-[#0f172a] hover:bg-slate-800 text-white border-2 border-white/80 hover:border-emerald-400 text-sm font-black transition flex items-center justify-center gap-2 cursor-pointer shadow-lg"
               >
                 <MessageCircle className="w-4 h-4 text-emerald-400" />
                 <span>{heroData.secondaryCtaText || "Hablar por WhatsApp"}</span>
               </a>
             </div>
 
-            {/* Trust Markers */}
-            <div className="flex flex-wrap items-center gap-6 pt-3 border-t border-slate-800/80 text-xs font-mono text-slate-400">
-              <div className="flex items-center gap-1.5">
+            {/* Trust Markers - High Contrast Crisp White and Amber */}
+            <div className="flex flex-wrap items-center gap-4 pt-3 border-t border-slate-800/80 text-xs font-mono">
+              <div className="flex items-center gap-1.5 bg-[#0f172a] px-3 py-1.5 rounded-lg border border-slate-700/80">
                 <div className="flex text-amber-400">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-3.5 h-3.5 fill-current" />
                   ))}
                 </div>
-                <span className="text-white font-bold">5.0 / 5.0 (Reseñas Reales)</span>
+                <span className="text-white font-black">5.0 / 5.0</span>
+                <span className="text-amber-300 font-bold">(Reseñas Reales)</span>
               </div>
-              <div className="flex items-center gap-1.5 text-slate-300 font-bold">
+              <div className="flex items-center gap-1.5 text-white font-bold">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 <span>Atención Directa y Personal</span>
               </div>
-              <span className="text-slate-600 hidden sm:inline">·</span>
-              <span className="text-slate-400">Respuesta &lt; 15 min</span>
+              <span className="text-amber-400 font-bold hidden sm:inline">·</span>
+              <span className="text-white font-bold">Respuesta &lt; 15 min</span>
             </div>
           </div>
 
-          {/* Right Column: Visual Telemetry Card (Stitch Screen 4) */}
+          {/* Right Column: Visual Telemetry Card (High-Contrast Obsidian & Crisp White) */}
           <div className="lg:col-span-5">
-            <div className="bg-[#090f1d] border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden flex flex-col gap-6">
+            <div className="bg-[#090f1d] border-2 border-slate-800 hover:border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden flex flex-col gap-6">
               {/* Profile Bar */}
               <div className="flex items-center gap-4">
                 <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 p-0.5 shadow-lg shrink-0">
@@ -172,13 +176,13 @@ export const Hero: React.FC = () => {
 
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <h3 className="font-editorial text-2xl text-white font-normal">Alonso Ríos</h3>
+                    <h3 className="font-editorial text-2xl text-white font-bold">Alonso Ríos</h3>
                     <Award className="w-4 h-4 text-amber-400" />
                   </div>
-                  <p className="text-xs font-mono font-bold text-amber-400">
+                  <p className="text-xs font-mono font-bold text-amber-300">
                     Especialista Sénior Full-Stack & Creador
                   </p>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
+                  <p className="text-xs text-white font-bold mt-0.5">
                     Caracas, Venezuela · Proyectos Internacionales
                   </p>
                 </div>
@@ -186,58 +190,67 @@ export const Hero: React.FC = () => {
 
               {/* Metrics Grid */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-[#0f172a] p-3.5 rounded-2xl border border-slate-800">
-                  <span className="text-[10px] font-mono text-slate-500 uppercase block">
-                    Proyectos Exitosos
+                <div className="bg-[#0f172a] p-3.5 rounded-2xl border border-slate-700/80">
+                  <span className="text-[11px] font-mono text-amber-300 font-bold uppercase block">
+                    Proyectos
                   </span>
-                  <span className="text-2xl font-mono font-black text-amber-400">+100</span>
-                  <span className="text-[10px] text-slate-400 block mt-0.5">100% Entregados</span>
+                  <span className="text-3xl font-mono font-black text-white">+100</span>
+                  <span className="text-xs text-amber-400 font-bold block mt-0.5">100% Entregados</span>
                 </div>
 
-                <div className="bg-[#0f172a] p-3.5 rounded-2xl border border-slate-800">
-                  <span className="text-[10px] font-mono text-slate-500 uppercase block">
+                <div className="bg-[#0f172a] p-3.5 rounded-2xl border border-slate-700/80">
+                  <span className="text-[11px] font-mono text-emerald-300 font-bold uppercase block">
                     Satisfacción
                   </span>
-                  <span className="text-2xl font-mono font-black text-emerald-400">99.4%</span>
-                  <span className="text-[10px] text-slate-400 block mt-0.5">Soporte Continuo</span>
+                  <span className="text-3xl font-mono font-black text-white">99.4%</span>
+                  <span className="text-xs text-emerald-400 font-bold block mt-0.5">Soporte Continuo</span>
                 </div>
               </div>
 
               {/* Stack Telemetry Progress Bars */}
-              <div className="space-y-3 bg-[#0f172a] p-4 rounded-2xl border border-slate-800/80">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 block flex items-center gap-1.5">
+              <div className="space-y-3 bg-[#0f172a] p-4 rounded-2xl border border-slate-700/80">
+                <span className="text-xs font-mono font-black uppercase tracking-wider text-white block flex items-center gap-1.5">
                   <Activity className="w-3.5 h-3.5 text-emerald-400" />
                   Especialidad & Rendimiento
                 </span>
 
                 <div>
-                  <div className="flex justify-between text-xs font-mono text-slate-300 mb-1">
+                  <div className="flex justify-between text-xs font-mono text-white font-bold mb-1">
                     <span>Sitios Web & Next.js (Core Web Vitals)</span>
-                    <span className="text-emerald-400 font-bold">100/100</span>
+                    <span className="text-emerald-400 font-black">100/100</span>
                   </div>
-                  <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden">
+                  <div className="h-2.5 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
                     <div className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 w-[98%] rounded-full shadow-[0_0_8px_#67dba9]" />
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-xs font-mono text-slate-300 mb-1">
+                  <div className="flex justify-between text-xs font-mono text-white font-bold mb-1">
                     <span>Apps Android Nativas (Kotlin)</span>
-                    <span className="text-amber-400 font-bold">Alta Gama</span>
+                    <span className="text-amber-300 font-black">Alta Gama</span>
                   </div>
-                  <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden">
+                  <div className="h-2.5 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
                     <div className="h-full bg-gradient-to-r from-amber-500 to-amber-400 w-[94%] rounded-full" />
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-xs font-mono text-slate-300 mb-1">
+                  <div className="flex justify-between text-xs font-mono text-white font-bold mb-1">
                     <span>Recuperación de Sitios & Seguridad</span>
-                    <span className="text-blue-400 font-bold">Rescate 24h</span>
+                    <span className="text-blue-400 font-black">Rescate 24h</span>
                   </div>
-                  <div className="h-2 w-full bg-slate-900 rounded-full overflow-hidden">
+                  <div className="h-2.5 w-full bg-slate-900 rounded-full overflow-hidden border border-slate-800">
                     <div className="h-full bg-gradient-to-r from-blue-500 to-blue-400 w-[96%] rounded-full" />
                   </div>
+                </div>
+
+                {/* Real-time Latency Ticker */}
+                <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono font-bold">
+                  <span className="text-white flex items-center gap-1">
+                    <Zap className="w-3 h-3 text-amber-400" />
+                    TTFB &lt; 0.18s
+                  </span>
+                  <span className="text-emerald-400">100% Uptime Garantizado</span>
                 </div>
               </div>
 
@@ -246,7 +259,7 @@ export const Hero: React.FC = () => {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-600/20"
+                className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-600/30 border border-emerald-400/40"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Contactar Directamente por WhatsApp</span>

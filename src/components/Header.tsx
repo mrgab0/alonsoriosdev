@@ -36,10 +36,10 @@ export const Header: React.FC = () => {
             AR
           </div>
           <div className="flex flex-col">
-            <span className="font-editorial text-xl tracking-tight text-white group-hover:text-amber-400 transition-colors leading-tight font-normal">
+            <span className="font-editorial text-xl tracking-tight text-white group-hover:text-amber-400 transition-colors leading-tight font-bold">
               Alonso Ríos
             </span>
-            <span className="text-[11px] text-slate-400 font-mono uppercase tracking-wider">
+            <span className="text-[11px] text-amber-300 font-mono font-bold uppercase tracking-wider">
               Sitios Web · Apps · SEO · Cursos
             </span>
           </div>
@@ -80,7 +80,7 @@ export const Header: React.FC = () => {
                     <div className="text-white font-bold text-sm group-hover/item:text-amber-400 transition-colors">
                       QR Estático
                     </div>
-                    <div className="text-xs text-slate-400 font-normal">
+                    <div className="text-xs text-white/90 font-medium">
                       Gratis, WiFi, URLs, descarga SVG/PNG
                     </div>
                   </div>
@@ -98,7 +98,7 @@ export const Header: React.FC = () => {
                       <span>QR Dinámico</span>
                       <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-black">Pro</span>
                     </div>
-                    <div className="text-xs text-slate-400 font-normal">
+                    <div className="text-xs text-white/90 font-medium">
                       Cambia el destino después de imprimir
                     </div>
                   </div>
@@ -116,7 +116,7 @@ export const Header: React.FC = () => {
                       <span>🇻🇪 Pago Móvil QR</span>
                       <span className="text-[10px] bg-yellow-400/20 text-yellow-300 px-1.5 py-0.5 rounded font-black">Comercios</span>
                     </div>
-                    <div className="text-xs text-slate-400 font-normal">
+                    <div className="text-xs text-white/90 font-medium">
                       Diseña tu cartel de mostrador en acrílico
                     </div>
                   </div>
@@ -131,7 +131,7 @@ export const Header: React.FC = () => {
                       <span>Unir PDFs</span>
                       <span className="text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-bold">Pronto</span>
                     </div>
-                    <div className="text-xs text-slate-400 font-normal">
+                    <div className="text-xs text-white/80 font-medium">
                       Fusionar documentos en navegador
                     </div>
                   </div>

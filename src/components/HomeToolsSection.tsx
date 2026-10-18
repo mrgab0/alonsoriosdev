@@ -56,7 +56,7 @@ export const HomeToolsSection: React.FC = () => {
               Herramientas de Rendimiento
             </h2>
           </div>
-          <p className="text-slate-400 text-xs sm:text-sm font-medium max-w-md">
+          <p className="text-white text-xs sm:text-sm font-bold max-w-md">
             Desarrolladas para agilizar tu flujo diario con privacidad total y código ejecutado en el cliente.
           </p>
         </div>
@@ -65,9 +65,9 @@ export const HomeToolsSection: React.FC = () => {
           {tools.map((t, idx) => {
             const Content = (
               <div
-                className={`h-full p-6 rounded-2xl bg-[#090f1d] border border-slate-800/90 flex flex-col justify-between transition-all duration-300 ${
+                className={`h-full p-6 rounded-2xl bg-[#090f1d] border border-slate-700/80 flex flex-col justify-between transition-all duration-300 ${
                   t.active
-                    ? "hover:border-amber-400/50 hover:-translate-y-1 hover:shadow-xl group cursor-pointer"
+                    ? "hover:border-amber-400/60 hover:-translate-y-1 hover:shadow-xl group cursor-pointer"
                     : "opacity-60 cursor-not-allowed"
                 }`}
               >
@@ -77,23 +77,23 @@ export const HomeToolsSection: React.FC = () => {
                       {t.icon}
                     </div>
                     <span
-                      className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider ${t.badgeColor}`}
+                      className={`text-[10px] font-mono font-black px-2.5 py-0.5 rounded-full border uppercase tracking-wider ${t.badgeColor}`}
                     >
                       {t.badge}
                     </span>
                   </div>
 
-                  <h3 className="font-editorial text-lg text-white font-normal mb-2 group-hover:text-amber-400 transition">
+                  <h3 className="font-editorial text-lg text-white font-bold mb-2 group-hover:text-amber-400 transition">
                     {t.title}
                   </h3>
 
-                  <p className="text-xs text-slate-400 leading-relaxed font-medium">
+                  <p className="text-xs text-white leading-relaxed font-semibold">
                     {t.description}
                   </p>
                 </div>
 
                 <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono font-bold">
-                  <span className={t.active ? "text-amber-400" : "text-slate-500"}>
+                  <span className={t.active ? "text-amber-300 font-black" : "text-slate-300 font-bold"}>
                     {t.active ? "Abrir herramienta" : "En desarrollo"}
                   </span>
                   {t.active && (

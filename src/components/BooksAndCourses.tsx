@@ -130,10 +130,10 @@ Paso 1: Reclamar tu perfil oficial en Google...`,
                 </div>
 
                 {/* Title & Subtitle */}
-                <h3 className="font-editorial text-2xl text-white font-normal mb-2 leading-snug group-hover:text-amber-400 transition-colors">
+                <h3 className="font-editorial text-2xl text-white font-bold mb-2 leading-snug group-hover:text-amber-400 transition-colors">
                   {r.title}
                 </h3>
-                <p className="text-xs font-mono font-bold text-slate-400 mb-4">{r.subtitle}</p>
+                <p className="text-xs font-mono font-bold text-amber-300 mb-4">{r.subtitle}</p>
 
                 {/* Description */}
                 <p className="text-sm text-white font-extrabold mb-6 leading-relaxed">{r.description}</p>

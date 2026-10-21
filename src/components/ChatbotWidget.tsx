@@ -2,7 +2,8 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { MessageSquare, X, Send, Bot, MessageCircle, Sparkles, ShieldCheck, Zap } from "lucide-react";
+import { MessageSquare, X, Send, Bot, MessageCircle, Sparkles, ShieldCheck, Zap, Bell, Crown } from "lucide-react";
+import { useConfig } from "@/context/ConfigContext";
 
 interface Message {
   id: string;
@@ -54,13 +55,16 @@ function renderFormattedMessage(text: string) {
 export const ChatbotWidget: React.FC = () => {
   const pathname = usePathname();
   const isAdmin = pathname ? pathname.startsWith("/admin") : false;
+  const { refreshConfig } = useConfig();
 
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [unreadAlerts, setUnreadAlerts] = useState<number>(0);
+  const [lastCheckTimestamp, setLastCheckTimestamp] = useState<number>(Date.now() - 60000);
 
   const initialBotMessage = isAdmin
-    ? "⚡ ¡Hola Alonso! Soy tu Co-Pilot de administración. Puedo ayudarte a actualizar tu telemetría de trabajo en vivo, consultar métricas de tráfico y leads, o guiarte en cualquier módulo."
+    ? "🎩 A su servicio, Alonso. Soy su Mayordomo Inteligente. Puedo meditar y redactar artículos para el blog, ajustar estilos y colores en vivo, modificar textos del sitio, optimizar SEO o monitorear las visitas en tiempo real. ¿En qué le colaboro hoy?"
     : "¡Hola! 👋 Soy el asistente virtual de Alonso Ríos. ¿En qué puedo ayudarte hoy? (Sitios web, apps Android, recuperación de sitios caídos o cursos).";
 
   const [messages, setMessages] = useState<Message[]>([
@@ -88,12 +92,58 @@ export const ChatbotWidget: React.FC = () => {
     ]);
   }, [isAdmin]);
 
-  const handleSend = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || loading) return;
+  // Telemetry Monitor for Admin (Lightweight Polling)
+  useEffect(() => {
+    if (!isAdmin) return;
 
-    const userText = input.trim();
-    const userMsg: Message = { id: `u-${Date.now()}`, sender: "user", text: userText };
+    let isMounted = true;
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/admin/live-feed?since=${lastCheckTimestamp}`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (data.success && data.events && data.events.length > 0 && isMounted) {
+          setLastCheckTimestamp(Date.now());
+          const newEvents = data.events;
+
+          const alertTexts = newEvents
+            .map((ev: any) => `🔔 **Alerta en Vivo:** ${ev.title}\n${ev.detail}`)
+            .join("\n\n");
+
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: `alert-${Date.now()}`,
+              sender: "bot",
+              text: alertTexts,
+            },
+          ]);
+
+          if (!isOpen) {
+            setUnreadAlerts((prev) => prev + newEvents.length);
+          }
+        }
+      } catch {}
+    }, 25000); // 25s lightweight interval
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [isAdmin, lastCheckTimestamp, isOpen]);
+
+  const handleOpen = () => {
+    setIsOpen(true);
+    setUnreadAlerts(0);
+  };
+
+  const handleSend = async (e: React.FormEvent, customText?: string) => {
+    if (e) e.preventDefault();
+    const textToSend = customText || input.trim();
+    if (!textToSend || loading) return;
+
+    const userMsg: Message = { id: `u-${Date.now()}`, sender: "user", text: textToSend };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
@@ -103,7 +153,7 @@ export const ChatbotWidget: React.FC = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: userText,
+          message: textToSend,
           sessionId: isAdmin ? "admin_session" : "web_session",
           isAdmin,
           currentPath: pathname || "/",
@@ -122,6 +172,11 @@ export const ChatbotWidget: React.FC = () => {
           },
         ]);
       }
+
+      // If action modified SiteConfig, refresh frontend context reactively
+      if (data.refreshConfig) {
+        await refreshConfig();
+      }
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -129,7 +184,7 @@ export const ChatbotWidget: React.FC = () => {
           id: `b-${Date.now()}`,
           sender: "bot",
           text: isAdmin
-            ? "Error de conexión temporal con el Co-Pilot."
+            ? "🎩 Mil disculpas, Alonso. Se ha presentado un error de conexión con los servicios del Butler."
             : "Te entiendo. Si prefieres, puedes hablar directo con Alonso por WhatsApp.",
           suggestWhatsapp: !isAdmin,
         },
@@ -144,28 +199,35 @@ export const ChatbotWidget: React.FC = () => {
       {/* Chat Bubble Launcher */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
-          className={`text-white font-black p-4 rounded-full shadow-2xl flex items-center gap-3 transition transform hover:scale-105 active:scale-95 ${
+          onClick={handleOpen}
+          className={`relative text-white font-black p-4 rounded-full shadow-2xl flex items-center gap-3 transition transform hover:scale-105 active:scale-95 ${
             isAdmin
               ? "bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 shadow-amber-500/25 border border-amber-400/40 text-gray-950"
               : "bg-blue-600 hover:bg-blue-500 shadow-blue-600/30"
           }`}
-          title={isAdmin ? "Alonso Co-Pilot de Administración" : "Asistente Virtual Alonso Ríos"}
+          title={isAdmin ? "Alonso Butler (Mayordomo de Administración)" : "Asistente Virtual Alonso Ríos"}
         >
           {isAdmin ? (
-            <Zap className="w-6 h-6 fill-gray-950 text-gray-950" />
+            <Crown className="w-6 h-6 text-gray-950 fill-gray-950" />
           ) : (
             <Bot className="w-6 h-6 text-amber-400" />
           )}
           <span className="hidden sm:inline text-sm font-black pr-1">
-            {isAdmin ? "⚡ Co-Pilot Admin" : "¿Preguntas? Chatea con Alonso AI"}
+            {isAdmin ? "🎩 Alonso Butler" : "¿Preguntas? Chatea con Alonso AI"}
           </span>
+
+          {/* Unread Telemetry Badge */}
+          {unreadAlerts > 0 && (
+            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[11px] font-black w-6 h-6 rounded-full flex items-center justify-center animate-bounce shadow-lg">
+              {unreadAlerts}
+            </span>
+          )}
         </button>
       )}
 
       {/* Chat Window Container */}
       {isOpen && (
-        <div className="bg-[#121b2d] border border-[#1e2a42] w-[90vw] sm:w-[400px] h-[540px] rounded-3xl shadow-2xl flex flex-col overflow-hidden text-white animate-in fade-in slide-in-from-bottom-5 duration-200">
+        <div className="bg-[#121b2d] border border-[#1e2a42] w-[90vw] sm:w-[420px] h-[560px] rounded-3xl shadow-2xl flex flex-col overflow-hidden text-white animate-in fade-in slide-in-from-bottom-5 duration-200">
           {/* Chat Header */}
           <div className="bg-[#080e1e] p-4 border-b border-[#1e2a42] flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -176,11 +238,11 @@ export const ChatbotWidget: React.FC = () => {
                     : "bg-blue-600 text-amber-400"
                 }`}
               >
-                {isAdmin ? <Zap className="w-5 h-5 fill-amber-400" /> : <Bot className="w-5 h-5" />}
+                {isAdmin ? <Crown className="w-5 h-5 fill-amber-400" /> : <Bot className="w-5 h-5" />}
               </div>
               <div>
                 <h4 className="text-sm font-black text-white leading-tight flex items-center gap-1.5">
-                  <span>{isAdmin ? "Alonso Co-Pilot" : "Alonso Ríos AI"}</span>
+                  <span>{isAdmin ? "Alonso Butler (Mayordomo IA)" : "Alonso Ríos AI"}</span>
                   <Sparkles className="w-3.5 h-3.5 text-amber-400 fill-current" />
                 </h4>
                 <div className="flex items-center gap-1 text-[11px] font-bold">
@@ -190,7 +252,7 @@ export const ChatbotWidget: React.FC = () => {
                     }`}
                   />
                   <span className={isAdmin ? "text-amber-400" : "text-emerald-400"}>
-                    {isAdmin ? "Panel de Operaciones • En vivo" : "En línea • Monitoreo directo"}
+                    {isAdmin ? "Asistente Ejecutivo • Modo Autónomo" : "En línea • Monitoreo directo"}
                   </span>
                 </div>
               </div>
@@ -207,13 +269,51 @@ export const ChatbotWidget: React.FC = () => {
           {/* Messages Area */}
           <div className="flex-1 p-4 overflow-y-auto space-y-3.5 bg-[#0a1120] text-xs">
             <div className="bg-[#121b2d] p-2.5 rounded-xl border border-[#1e2a42] text-[11px] text-white font-bold flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+              {isAdmin ? (
+                <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
+              ) : (
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+              )}
               <span>
                 {isAdmin
-                  ? "Co-Pilot administrativo activo. Puedes solicitar cambios de telemetría o consultar métricas."
+                  ? "Mayordomo conectado. Puede ordenar creación de posts, cambios de tema/copy, SEO y telemetría."
                   : "Las consultas son respondidas en tiempo real y conectadas con WhatsApp."}
               </span>
             </div>
+
+            {/* Quick Action Chips for Admin */}
+            {isAdmin && messages.length <= 2 && (
+              <div className="grid grid-cols-2 gap-2 pt-1 pb-1">
+                <button
+                  type="button"
+                  onClick={() => handleSend(null as any, "Créame un nuevo artículo técnico sobre optimización Next.js y Vercel")}
+                  className="p-2 bg-[#162137] hover:bg-[#1e2d4a] border border-[#233554] rounded-xl text-[11px] font-bold text-left text-gray-200 hover:text-amber-300 transition"
+                >
+                  ✍️ Crear artículo técnico
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSend(null as any, "Ajusta el color de acento a ámbar solar (#f59e0b)")}
+                  className="p-2 bg-[#162137] hover:bg-[#1e2d4a] border border-[#233554] rounded-xl text-[11px] font-bold text-left text-gray-200 hover:text-amber-300 transition"
+                >
+                  🎨 Cambiar acento a ámbar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSend(null as any, "¿Quién ha entrado hoy a la página y qué leads hay?")}
+                  className="p-2 bg-[#162137] hover:bg-[#1e2d4a] border border-[#233554] rounded-xl text-[11px] font-bold text-left text-gray-200 hover:text-amber-300 transition"
+                >
+                  👀 Ver tráfico y leads
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSend(null as any, "Optimiza los metatags SEO para Google y redes sociales")}
+                  className="p-2 bg-[#162137] hover:bg-[#1e2d4a] border border-[#233554] rounded-xl text-[11px] font-bold text-left text-gray-200 hover:text-amber-300 transition"
+                >
+                  🔍 Optimizar metatags SEO
+                </button>
+              </div>
+            )}
 
             {messages.map((m) => (
               <div
@@ -248,7 +348,7 @@ export const ChatbotWidget: React.FC = () => {
             {loading && (
               <div className="flex items-center gap-2 text-white font-bold text-xs italic">
                 <Bot className="w-4 h-4 text-amber-400 animate-spin" />
-                <span>{isAdmin ? "Co-Pilot procesando..." : "Escribiendo respuesta..."}</span>
+                <span>{isAdmin ? "🎩 Mayordomo procesando orden..." : "Escribiendo respuesta..."}</span>
               </div>
             )}
 
@@ -257,14 +357,14 @@ export const ChatbotWidget: React.FC = () => {
 
           {/* Input Form */}
           <form
-            onSubmit={handleSend}
+            onSubmit={(e) => handleSend(e)}
             className="p-3 bg-[#080e1e] border-t border-[#1e2a42] flex items-center gap-2"
           >
             <input
               type="text"
               placeholder={
                 isAdmin
-                  ? "Ej: Pon que ando en: Refactor checkout en Flower..."
+                  ? "Ordene al Mayordomo: crear post, cambiar tema, SEO..."
                   : "Escribe tu duda sobre desarrollo o servicios..."
               }
               value={input}

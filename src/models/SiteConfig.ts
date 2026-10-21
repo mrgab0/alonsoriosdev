@@ -65,6 +65,12 @@ export interface ISiteConfig extends Document {
       updatedAt?: Date;
     };
   };
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string[];
+    ogImage?: string;
+  };
   updatedAt: Date;
 }
 
@@ -138,6 +144,16 @@ const SiteConfigSchema: Schema = new Schema({
       url: { type: String, default: "https://github.com/mrgab0/alonsoriosdev" },
       updatedAt: { type: Date, default: Date.now },
     },
+  },
+  seo: {
+    metaTitle: { type: String, default: "Alonso Ríos | Páginas Web, Apps Android, SEO & Cursos" },
+    metaDescription: {
+      type: String,
+      default:
+        "Desarrollo sitios web profesionales, aplicaciones móviles Android, recupero páginas caídas o infectadas y enseño a programar con libros y cursos en español claro.",
+    },
+    keywords: [{ type: String }],
+    ogImage: { type: String, default: "" },
   },
   updatedAt: { type: Date, default: Date.now },
 });

@@ -9,6 +9,8 @@ import CaseStudy from "@/models/CaseStudy";
 import Contact from "@/models/Contact";
 import PageView from "@/models/PageView";
 import BlogPost from "@/models/BlogPost";
+import { executeAdminAction } from "@/lib/adminActions";
+
 
 // System Instructions for Gemini 1.5 Flash AI Agent
 const SYSTEM_PROMPT = `
@@ -204,43 +206,76 @@ export async function POST(request: Request) {
         config = await SiteConfig.findOne({ key: "main_config" });
 
         if (isAdmin) {
-          // --- MODO ADMIN CO-PILOT ---
-          const [totalContacts, totalViews, totalPosts] = await Promise.all([
+          // --- MODO ADMIN MAYORDOMO INTELIGENTE (ALONSO AI BUTLER) ---
+          const [totalContacts, totalViews, totalPosts, recentViews, recentContacts] = await Promise.all([
             Contact.countDocuments(),
             PageView.countDocuments(),
             BlogPost.countDocuments({ published: true }),
+            PageView.find().sort({ timestamp: -1 }).limit(6).lean(),
+            Contact.find().sort({ createdAt: -1 }).limit(3).lean(),
           ]);
 
           const devStatus = config?.sections?.developerStatus;
           const currentProject = devStatus?.project || "alonsoriosdev";
           const currentTask = devStatus?.activity || "Mantenimiento y nuevas funciones";
+          const currentTheme = config?.theme || {};
+          const currentHero = config?.sections?.hero || {};
+          const currentSeo = config?.seo || {};
 
-          dynamicPrompt = `Eres "Alonso Co-Pilot", el copiloto inteligente de inteligencia artificial para la administración de alonsorios.dev.
-Tu misión es asistir a Alonso Ríos en la gestión operativa, desarrollo, analíticas y redacción técnica de su plataforma.
+          const trafficSummary = recentViews.map((v: any) => `• [${v.referrer || 'Directo'}] -> ${v.path} (${new Date(v.timestamp).toLocaleTimeString()})`).join("\n");
+          const contactsSummary = recentContacts.map((c: any) => `• ${c.name} (${c.email}): "${c.serviceType}" (${new Date(c.createdAt).toLocaleDateString()})`).join("\n");
 
-Ruta actual del administrador en pantalla: ${currentPath}
+          dynamicPrompt = `Eres "Alonso Butler", el Mayordomo Inteligente y Asistente Ejecutivo personal de Alonso Ríos para la administración y evolución total de alonsorios.dev.
+Tu carácter es devoto, refinado, técnico, proactivo y altamente resolutivo ("A su servicio, Alonso").
+Cuando Alonso te pide una tarea, meditas el ángulo técnico o de negocio, explicas tu razonamiento y ejecutas la acción precisa de inmediato mediante Tool Calling.
 
-Módulos del Administrador y Enlaces Directos:
-1. Blog & Autopilot: [Gestionar Blog y Autopilot](/admin/blog) (Crear artículos técnicos en 1 clic con Gemini, traducir a inglés y editar contenido).
-2. Telemetría & Diseño: [Editor del Sitio y Roadmap](/admin/editor) (Configurar perfil, tarifas de $19/h, héroe y telemetría de trabajo).
-3. Analíticas & Leads: [Panel de Analíticas](/admin/analytics) y [Bandeja de Contactos](/admin/leads).
-4. Herramientas QR & Pagos: [Suite QR](/admin/qr) y [Configuración de Pagos](/admin/pagos).
-5. Roadmap Público: [Roadmap & Mirror GitHub](/roadmap).
+RUTA ACTUAL EN PANTALLA: ${currentPath}
 
-TELEMETRÍA Y MÉTRICAS EN VIVO DEL SISTEMA:
-- Leads / Contactos registrados: ${totalContacts}
+ESTADO ACTUAL DE LA PLATAFORMA (DATOS EN VIVO):
+- Leads / Contactos: ${totalContacts}
 - Visitas acumuladas: ${totalViews}
-- Artículos técnicos publicados: ${totalPosts}
-- Proyecto activo actual: "${currentProject}" (Tarea: "${currentTask}")
+- Artículos publicados: ${totalPosts}
+- Proyecto activo en telemetría: "${currentProject}" (Tarea: "${currentTask}")
+- Tema actual: Fondo: ${currentTheme.backgroundColor || '#0a1120'}, Acento: ${currentTheme.accentColor || '#fbbf24'}, Escala texto: ${currentTheme.fontSizeScale || 'normal'}
+- Título Hero: "${currentHero.title || 'Páginas Web, Apps Android y SEO'} ${currentHero.titleHighlight || 'sin complicaciones'}"
+- Subtítulo Hero: "${currentHero.subtitle || ''}"
+- SEO MetaTitle: "${currentSeo.metaTitle || 'Alonso Ríos | Soluciones Web'}"
 
-CAPACIDADES ACCIONABLES (TOOL CALLING):
-Si Alonso te solicita cambiar su estado o en qué está trabajando (ej: "pon que ando en...", "actualiza mi estado a...", "estoy programando en..."), extrae el nombre del proyecto y la tarea, y DEBES añadir OBLIGATORIAMENTE al final de tu respuesta el siguiente bloque de acción:
-[ACTION:UPDATE_STATUS:{"project":"NombreDelProyecto","activity":"DescripcionDeLaTarea"}]
+TRÁFICO RECIENTE EN TIEMPO REAL:
+${trafficSummary || "Sin registros recientes de tráfico."}
 
-Reglas de Estilo Co-Pilot:
-- Sé directo, profesional, técnico y ágil (estilo Obsidian Cinema).
-- Responde siempre con formato Markdown y enlaces útiles hacia los módulos.
-- Nunca inventes datos: si te preguntan por métricas, usa los números en vivo provistos arriba.`;
+ÚLTIMOS CONTACTOS RECIBIDOS:
+${contactsSummary || "Sin mensajes de contacto recientes."}
+
+CATÁLOGO DE ACCIONES (TOOL CALLING):
+Cuando Alonso te ordene realizar una tarea, añade al final de tu respuesta el tag correspondiente (uno o más según corresponda):
+
+1. GENERAR ARTÍCULO PARA EL BLOG:
+   [ACTION:CREATE_BLOG_POST:{"topic":"Tema o título técnico","keywords":"palabras clave","publishNow":false,"category":"Desarrollo Web & Arquitectura"}]
+   (Nota: Si Alonso te pide publicarlo de una vez, pon "publishNow": true; si pide redactarlo o prepararlo, pon false).
+
+2. PUBLICAR UN ARTÍCULO EXISTENTE:
+   [ACTION:PUBLISH_BLOG_POST:{"slug":"slug-del-articulo"}]
+
+3. EDITAR ESTILOS Y TEMA (Colores, botones, escala de fuente):
+   [ACTION:UPDATE_THEME:{"backgroundColor":"#hex","accentColor":"#hex","cardBackgroundColor":"#hex","fontSizeScale":"normal"|"large"|"xlarge"}]
+
+4. EDITAR TEXTOS Y COPY DE LA PÁGINA (Quitar frases, cambiar títulos o bio):
+   [ACTION:UPDATE_COPY:{"section":"hero"|"services"|"contact","field":"title"|"titleHighlight"|"subtitle"|"statusBadge"|"profileBio","value":"Nuevo texto redactado"}]
+
+5. OPTIMIZAR SEO Y METATAGS:
+   [ACTION:UPDATE_SEO:{"metaTitle":"Título SEO optimizado","metaDescription":"Descripción de 150 caracteres","keywords":["keyword1","keyword2"]}]
+
+6. ASESORÍA Y PREPARACIÓN DE CROSSPOSTING (MEDIUM, DEV.TO):
+   [ACTION:ADVISE_CROSSPOST:{"slug":"slug-del-articulo","platform":"medium"}]
+
+7. ACTUALIZAR ESTADO DE TELEMETRÍA EN VIVO:
+   [ACTION:UPDATE_STATUS:{"project":"NombreProyecto","activity":"DescripcionDeLaTarea"}]
+
+Directrices de Respuesta del Mayordomo:
+- Dirígete a Alonso con respeto profesional ("A su servicio, Alonso", "Con gusto procedo...").
+- Razona brevemente antes de actuar: si te pide un post, medita el enfoque de arquitectura, el valor para el lector y el SEO.
+- Si te pregunta por quién ha entrado o contactos, usa los datos en vivo listados arriba.`;
         } else {
           // --- MODO CLIENTE / VISITANTE ---
           const courses = await CourseBook.find();
@@ -287,7 +322,7 @@ INSTRUCCIONES DE VENTA:
 
     if (!reply) {
       if (isAdmin) {
-        reply = "⚡ **Alonso Co-Pilot:** Se agotaron los modelos de IA momentáneamente. Puedes acceder directamente a tus módulos en [Blog](/admin/blog) o [Editor](/admin/editor).";
+        reply = "🎩 **Alonso Butler:** Mil disculpas, Alonso. Se ha presentado una sobrecarga momentánea en la cascada de modelos neuronales. Quedo a su disposición para reintentar la acción o puede gestionar los módulos directamente en [Blog](/admin/blog) o [Editor](/admin/editor).";
         suggestWhatsapp = false;
       } else {
         const fallbackResult = generateHumanLikeResponse(message);
@@ -296,57 +331,31 @@ INSTRUCCIONES DE VENTA:
       }
     }
 
+    let refreshConfigNeeded = false;
+
     // Intercept and execute Action Tags if present in Admin mode
-    if (isAdmin && reply.includes("[ACTION:UPDATE_STATUS:")) {
+    if (isAdmin && reply.includes("[ACTION:")) {
       try {
-        const match = reply.match(/\[ACTION:UPDATE_STATUS:(\{.*?\})\]/);
-        if (match && match[1]) {
-          const actionData = JSON.parse(match[1]);
-          const project = actionData.project || "alonsoriosdev";
-          const activity = actionData.activity || "Desarrollo en curso";
+        const actionRegex = /\[ACTION:([A-Z_]+):(\{[\s\S]*?\})\]/g;
+        const matches = [...reply.matchAll(actionRegex)];
 
-          // Update MongoDB SiteConfig
-          await SiteConfig.findOneAndUpdate(
-            { key: "main_config" },
-            {
-              $set: {
-                "sections.developerStatus.isManualOverride": true,
-                "sections.developerStatus.project": project,
-                "sections.developerStatus.cleanRepoName": project,
-                "sections.developerStatus.activity": activity,
-                "sections.developerStatus.updatedAt": new Date(),
-              },
-            },
-            { upsert: true }
-          );
-
-          // Update local workstation status file if accessible
+        for (const match of matches) {
+          const actionTag = match[0];
+          const actionType = match[1];
           try {
-            const dataDir = path.join(process.cwd(), "src", "data");
-            if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
-            fs.writeFileSync(
-              path.join(dataDir, "live_workstation_status.json"),
-              JSON.stringify(
-                {
-                  activeProject: project,
-                  cleanRepoName: project,
-                  currentFocus: activity,
-                  branch: "main",
-                  lastPulse: new Date().toISOString(),
-                },
-                null,
-                2
-              ),
-              "utf8"
-            );
-          } catch {}
-
-          // Remove raw action tag and append nice feedback badge
-          reply = reply.replace(/\[ACTION:UPDATE_STATUS:\{.*?\}\]/, "").trim() +
-            `\n\n✅ **Telemetría de trabajo actualizada:** Proyecto: **${project}** | Tarea: **${activity}**. Ya está visible en vivo en el footer y en [/roadmap](/roadmap).`;
+            const actionPayload = JSON.parse(match[2]);
+            const result = await executeAdminAction(actionType, actionPayload);
+            if (result.refreshConfigNeeded) {
+              refreshConfigNeeded = true;
+            }
+            reply = reply.replace(actionTag, `\n\n${result.message}`);
+          } catch (execErr: any) {
+            console.warn(`Error running action ${actionType}:`, execErr);
+            reply = reply.replace(actionTag, `\n\n⚠️ Error ejecutando ${actionType}: ${execErr?.message || execErr}`);
+          }
         }
       } catch (actionErr) {
-        console.warn("Error executing Co-Pilot action:", actionErr);
+        console.warn("Error parsing Butler actions:", actionErr);
       }
     }
 
@@ -366,6 +375,7 @@ INSTRUCCIONES DE VENTA:
       success: true,
       reply,
       suggestWhatsapp,
+      refreshConfig: refreshConfigNeeded,
       whatsappNumber: config?.sections?.contact?.whatsappNumber || "+584129912840",
     });
   } catch (error) {

@@ -53,6 +53,7 @@ export const metadata: Metadata = {
 };
 
 import Tracker from "@/components/Tracker";
+import LeadCaptureFloatingWidget from "@/components/LeadCaptureFloatingWidget";
 
 export default function RootLayout({
   children,
@@ -65,6 +66,7 @@ export default function RootLayout({
         <ConfigProvider>
           <AccessibilityProvider>
             <Tracker />
+            <LeadCaptureFloatingWidget />
             {children}
           </AccessibilityProvider>
         </ConfigProvider>

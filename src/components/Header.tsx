@@ -70,6 +70,12 @@ export const Header: React.FC = () => {
           <Link href="/blog" className="hover:text-amber-400 transition-colors">
             Blog
           </Link>
+          <Link href="/apps" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+            <span>Apps</span>
+            <span className="text-[10px] bg-amber-400/20 text-amber-300 border border-amber-400/30 px-1.5 py-0.5 rounded font-mono font-bold">
+              Android
+            </span>
+          </Link>
           <Link href="/roadmap" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
             <span>Roadmap</span>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#67dba9]" />
@@ -208,6 +214,12 @@ export const Header: React.FC = () => {
           </Link>
           <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-400 py-1">
             Blog
+          </Link>
+          <Link href="/apps" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-400 py-1 flex items-center justify-between">
+            <span>Apps Android & Software</span>
+            <span className="text-[10px] bg-amber-400/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-full font-mono font-bold">
+              Nueva
+            </span>
           </Link>
           <Link href="/roadmap" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-400 py-1 flex items-center justify-between">
             <span>Roadmap & Actividad GitHub</span>

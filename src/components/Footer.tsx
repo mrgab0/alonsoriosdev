@@ -82,11 +82,13 @@ export const Footer: React.FC = () => {
           <Link href="/#servicios" className="hover:text-amber-400 transition">Servicios</Link>
           <Link href="/#libros-cursos" className="hover:text-amber-400 transition">Cursos</Link>
           <Link href="/blog" className="hover:text-amber-400 transition">Blog</Link>
+          <Link href="/apps" className="hover:text-amber-400 transition text-amber-300">Apps</Link>
           <Link href="/roadmap" className="hover:text-amber-400 transition text-amber-300 flex items-center gap-1">
             <span>Roadmap</span>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           </Link>
           <Link href="/herramientas/creador-qr-dinamico" className="hover:text-amber-400 transition">Herramientas</Link>
+          <Link href="/privacy-remote-keyboard.html" className="hover:text-amber-400 transition text-slate-400">Privacidad</Link>
           <Link href="/#contacto" className="hover:text-amber-400 transition">Contacto</Link>
         </div>
 

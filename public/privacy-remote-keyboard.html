@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Política de Privacidad | Remote WiFi Keyboard - Alonso Ríos</title>
+  <meta name="description" content="Política de privacidad oficial de la aplicación móvil Remote WiFi Keyboard desarrollada por Alonso Ríos. Conforme con Google Play Console, GDPR, CCPA y regulaciones internacionales." />
+  <meta name="author" content="Alonso Ríos" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://alonsorios.dev/privacy-remote-keyboard.html" />
+  
+  <style>
+    :root {
+      --bg: #070d19;
+      --card-bg: #0c1527;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #f59e0b;
+      --accent-glow: rgba(245, 158, 11, 0.15);
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.15);
+      --border: #1e293b;
+      --code-bg: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.7;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 1.5rem;
+        border-radius: 1rem;
+      }
+    }
+
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .badge-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+    }
+
+    .badge-amber {
+      background-color: var(--accent-glow);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .badge-emerald {
+      background-color: var(--emerald-glow);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+    }
+
+    .app-meta {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .summary-card {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 0.85rem;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .summary-card h3 {
+      color: #34d399;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .summary-card p {
+      font-size: 0.95rem;
+      color: #e2e8f0;
+      margin-bottom: 0;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #f8fafc;
+      margin-top: 1.25rem;
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: #cbd5e1;
+      font-size: 0.96rem;
+    }
+
+    ul, ol {
+      margin-bottom: 1.25rem;
+      padding-left: 1.5rem;
+      color: #cbd5e1;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    strong {
+      color: #ffffff;
+    }
+
+    code {
+      background-color: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.4rem;
+      border-radius: 0.35rem;
+      font-size: 0.85rem;
+      color: #fde047;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #0f172a;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    td {
+      background-color: rgba(15, 23, 42, 0.4);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.15s ease;
+    }
+
+    a:hover {
+      color: #fde047;
+    }
+
+    .footer {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: #1e293b;
+      color: #ffffff;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border: 1px solid #334155;
+      transition: all 0.2s;
+    }
+
+    .btn-back:hover {
+      background-color: #334155;
+      color: #fde047;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="badge-bar">
+        <span class="badge badge-amber">Android Application</span>
+        <span class="badge badge-emerald">100% Red Local &middot; Cero Telemetr&iacute;a</span>
+        <span class="badge">GDPR &middot; CCPA &middot; Google Play Compliant</span>
+      </div>
+      <h1>Pol&iacute;tica de Privacidad</h1>
+      <div class="app-meta">
+        <strong>Aplicaci&oacute;n:</strong> Remote WiFi Keyboard &bull; 
+        <strong>Desarrollador Responsable:</strong> Alonso R&iacute;os &bull; 
+        <strong>&Uacute;ltima actualizaci&oacute;n:</strong> Septiembre 2026 &bull; 
+        <strong>Versi&oacute;n:</strong> 1.0.0
+      </div>
+    </header>
+
+    <div class="summary-card">
+      <h3>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Declaraci&oacute;n Fundamental de Cero Recopilaci&oacute;n de Datos
+      </h3>
+      <p>
+        <strong>Remote WiFi Keyboard</strong> ha sido dise&ntilde;ada con un compromiso inquebrantable de privacidad por defecto (<em>Privacy by Design</em>). La aplicaci&oacute;n <strong>no recopila, no almacena, no procesa, no vende ni transmite</strong> ninguna pulsaci&oacute;n de tecla, contrase&ntilde;a, dato de entrada, identificador de dispositivo ni dato personal a servidores externos ni a terceros.
+      </p>
+    </div>
+
+    <section>
+      <h2>1. Identificaci&oacute;n del Desarrollador y Responsable</h2>
+      <p>
+        El responsable del tratamiento y titular de la aplicaci&oacute;n m&oacute;vil <strong>Remote WiFi Keyboard</strong> es:
+      </p>
+      <ul>
+        <li><strong>Desarrollador / Data Controller:</strong> Alonso R&iacute;os</li>
+        <li><strong>Sitio Web Oficial:</strong> <a href="https://alonsorios.dev" target="_blank" rel="noopener noreferrer">https://alonsorios.dev</a></li>
+        <li><strong>Canal de Soporte y Privacidad:</strong> <a href="mailto:contacto@alonsorios.dev">contacto@alonsorios.dev</a></li>
+        <li><strong>Ubicaci&oacute;n de Desarrollo:</strong> Aplicaci&oacute;n independiente orientada a distribucin global.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>2. Arquitectura de Comunicaci&oacute;n Local Exclusiva</h2>
+      <p>
+        A diferencia de otras soluciones que canalizan el trfico mediante la nube, Remote WiFi Keyboard opera estrictamente bajo el modelo de red local (LAN):
+      </p>
+      <ul>
+        <li>Todas las pulsaciones, eventos de teclado y caracteres transmitidos se originan en tu tel&eacute;fono m&oacute;vil y se entregan directamente al navegador o software receptor de tu computadora a trav&eacute;s de tu propia red Wi-Fi privada o punto de acceso local.</li>
+        <li><strong>Ning&uacute;n paquete de datos sale a Internet</strong> durante la ejecuci&oacute;n del servicio de teclado.</li>
+        <li>La comunicaci&oacute;n no depende de cuentas de usuario, registros en la nube ni inicios de sesi&oacute;n externos.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>3. Permisos de Android Solicitados y su Justificaci&oacute;n T&eacute;cnica</h2>
+      <p>
+        De acuerdo con las pol&iacute;ticas de transparencia de Google Play Console, detallamos a continuaci&oacute;n cada uno de los permisos declarados en el archivo <code>AndroidManifest.xml</code> y la raz&oacute;n t&eacute;cnica indispensable para su uso:
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Permiso Android</th>
+            <th>Finalidad T&eacute;cnica Espec&iacute;fica</th>
+            <th>&iquest;Se Recopilan Datos?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>android.permission.INTERNET</code></td>
+            <td>Permite abrir sockets TCP/HTTP locales para establecer el canal de transmisi&oacute;n punto a punto con la PC en la red Wi-Fi compartida.</td>
+            <td><strong>No.</strong> No se conecta a servidores de Internet.</td>
+          </tr>
+          <tr>
+            <td><code>android.permission.ACCESS_NETWORK_STATE</code></td>
+            <td>Verifica si el tel&eacute;fono est&aacute; conectado a una red activa para alertar al usuario si la conexi&oacute;n est&aacute; desactivada.</td>
+            <td><strong>No.</strong> Solo consulta el estado de conexi&oacute;n local.</td>
+          </tr>
+          <tr>
+            <td><code>android.permission.ACCESS_WIFI_STATE</code></td>
+            <td>Obtiene la direcci&oacute;n IP local asignada por tu router para mostrarla en pantalla (ej. <code>192.168.1.X</code>) y facilitar la conexi&oacute;n.</td>
+            <td><strong>No.</strong> La IP se muestra en la interfaz y nunca se almacena ni env&iacute;a fuera.</td>
+          </tr>
+          <tr>
+            <td><code>android.permission.FOREGROUND_SERVICE</code></td>
+            <td>Mantiene el servicio de teclado en ejecuci&oacute;n continua con una notificaci&oacute;n visible en la barra de estado mientras escribes, evitando que Android cierre la app por ahorro de bater&iacute;a.</td>
+            <td><strong>No.</strong> Gestiona &uacute;nicamente la persistencia del proceso en memoria RAM del dispositivo.</td>
+          </tr>
+          <tr>
+            <td><code>android.permission.VIBRATE</code></td>
+            <td>Ofrece retroalimentaci&oacute;n h&aacute;ptica leve (vibraci&oacute;n corta) para simular la sensaci&oacute;n f&iacute;sica de pulsaci&oacute;n al tocar teclas o botones.</td>
+            <td><strong>No.</strong> Control de hardware local.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>4. Servicios de Terceros, Anal&iacute;ticas y Publicidad</h2>
+      <p>
+        Para garantizar la m&aacute;xima integridad, seguridad y ligereza:
+      </p>
+      <ul>
+        <li><strong>Cero Anuncios:</strong> La aplicaci&oacute;n no incorpora SDKs publicitarios (como Google AdMob, Unity Ads, etc.).</li>
+        <li><strong>Cero Rastreadores / Anal&iacute;ticas:</strong> No se utilizan herramientas de anal&iacute;tica de comportamiento ni telemetr&iacute;a (como Google Analytics para Firebase, Mixpanel, Crashlytics o Facebook SDK).</li>
+        <li><strong>Cero Bibliotecas Inseguras:</strong> El c&oacute;digo est&aacute; libre de intermediarios que puedan interceptar la entrada de texto del usuario.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Cumplimiento con Normativas de la Uni&oacute;n Europea (GDPR / RGPD)</h2>
+      <p>
+        Bajo el Reglamento General de Protecci&oacute;n de Datos (UE 2016/679) y el UK GDPR:
+      </p>
+      <ul>
+        <li><strong>Minimizaci&oacute;n de Datos (Art. 5.1.c):</strong> No se recogen datos personales; por tanto, el tratamiento cumple con el principio de minimizaci&oacute;n absoluta.</li>
+        <li><strong>Base Legal (Art. 6):</strong> La ejecuci&oacute;n de la aplicaci&oacute;n y sus funciones t&eacute;cnicas responden estrictamente a la prestaci&oacute;n del servicio solicitado de manera directa por el usuario.</li>
+        <li><strong>Transferencias Internacionales:</strong> Al no haber env&iacute;o de datos a ning&uacute;n servidor externo, no se realizan transferencias de datos internacionales.</li>
+        <li><strong>Derechos ARCO (Acceso, Rectificaci&oacute;n, Cancelaci&oacute;n y Oposici&oacute;n):</strong> Dado que el desarrollador no almacena ning&uacute;n dato personal, registro ni identificador del usuario, no existen bases de datos sobre las cuales ejercer cancelaciones o modificaciones.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>6. Cumplimiento con Normativas de Estados Unidos (CCPA / CPRA &amp; COPPA)</h2>
+      <p>
+        Conforme a la Ley de Privacidad del Consumidor de California (California Consumer Privacy Act / California Privacy Rights Act):
+      </p>
+      <ul>
+        <li><strong>No Venta ni Compartici&oacute;n de Informaci&oacute;n Personal:</strong> Remote WiFi Keyboard no vende, no alquila ni comparte informaci&oacute;n personal de ning&uacute;n usuario con fines comerciales ni de publicidad conductual cruzada (<em>Do Not Sell or Share My Personal Info</em>).</li>
+        <li><strong>No Discriminaci&oacute;n:</strong> Todos los usuarios disfrutan de las mismas caracter&iacute;sticas y desempe&ntilde;o independientemente del ejercicio de sus derechos de privacidad.</li>
+      </ul>
+      <h3>Protecci&oacute;n de Menores (COPPA)</h3>
+      <p>
+        La aplicaci&oacute;n no est&aacute; dirigida espec&iacute;ficamente a ni&ntilde;os menores de 13 a&ntilde;os ni recopila deliberadamente informaci&oacute;n de menores. Al ser una herramienta de utilidad t&eacute;cnica de red local sin recopilaci&oacute;n de datos personales, cumple a cabalidad con la Ley de Protecci&oacute;n de la Privacidad Infantil en L&iacute;nea (COPPA).
+      </p>
+    </section>
+
+    <section>
+      <h2>7. Seguridad de la Informaci&oacute;n</h2>
+      <p>
+        La seguridad de la transmisi&oacute;n reposa en el aislamiento de tu propia red dom&eacute;stica o empresarial. Recomendamos siempre utilizar redes Wi-Fi protegidas mediante cifrado WPA2/WPA3 y contrase&ntilde;as robustas para garantizar que ning&uacute;n actor no autorizado en tu misma subred pueda inspeccionar el tr&aacute;fico local no autenticado.
+      </p>
+    </section>
+
+    <section>
+      <h2>8. Modificaciones a esta Pol&iacute;tica de Privacidad</h2>
+      <p>
+        Podemos actualizar esta pol&iacute;tica peri&oacute;dicamente para reflejar mejoras t&eacute;cnicas o requisitos regulatorios. Cualquier modificaci&oacute;n sustancial se publicar&aacute; en esta misma URL (<a href="https://alonsorios.dev/privacy-remote-keyboard.html">https://alonsorios.dev/privacy-remote-keyboard.html</a>), actualizando la fecha de revisi&oacute;n en la parte superior.
+      </p>
+    </section>
+
+    <section>
+      <h2>9. Contacto y Consultas Legales</h2>
+      <p>
+        Si tienes inquietudes, preguntas t&eacute;cnicas o sugerencias relativas a esta pol&iacute;tica de privacidad o al tratamiento de permisos en Android, puedes comunicarte directamente con el desarrollador:
+      </p>
+      <ul>
+        <li><strong>Correo electr&oacute;nico:</strong> <a href="mailto:contacto@alonsorios.dev">contacto@alonsorios.dev</a></li>
+        <li><strong>Sitio Web:</strong> <a href="https://alonsorios.dev" target="_blank" rel="noopener noreferrer">https://alonsorios.dev</a></li>
+      </ul>
+    </section>
+
+    <footer class="footer">
+      <div>
+        &copy; 2026 <strong>Remote WiFi Keyboard</strong> &bull; Desarrollado por <strong>Alonso R&iacute;os</strong>. Todos los derechos reservados.
+      </div>
+      <div>
+        <a href="https://alonsorios.dev" class="btn-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Volver a alonsorios.dev
+        </a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

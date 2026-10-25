@@ -71,6 +71,7 @@ export interface ISiteConfig extends Document {
     keywords?: string[];
     ogImage?: string;
   };
+  geminiApiKey?: string;
   updatedAt: Date;
 }
 
@@ -155,6 +156,7 @@ const SiteConfigSchema: Schema = new Schema({
     keywords: [{ type: String }],
     ogImage: { type: String, default: "" },
   },
+  geminiApiKey: { type: String, default: "" },
   updatedAt: { type: Date, default: Date.now },
 });
 

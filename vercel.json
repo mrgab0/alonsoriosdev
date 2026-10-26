@@ -1,0 +1,11 @@
+{
+  "build": {
+    "installCommand": "npm ci --prefer-offline",
+    "buildCommand": "npm run build",
+    "outputDirectory": ".next",
+    "env": {
+      "MONGODB_URI": "@mongodb_uri",
+      "GEMINI_API_KEY": "@gemini_api_key"
+    }
+  }
+}

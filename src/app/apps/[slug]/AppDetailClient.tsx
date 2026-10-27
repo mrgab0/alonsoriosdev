@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   Smartphone,
   ArrowLeft,
+  ArrowRight,
   ShieldCheck,
   Wifi,
   Lock,

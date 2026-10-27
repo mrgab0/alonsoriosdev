@@ -12,7 +12,7 @@ export interface IEmailAccount extends Document {
   resendApiKey?: string;
 }
 
-const EmailAccountSchema = new Schema<IEmailAccount>({
+const EmailAccountSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   resendApiKey: { type: String },

@@ -11,7 +11,7 @@ export interface ILeadCapture extends Document {
   createdAt: Date;
 }
 
-const LeadCaptureSchema = new Schema<ILeadCapture>({
+const LeadCaptureSchema = new Schema({
   email: { type: String, required: true, unique: true },
   source: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },

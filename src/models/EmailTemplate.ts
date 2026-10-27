@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, Document, models } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 /**
  * EmailTemplate stores reusable email content.
@@ -14,10 +14,10 @@ export interface IEmailTemplate extends Document {
   subject: string;
   html: string;
   plainText?: string;
-  account: string; // ObjectId reference to EmailAccount
+  account: mongoose.Types.ObjectId | string;
 }
 
-const EmailTemplateSchema = new Schema<IEmailTemplate>({
+const EmailTemplateSchema = new Schema({
   slug: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   subject: { type: String, required: true },
@@ -27,6 +27,6 @@ const EmailTemplateSchema = new Schema<IEmailTemplate>({
 });
 
 export const EmailTemplate =
-  models.EmailTemplate || model<IEmailTemplate>('EmailTemplate', EmailTemplateSchema);
+  mongoose.models.EmailTemplate || mongoose.model<IEmailTemplate>('EmailTemplate', EmailTemplateSchema);
 
 export default EmailTemplate;

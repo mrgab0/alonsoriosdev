@@ -7,7 +7,6 @@ import {
   ArrowLeft,
   ShieldCheck,
   Wifi,
-  Github,
   Lock,
   Download,
   CheckCircle2,
@@ -16,6 +15,7 @@ import {
   Sparkles,
   Info,
 } from "lucide-react";
+import { GithubIcon } from "@/components/SocialIcons";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 
 interface PermissionItem {
@@ -141,7 +141,7 @@ export default function AppDetailClient({ app }: AppDetailClientProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-xs transition"
               >
-                <Github className="w-4 h-4" />
+                <GithubIcon className="w-4 h-4" />
                 <span>Repositorio GitHub</span>
                 <ExternalLink className="w-3 h-3 opacity-60" />
               </a>

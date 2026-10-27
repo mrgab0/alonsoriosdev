@@ -12,7 +12,6 @@ import {
   CheckCircle,
   XCircle,
   ShieldCheck,
-  Github,
   Download,
   Wifi,
   Sparkles,

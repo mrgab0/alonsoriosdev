@@ -15,13 +15,7 @@ export async function GET() {
   return NextResponse.json({ accounts });
 }
 
-export async function GET() {
-  await connectMongo();
-  const accounts = await EmailAccount.find({}).lean();
-  return NextResponse.json({ accounts });
-}
-
-
+export async function POST(request: Request) {
   await connectMongo();
   const { name, email, resendApiKey } = await request.json();
   if (!name || !email) {

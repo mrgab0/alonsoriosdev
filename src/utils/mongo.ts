@@ -1,30 +1,8 @@
-import mongoose from 'mongoose';
+import { connectToDatabase } from '../lib/mongodb';
 
-const MONGODB_URI = process.env.MONGODB_URI;
-if (!MONGODB_URI) {
-  throw new Error('Please define MONGODB_URI environment variable');
+export async function connectMongo() {
+  return connectToDatabase();
 }
 
-/**
- * Cached connection across hot reloads (development) and lambda invocations.
- */
-let cached = (global as any).mongoose;
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
-}
+export default connectMongo;
 
-export default async function connectMongo() {
-  if (cached.conn) return cached.conn;
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI, {
-      bufferCommands: false,
-    }).then((mongooseInstance) => mongooseInstance);
-  }
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
-  }
-  return cached.conn;
-}

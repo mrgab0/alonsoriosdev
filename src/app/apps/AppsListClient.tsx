@@ -6,7 +6,6 @@ import {
   Smartphone,
   ShieldCheck,
   Wifi,
-  Github,
   ArrowRight,
   Sparkles,
   Download,
@@ -14,6 +13,7 @@ import {
   Layers,
   CheckCircle2,
 } from "lucide-react";
+import { GithubIcon } from "@/components/SocialIcons";
 
 interface AppItem {
   _id?: string;
@@ -207,7 +207,7 @@ export default function AppsListClient({ apps }: AppsListClientProps) {
                     className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700 transition"
                     title="Ver repositorio en GitHub (Privado / Source)"
                   >
-                    <Github className="w-4 h-4" />
+                    <GithubIcon className="w-4 h-4" />
                   </a>
                 )}
               </div>

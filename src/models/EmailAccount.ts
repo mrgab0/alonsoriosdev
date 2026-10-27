@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model, Document, models } from 'mongoose';
 
 /**
  * EmailAccount represents a sending identity (e.g., contacto@miempresa.com).
@@ -18,4 +18,7 @@ const EmailAccountSchema = new Schema<IEmailAccount>({
   resendApiKey: { type: String },
 });
 
-export const EmailAccount = model<IEmailAccount>('EmailAccount', EmailAccountSchema);
+export const EmailAccount =
+  models.EmailAccount || model<IEmailAccount>('EmailAccount', EmailAccountSchema);
+
+export default EmailAccount;

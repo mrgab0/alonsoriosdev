@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model, Document, models } from 'mongoose';
 
 /**
  * LeadCapture stores emails collected via the floating widget or other
@@ -17,4 +17,7 @@ const LeadCaptureSchema = new Schema<ILeadCapture>({
   createdAt: { type: Date, default: Date.now },
 });
 
-export const LeadCapture = model<ILeadCapture>('LeadCapture', LeadCaptureSchema);
+export const LeadCapture =
+  models.LeadCapture || model<ILeadCapture>('LeadCapture', LeadCaptureSchema);
+
+export default LeadCapture;

@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model, Document, models } from 'mongoose';
 
 /**
  * EmailTemplate stores reusable email content.
@@ -26,4 +26,7 @@ const EmailTemplateSchema = new Schema<IEmailTemplate>({
   account: { type: Schema.Types.ObjectId, ref: 'EmailAccount', required: true },
 });
 
-export const EmailTemplate = model<IEmailTemplate>('EmailTemplate', EmailTemplateSchema);
+export const EmailTemplate =
+  models.EmailTemplate || model<IEmailTemplate>('EmailTemplate', EmailTemplateSchema);
+
+export default EmailTemplate;

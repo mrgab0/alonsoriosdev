@@ -38,7 +38,7 @@ export async function verifySessionToken(token: string | undefined | null): Prom
 
   const [timestamp, signature] = parts;
   const tokenAgeMs = Date.now() - parseInt(timestamp, 10);
-  const maxAgeMs = 7 * 24 * 60 * 60 * 1000; // 7 días
+  const maxAgeMs = 365 * 24 * 60 * 60 * 1000; // 1 año (365 días)
 
   if (isNaN(tokenAgeMs) || tokenAgeMs < 0 || tokenAgeMs > maxAgeMs) {
     return false;

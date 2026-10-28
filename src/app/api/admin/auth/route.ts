@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 7 * 24 * 60 * 60, // 7 días
+      maxAge: 365 * 24 * 60 * 60, // 1 año (365 días)
     });
 
     return NextResponse.json({

@@ -44,19 +44,6 @@ export const ContactForm: React.FC = () => {
 
   return (
     <section id="contacto" className="py-16 md:py-24 bg-[#070d19] text-white relative border-t border-slate-800/80">
-      
-      {/* Floating WhatsApp Button */}
-      <a
-        href="https://wa.me/584129912840?text=Hola%20Alonso,%20te%20escribo%20desde%20tu%20sitio%20web"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 bg-emerald-600 hover:bg-emerald-500 text-white font-black px-5 py-3.5 rounded-full shadow-2xl flex items-center gap-3 transition transform hover:scale-105 status-pulse"
-        title="Hablar por WhatsApp ahora mismo"
-      >
-        <MessageCircle className="w-6 h-6" />
-        <span className="hidden sm:inline text-sm font-black">¿Hablar por WhatsApp?</span>
-      </a>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-2xl mx-auto mb-16">

@@ -54,6 +54,8 @@ export const metadata: Metadata = {
 
 import Tracker from "@/components/Tracker";
 import LeadCaptureFloatingWidget from "@/components/LeadCaptureFloatingWidget";
+import WhatsAppButton from "@/components/WhatsAppButton";
+
 
 export default function RootLayout({
   children,
@@ -67,6 +69,7 @@ export default function RootLayout({
           <AccessibilityProvider>
             <Tracker />
             <LeadCaptureFloatingWidget />
+            <WhatsAppButton />
             {children}
           </AccessibilityProvider>
         </ConfigProvider>

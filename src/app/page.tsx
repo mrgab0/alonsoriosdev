@@ -6,7 +6,6 @@ import { BooksAndCourses } from "@/components/BooksAndCourses";
 import { HomeToolsSection } from "@/components/HomeToolsSection";
 import { ContactForm } from "@/components/ContactForm";
 import { Footer } from "@/components/Footer";
-import { ChatbotWidget } from "@/components/ChatbotWidget";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +22,6 @@ export default function Home() {
         <ContactForm />
       </main>
       <Footer />
-      <ChatbotWidget />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import CaseStudy from "@/models/CaseStudy";
 import Contact from "@/models/Contact";
 import PageView from "@/models/PageView";
 import BlogPost from "@/models/BlogPost";
+import AppProject from "@/models/AppProject";
 import { executeAdminAction } from "@/lib/adminActions";
 
 
@@ -34,17 +35,24 @@ Instrucciones de Respuesta:
 
 // Model Cascade configuration (Ordered by speed, reliability, and capability)
 const CASCADE_MODELS = [
-  "gemini-3.5-flash-lite",
-  "gemini-flash-lite-latest",
+  "gemini-2.5-flash",
+  "gemini-2.0-flash",
+  "gemini-2.0-flash-lite",
+  "gemini-1.5-flash",
   "gemini-flash-latest",
+  "gemini-3.5-flash-lite",
   "gemini-3.8-flash",
-  "gemini-3.5-flash",
   "gemini-3.1-flash-lite",
 ];
 
 // Gemini AI API Call with multi-tier failover cascade and per-model timeout
-async function getGeminiAiResponse(userMessage: string, dynamicPrompt: string): Promise<string | null> {
-  const apiKey = process.env.GEMINI_API_KEY;
+async function getGeminiAiResponse(userMessage: string, dynamicPrompt: string, customApiKey?: string): Promise<string | null> {
+  const apiKey = (
+    customApiKey ||
+    process.env.GEMINI_API_KEY ||
+    process.env.GOOGLE_API_KEY ||
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY
+  )?.trim();
   if (!apiKey) return null;
 
   for (const model of CASCADE_MODELS) {
@@ -207,12 +215,14 @@ export async function POST(request: Request) {
 
         if (isAdmin) {
           // --- MODO ADMIN MAYORDOMO INTELIGENTE (ALONSO AI BUTLER) ---
-          const [totalContacts, totalViews, totalPosts, recentViews, recentContacts] = await Promise.all([
+          const [totalContacts, totalViews, totalPosts, totalApps, recentViews, recentContacts, allApps] = await Promise.all([
             Contact.countDocuments(),
             PageView.countDocuments(),
             BlogPost.countDocuments({ published: true }),
+            AppProject.countDocuments(),
             PageView.find().sort({ timestamp: -1 }).limit(6).lean(),
             Contact.find().sort({ createdAt: -1 }).limit(3).lean(),
+            AppProject.find().select('title slug status').lean(),
           ]);
 
           const devStatus = config?.sections?.developerStatus;
@@ -224,6 +234,7 @@ export async function POST(request: Request) {
 
           const trafficSummary = recentViews.map((v: any) => `• [${v.referrer || 'Directo'}] -> ${v.path} (${new Date(v.timestamp).toLocaleTimeString()})`).join("\n");
           const contactsSummary = recentContacts.map((c: any) => `• ${c.name} (${c.email}): "${c.serviceType}" (${new Date(c.createdAt).toLocaleDateString()})`).join("\n");
+          const appsListSummary = allApps.map((a: any) => `${a.title} [${a.status}]`).join(", ") || "Ninguna";
 
           dynamicPrompt = `Eres "Alonso Butler", el Mayordomo Inteligente y Asistente Ejecutivo personal de Alonso Ríos para la administración y evolución total de alonsorios.dev.
 Tu carácter es devoto, refinado, técnico, proactivo y altamente resolutivo ("A su servicio, Alonso").
@@ -235,6 +246,7 @@ ESTADO ACTUAL DE LA PLATAFORMA (DATOS EN VIVO):
 - Leads / Contactos: ${totalContacts}
 - Visitas acumuladas: ${totalViews}
 - Artículos publicados: ${totalPosts}
+- Apps registradas en catálogo: ${totalApps} (${appsListSummary})
 - Proyecto activo en telemetría: "${currentProject}" (Tarea: "${currentTask}")
 - Tema actual: Fondo: ${currentTheme.backgroundColor || '#0a1120'}, Acento: ${currentTheme.accentColor || '#fbbf24'}, Escala texto: ${currentTheme.fontSizeScale || 'normal'}
 - Título Hero: "${currentHero.title || 'Páginas Web, Apps Android y SEO'} ${currentHero.titleHighlight || 'sin complicaciones'}"
@@ -278,14 +290,18 @@ Directrices de Respuesta del Mayordomo:
 - Si te pregunta por quién ha entrado o contactos, usa los datos en vivo listados arriba.`;
         } else {
           // --- MODO CLIENTE / VISITANTE ---
-          const courses = await CourseBook.find();
-          const projects = await CaseStudy.find({ featured: true });
+          const [courses, projects, apps] = await Promise.all([
+            CourseBook.find(),
+            CaseStudy.find({ featured: true }),
+            AppProject.find({ status: { $ne: 'archived' } }).lean(),
+          ]);
 
           const whatsapp = config?.sections?.contact?.whatsappNumber || "+58 412 991 2840";
           const email = config?.sections?.contact?.email || "iirockalonso@gmail.com";
 
           const coursesText = courses.map((c: any) => `- [${c.type.toUpperCase()}] ${c.title}: Precio ${c.price}. Detalles: ${c.description}. LINK DE COMPRA: ${c.purchaseUrl || 'Pedir por WhatsApp'}`).join('\n');
           const projectsText = projects.map((p: any) => `- Proyecto ${p.title} (${p.category}): Problema: ${p.problemDescription}. Solución: ${p.solutionDescription}. Cliente: ${p.clientName}`).join('\n');
+          const appsText = apps.map((a: any) => `- App "${a.title}" (/apps/${a.slug}): ${a.shortDescription || a.description} | Plataforma: ${a.platform || 'Android'} | Estado: ${a.status}`).join('\n');
 
           dynamicPrompt = `Eres el asistente virtual oficial de Alonso Ríos (alonsorios.dev), diseñado para VENDER y AYUDAR proactivamente.
 Aquí está tu base de conocimientos actualizada en tiempo real con lo que ofrecemos:
@@ -301,16 +317,20 @@ MIS REDES Y CONTACTO DIRECTO:
 - WhatsApp: ${whatsapp}
 - Email: ${email}
 
+APLICACIONES Y SOFTWARE PROPIO EN EL SITIO:
+${appsText || "Sin aplicaciones adicionales registradas por ahora."}
+
 LIBROS Y CURSOS DISPONIBLES PARA VENDER:
 ${coursesText || "Sin cursos registrados en este momento."}
 
 PROYECTOS Y CASOS DE ÉXITO (Úsalos para dar confianza cuando pregunten por servicios):
 ${projectsText || "Sin proyectos destacados por ahora."}
 
-INSTRUCCIONES DE VENTA:
+INSTRUCCIONES DE VENTA Y CONVERSACIÓN:
 1. Si preguntan por aprender, ofrece inmediatamente el libro o curso relacionado e incluye explícitamente el LINK DE COMPRA para que lo adquieran.
 2. Si preguntan por servicios o si has hecho cosas parecidas, menciona un Caso de Éxito relevante para dar confianza y ofréceles hablar por WhatsApp para cotizar.
-3. Sé persuasivo, amable y muy profesional.`;
+3. Si preguntan por aplicaciones o proyectos móviles, recomienda las apps del catálogo con su enlace markdown [Nombre](/apps/slug).
+4. Sé persuasivo, amable y muy profesional.`;
         }
       }
     } catch (e) {
@@ -318,7 +338,7 @@ INSTRUCCIONES DE VENTA:
     }
 
     // Try Gemini AI Cascade first
-    let reply = await getGeminiAiResponse(message, dynamicPrompt);
+    let reply = await getGeminiAiResponse(message, dynamicPrompt, config?.geminiApiKey);
 
     if (!reply) {
       if (isAdmin) {

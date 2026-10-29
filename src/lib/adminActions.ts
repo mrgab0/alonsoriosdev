@@ -42,16 +42,22 @@ function sanitizeKebabCase(text: string): string {
 }
 
 const CASCADE_MODELS = [
-  "gemini-3.5-flash-lite",
-  "gemini-flash-lite-latest",
+  "gemini-2.5-flash",
+  "gemini-2.0-flash",
+  "gemini-2.0-flash-lite",
+  "gemini-1.5-flash",
   "gemini-flash-latest",
+  "gemini-3.5-flash-lite",
   "gemini-3.8-flash",
-  "gemini-3.5-flash",
   "gemini-3.1-flash-lite",
 ];
 
 async function callGeminiAi(prompt: string, maxTokens = 1200): Promise<string | null> {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = (
+    process.env.GEMINI_API_KEY ||
+    process.env.GOOGLE_API_KEY ||
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY
+  )?.trim();
   if (!apiKey) return null;
 
   for (const model of CASCADE_MODELS) {

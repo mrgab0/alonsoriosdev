@@ -154,13 +154,13 @@ export const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Visual Telemetry Card (High-Contrast Obsidian & Crisp White) */}
+          {/* Right Column: Visual Telemetry Card (Obsidian Glassmorphism & High-Contrast Metrics) */}
           <div className="lg:col-span-5">
-            <div className="bg-[#090f1d] border-2 border-slate-800 hover:border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden flex flex-col gap-6">
+            <div className="bg-[#0b1222]/90 border border-slate-700/60 hover:border-amber-400/40 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden flex flex-col gap-6 backdrop-blur-xl transition-colors">
               {/* Profile Bar */}
               <div className="flex items-center gap-4">
                 <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 p-0.5 shadow-lg shrink-0">
-                  <div className="w-full h-full bg-[#090f1d] rounded-[14px] flex items-center justify-center text-amber-400 font-black text-2xl font-editorial">
+                  <div className="w-full h-full bg-[#070b14] rounded-[14px] flex items-center justify-center text-amber-400 font-black text-2xl font-editorial">
                     {heroData.avatarUrl ? (
                       <img
                         src={heroData.avatarUrl}
@@ -171,7 +171,7 @@ export const Hero: React.FC = () => {
                       "AR"
                     )}
                   </div>
-                  <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-400 border-2 border-[#090f1d] shadow-[0_0_8px_#67dba9]" />
+                  <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-400 border-2 border-[#070b14] shadow-[0_0_8px_#67dba9]" />
                 </div>
 
                 <div>
@@ -182,7 +182,7 @@ export const Hero: React.FC = () => {
                   <p className="text-xs font-mono font-bold text-amber-300">
                     Especialista Sénior Full-Stack & Creador
                   </p>
-                  <p className="text-xs text-white font-bold mt-0.5">
+                  <p className="text-xs text-slate-300 font-medium mt-0.5">
                     Caracas, Venezuela · Proyectos Internacionales
                   </p>
                 </div>
@@ -190,7 +190,7 @@ export const Hero: React.FC = () => {
 
               {/* Metrics Grid */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-[#0f172a] p-3.5 rounded-2xl border border-slate-700/80">
+                <div className="bg-[#060b14]/80 p-3.5 rounded-2xl border border-slate-800">
                   <span className="text-[11px] font-mono text-amber-300 font-bold uppercase block">
                     Proyectos
                   </span>
@@ -198,7 +198,7 @@ export const Hero: React.FC = () => {
                   <span className="text-xs text-amber-400 font-bold block mt-0.5">100% Entregados</span>
                 </div>
 
-                <div className="bg-[#0f172a] p-3.5 rounded-2xl border border-slate-700/80">
+                <div className="bg-[#060b14]/80 p-3.5 rounded-2xl border border-slate-800">
                   <span className="text-[11px] font-mono text-emerald-300 font-bold uppercase block">
                     Satisfacción
                   </span>
@@ -208,7 +208,7 @@ export const Hero: React.FC = () => {
               </div>
 
               {/* Stack Telemetry Progress Bars */}
-              <div className="space-y-3 bg-[#0f172a] p-4 rounded-2xl border border-slate-700/80">
+              <div className="space-y-3 bg-[#060b14]/80 p-4 rounded-2xl border border-slate-800">
                 <span className="text-xs font-mono font-black uppercase tracking-wider text-white block flex items-center gap-1.5">
                   <Activity className="w-3.5 h-3.5 text-emerald-400" />
                   Especialidad & Rendimiento
@@ -254,15 +254,13 @@ export const Hero: React.FC = () => {
                 </div>
               </div>
 
-              {/* Direct Quick WhatsApp Button */}
+              {/* Direct Link to Detailed Services and Pricing */}
               <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition shadow-lg shadow-emerald-600/30 border border-emerald-400/40"
+                href="#servicios"
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-slate-800 via-slate-800 to-slate-700 hover:from-amber-500 hover:to-orange-500 text-white hover:text-slate-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 shadow-md border border-slate-700 hover:border-amber-400 group cursor-pointer"
               >
-                <MessageCircle className="w-4 h-4" />
-                <span>Contactar Directamente por WhatsApp</span>
+                <span>Ver Servicios, Horas y Tarifas</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </a>
             </div>
           </div>

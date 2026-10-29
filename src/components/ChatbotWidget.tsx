@@ -136,6 +136,16 @@ export const ChatbotWidget: React.FC = () => {
   const handleOpen = () => {
     setIsOpen(true);
     setUnreadAlerts(0);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("chatbot-toggle", { detail: { open: true } }));
+    }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("chatbot-toggle", { detail: { open: false } }));
+    }
   };
 
   const handleSend = async (e: React.FormEvent, customText?: string) => {
@@ -200,25 +210,25 @@ export const ChatbotWidget: React.FC = () => {
       {!isOpen && (
         <button
           onClick={handleOpen}
-          className={`relative text-white font-black p-4 rounded-full shadow-2xl flex items-center gap-3 transition transform hover:scale-105 active:scale-95 ${
+          className={`relative text-white font-black p-3.5 sm:px-4 sm:py-3.5 rounded-full shadow-2xl flex items-center gap-2.5 sm:gap-3 transition transform hover:scale-105 active:scale-95 ${
             isAdmin
               ? "bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 shadow-amber-500/25 border border-amber-400/40 text-gray-950"
-              : "bg-blue-600 hover:bg-blue-500 shadow-blue-600/30"
+              : "bg-blue-600 hover:bg-blue-500 shadow-blue-600/30 border border-blue-400/20"
           }`}
           title={isAdmin ? "Alonso Butler (Mayordomo de Administración)" : "Asistente Virtual Alonso Ríos"}
         >
           {isAdmin ? (
-            <Crown className="w-6 h-6 text-gray-950 fill-gray-950" />
+            <Crown className="w-5 h-5 sm:w-6 sm:h-6 text-gray-950 fill-gray-950" />
           ) : (
-            <Bot className="w-6 h-6 text-amber-400" />
+            <Bot className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" />
           )}
-          <span className="hidden sm:inline text-sm font-black pr-1">
-            {isAdmin ? "🎩 Alonso Butler" : "¿Preguntas? Chatea con Alonso AI"}
+          <span className="hidden sm:inline text-xs sm:text-sm font-black pr-1">
+            {isAdmin ? "🎩 Alonso Butler" : "Chatea con Alonso AI"}
           </span>
 
           {/* Unread Telemetry Badge */}
           {unreadAlerts > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[11px] font-black w-6 h-6 rounded-full flex items-center justify-center animate-bounce shadow-lg">
+            <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[11px] font-black w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center animate-bounce shadow-lg">
               {unreadAlerts}
             </span>
           )}
@@ -259,7 +269,7 @@ export const ChatbotWidget: React.FC = () => {
             </div>
 
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={handleClose}
               className="p-1.5 text-white hover:text-amber-400 rounded-lg hover:bg-[#1e2a42] transition"
             >
               <X className="w-5 h-5" />

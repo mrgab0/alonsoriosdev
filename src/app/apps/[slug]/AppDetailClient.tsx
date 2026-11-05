@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   Smartphone,
@@ -15,6 +15,9 @@ import {
   Layers,
   Sparkles,
   Info,
+  Mail,
+  Loader2,
+  BellRing,
 } from "lucide-react";
 import { GithubIcon } from "@/components/SocialIcons";
 import MarkdownPreview from "@uiw/react-markdown-preview";
@@ -50,6 +53,38 @@ interface AppDetailClientProps {
 }
 
 export default function AppDetailClient({ app }: AppDetailClientProps) {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !email.includes("@")) {
+      setError("Por favor ingresa un correo válido");
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/email/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source: `waitlist-${app.slug}` }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        setError(data.error || "Ocurrió un error al registrar el correo");
+      }
+    } catch {
+      setError("Error de red. Intenta nuevamente.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "published":
@@ -171,6 +206,81 @@ export default function AppDetailClient({ app }: AppDetailClientProps) {
           {app.tagline}
         </p>
       </div>
+
+      {/* Early Access / Waitlist Form (for upcoming or beta apps) */}
+      {app.status !== "published" && (
+        <div className="bg-gradient-to-br from-[#0c162b] via-[#091122] to-[#0d1c3a] border border-amber-400/30 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-400 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+              <BellRing className="w-3.5 h-3.5" />
+              <span>Acceso Anticipado & Beta Privada</span>
+            </div>
+
+            <h2 className="text-xl sm:text-3xl font-black text-white tracking-tight mb-2">
+              Sé el primero en probar {app.title}
+            </h2>
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-medium">
+              Únete a la lista de espera exclusiva. Te enviaremos el enlace directo de descarga anticipada en Google Play o el APK firmado antes de la liberación pública.
+            </p>
+
+            {submitted ? (
+              <div className="bg-emerald-500/15 border border-emerald-500/40 rounded-2xl p-5 flex items-center gap-4 text-emerald-300">
+                <CheckCircle2 className="w-8 h-8 text-emerald-400 shrink-0" />
+                <div>
+                  <h4 className="font-bold text-white text-base">¡Registro completado con éxito!</h4>
+                  <p className="text-xs sm:text-sm text-emerald-300/90 mt-0.5">
+                    Te notificaremos en cuanto liberemos las plazas de prueba para {app.title}. Revisa tu bandeja de entrada.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleWaitlistSubmit} className="space-y-3">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative flex-1">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Ingresa tu correo para recibir acceso..."
+                      required
+                      className="w-full bg-[#070c17] border border-slate-700 focus:border-amber-400 focus:outline-none rounded-xl pl-12 pr-4 py-3.5 text-sm text-white placeholder-slate-500 shadow-inner"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-sm uppercase tracking-wider transition shadow-lg disabled:opacity-50 shrink-0 cursor-pointer"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Registrando...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-4 h-4" />
+                        <span>Unirme a la Lista</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {error && (
+                  <p className="text-xs text-rose-400 font-medium pl-1">{error}</p>
+                )}
+
+                <div className="flex items-center gap-2 text-xs font-mono text-slate-400 pt-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span>100% libre de spam. Solo te escribiremos para novedades directas de la app.</span>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Two Column Section: Features & Permissions */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

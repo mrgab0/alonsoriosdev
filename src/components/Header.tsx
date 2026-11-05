@@ -61,7 +61,7 @@ export const Header: React.FC = () => {
           <Link href="/#inicio" className="hover:text-amber-400 transition-colors">
             Inicio
           </Link>
-          <Link href="/#servicios" className="hover:text-amber-400 transition-colors">
+          <Link href="/servicios" className="hover:text-amber-400 transition-colors">
             Servicios
           </Link>
           <Link href="/#libros-cursos" className="hover:text-amber-400 transition-colors">
@@ -206,8 +206,8 @@ export const Header: React.FC = () => {
           <Link href="/#inicio" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-400 py-1">
             Inicio
           </Link>
-          <Link href="/#servicios" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-400 py-1">
-            Servicios (Páginas, Apps, SEO)
+          <Link href="/servicios" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-400 py-1">
+            Servicios y Cotizador
           </Link>
           <Link href="/#libros-cursos" onClick={() => setMobileMenuOpen(false)} className="hover:text-amber-400 py-1">
             Cursos y Libros

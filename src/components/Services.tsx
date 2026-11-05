@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Globe, RefreshCw, Smartphone, CheckCircle, ArrowRight, Sparkles, TrendingUp, ShieldAlert } from "lucide-react";
+import Link from "next/link";
+import { Globe, RefreshCw, Smartphone, CheckCircle, ArrowRight, Sparkles, TrendingUp, ShieldAlert, Calculator } from "lucide-react";
 
 export const Services: React.FC = () => {
   const services = [
@@ -137,6 +138,26 @@ export const Services: React.FC = () => {
               </a>
             </div>
           ))}
+        </div>
+
+        {/* Full Estimator CTA Banner */}
+        <div className="mt-12 bg-gradient-to-r from-[#0c1527] to-[#121f38] border border-amber-400/30 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+          <div className="space-y-1 text-center sm:text-left">
+            <h3 className="font-bold text-white text-lg sm:text-xl flex items-center justify-center sm:justify-start gap-2">
+              <Calculator className="w-5 h-5 text-amber-400" />
+              <span>¿Necesitas un presupuesto exacto con módulos personalizados?</span>
+            </h3>
+            <p className="text-sm text-slate-300">
+              Usa nuestra calculadora interactiva en tiempo real para estimar horas, costo exacto a $19/h y plazos de entrega.
+            </p>
+          </div>
+          <Link
+            href="/servicios"
+            className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black px-6 py-3.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shrink-0 cursor-pointer"
+          >
+            <span>Abrir Cotizador Interactivo</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </section>

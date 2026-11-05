@@ -1,0 +1,133 @@
+[
+  {
+    "lead_id": "test-lead-001",
+    "business_name": "Apex Air Conditioning & Heating",
+    "industry": "home_services",
+    "subindustry": "hvac",
+    "country": "US",
+    "state": "TX",
+    "city": "Houston",
+    "website_url": null,
+    "domain": null,
+    "public_contact": {
+      "phone": "(713) 555-0144",
+      "email": "contact@apexhoustonhvac.fake",
+      "contact_page": null,
+      "instagram": null
+    },
+    "business_status": "operational",
+    "sources": [
+      {
+        "url": "https://houston-business-registry.example.com/item/1029",
+        "type": "public_directory",
+        "retrieved_at": "2026-11-01T10:00:00Z"
+      }
+    ],
+    "discovered_at": "2026-11-01T10:00:00Z"
+  },
+  {
+    "lead_id": "test-lead-002",
+    "business_name": "Bella Vida Aesthetics & Med Spa",
+    "industry": "med_spas_wellness",
+    "subindustry": "med_spa",
+    "country": "US",
+    "state": "TX",
+    "city": "Austin",
+    "website_url": "https://bellavida-austin.fake",
+    "domain": "bellavida-austin.fake",
+    "public_contact": {
+      "phone": "+15125550188",
+      "email": "info@bellavida-austin.fake",
+      "contact_page": "https://bellavida-austin.fake/contact",
+      "instagram": "@bellavida_atx"
+    },
+    "business_status": "operational",
+    "sources": [
+      {
+        "url": "https://austin-chamber.example.com/directory/581",
+        "type": "business_association",
+        "retrieved_at": "2026-11-01T10:05:00Z"
+      }
+    ],
+    "discovered_at": "2026-11-01T10:05:00Z"
+  },
+  {
+    "lead_id": "test-lead-003-dup",
+    "business_name": "Apex Air Conditioning LLC",
+    "industry": "home_services",
+    "subindustry": "hvac",
+    "country": "US",
+    "state": "TX",
+    "city": "Houston",
+    "website_url": null,
+    "domain": null,
+    "public_contact": {
+      "phone": "7135550144",
+      "email": null,
+      "contact_page": null,
+      "instagram": null
+    },
+    "business_status": "operational",
+    "sources": [
+      {
+        "url": "https://local-yelp-mock.example.com/biz/apex-houston",
+        "type": "directory",
+        "retrieved_at": "2026-11-01T10:10:00Z"
+      }
+    ],
+    "discovered_at": "2026-11-01T10:10:00Z"
+  },
+  {
+    "lead_id": "test-lead-004-custom",
+    "business_name": "Texas Fleet Logistics & POS Systems",
+    "industry": "home_services",
+    "subindustry": "electrical",
+    "country": "US",
+    "state": "TX",
+    "city": "Dallas",
+    "website_url": "https://tx-fleetpos.fake",
+    "domain": "tx-fleetpos.fake",
+    "public_contact": {
+      "phone": "+12145550122",
+      "email": "ops@tx-fleetpos.fake",
+      "contact_page": null,
+      "instagram": null
+    },
+    "business_status": "operational",
+    "requires_custom_app": true,
+    "sources": [
+      {
+        "url": "https://dallas-tech.example.com/registry/49",
+        "type": "public_directory",
+        "retrieved_at": "2026-11-01T10:15:00Z"
+      }
+    ],
+    "discovered_at": "2026-11-01T10:15:00Z"
+  },
+  {
+    "lead_id": "test-lead-005-closed",
+    "business_name": "Lone Star Classic Plumbing",
+    "industry": "home_services",
+    "subindustry": "plumbing",
+    "country": "US",
+    "state": "TX",
+    "city": "San Antonio",
+    "website_url": "https://lonestar-plumbing.fake",
+    "domain": "lonestar-plumbing.fake",
+    "public_contact": {
+      "phone": "+12105550133",
+      "email": null,
+      "contact_page": null,
+      "instagram": null
+    },
+    "business_status": "closed",
+    "sources": [
+      {
+        "url": "https://sanantonio-directory.example.com/plumbing/9",
+        "type": "public_directory",
+        "retrieved_at": "2026-11-01T10:20:00Z"
+      }
+    ],
+    "discovered_at": "2026-11-01T10:20:00Z"
+  }
+]

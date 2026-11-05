@@ -1,0 +1,36 @@
+{
+  "niches": [
+    {
+      "id": "home_services",
+      "name": "Servicios Residenciales & Técnicos",
+      "subindustries": ["hvac", "plumbing", "roofing", "electrical", "landscaping", "cleaning"],
+      "typical_need": "lead_generation_click_to_call",
+      "recommended_product": "landing_page",
+      "status": "active"
+    },
+    {
+      "id": "med_spas_wellness",
+      "name": "Med Spas, Clínicas Estéticas y Salones Premium",
+      "subindustries": ["med_spa", "aesthetic_clinic", "hair_salon", "barbershop"],
+      "typical_need": "services_showcase_testimonials",
+      "recommended_product": "business_website",
+      "status": "active"
+    },
+    {
+      "id": "auto_services",
+      "name": "Talleres Mecánicos y Centros de Reparación",
+      "subindustries": ["auto_repair", "tire_shop", "body_shop", "detailing"],
+      "typical_need": "location_trust_click_to_call",
+      "recommended_product": "landing_page",
+      "status": "active"
+    },
+    {
+      "id": "events_hospitality",
+      "name": "Organizadores de Eventos, Catering y Salones",
+      "subindustries": ["catering", "wedding_venue", "event_planner", "party_rentals"],
+      "typical_need": "portfolio_gallery_quote_form",
+      "recommended_product": "business_website",
+      "status": "active"
+    }
+  ]
+}

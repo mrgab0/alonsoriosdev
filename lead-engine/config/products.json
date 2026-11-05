@@ -1,0 +1,71 @@
+{
+  "products": [
+    {
+      "id": "landing_page",
+      "name": "Landing Page de Alta Conversión",
+      "price_from": 149,
+      "currency": "USD",
+      "delivery_target_hours": 8,
+      "features": [
+        "responsive_design",
+        "hero_section",
+        "services",
+        "contact_form",
+        "click_to_call",
+        "whatsapp_link",
+        "basic_seo",
+        "core_web_vitals_optimized"
+      ],
+      "excluded_features": [
+        "custom_crm",
+        "custom_booking_engine",
+        "custom_inventory",
+        "custom_phone_automation",
+        "custom_integrations"
+      ],
+      "status": "available"
+    },
+    {
+      "id": "business_website",
+      "name": "Sitio Web Administrable para Negocios",
+      "price_from": 700,
+      "currency": "USD",
+      "delivery_target_hours": 30,
+      "features": [
+        "multiple_pages",
+        "admin_dashboard",
+        "content_management",
+        "blog",
+        "case_studies",
+        "lead_capture_widget"
+      ],
+      "excluded_features": [
+        "custom_erp",
+        "custom_crm",
+        "custom_integrations",
+        "multi_calendar_booking"
+      ],
+      "status": "available"
+    },
+    {
+      "id": "seo_speed_fix",
+      "name": "SEO Técnico & Optimización de Velocidad",
+      "price_from": 190,
+      "currency": "USD",
+      "delivery_target_hours": 10,
+      "features": [
+        "technical_audit",
+        "sitemap_optimization",
+        "json_ld_schema",
+        "ttfb_speed_boost",
+        "malware_cleanup"
+      ],
+      "excluded_features": [
+        "rebranding",
+        "database_migration",
+        "backend_rebuild"
+      ],
+      "status": "available"
+    }
+  ]
+}

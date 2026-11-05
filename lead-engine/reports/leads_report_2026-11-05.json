@@ -1,0 +1,305 @@
+[
+  {
+    "lead": {
+      "lead_id": "test-lead-001",
+      "business_name": "Apex Air Conditioning & Heating",
+      "industry": "home_services",
+      "subindustry": "hvac",
+      "country": "US",
+      "state": "TX",
+      "city": "Houston",
+      "website_url": null,
+      "domain": null,
+      "public_contact": {
+        "phone": "+17135550144",
+        "email": "contact@apexhoustonhvac.fake",
+        "contact_page": null,
+        "instagram": null
+      },
+      "business_status": "operational",
+      "sources": [
+        {
+          "url": "https://houston-business-registry.example.com/item/1029",
+          "type": "public_directory",
+          "retrieved_at": "2026-11-01T10:00:00Z"
+        }
+      ],
+      "discovered_at": "2026-11-01T10:00:00Z"
+    },
+    "state": "PRIORITY",
+    "evaluation": {
+      "lead_id": "test-lead-001",
+      "decision": "priority",
+      "score": 97,
+      "score_breakdown": {
+        "commercial_need": 25,
+        "product_fit": 25,
+        "implementation_ease": 20,
+        "conversion_potential": 15,
+        "evidence_activity": 12
+      },
+      "confidence": "high",
+      "commercial_problem": "El negocio no tiene página web propia para recibir tráfico y convertir llamadas.",
+      "recommended_product": "landing_page",
+      "estimated_complexity": "low",
+      "existing_components_reusable": [
+        "responsive_design",
+        "contact_form",
+        "hero_section",
+        "click_to_call",
+        "services_grid"
+      ],
+      "custom_development_required": false,
+      "reasons_to_reject": [],
+      "outreach_angle": "Crear una página web rápida y profesional que posicione en Google y facilite llamadas desde celulares.",
+      "evidence": [
+        {
+          "claim": "Sin sitio web oficial registrado en fuentes públicas",
+          "source_url": "https://houston-business-registry.example.com/item/1029",
+          "evidence_type": "public_observation",
+          "confidence": "high"
+        },
+        {
+          "claim": "Teléfono comercial público disponible: +17135550144",
+          "source_url": "https://houston-business-registry.example.com/item/1029",
+          "evidence_type": "contact_verification",
+          "confidence": "high"
+        }
+      ],
+      "missing_information": [],
+      "rubric_version": "1.0",
+      "evaluated_at": "2026-11-05T02:20:59.759Z"
+    },
+    "updatedAt": "2026-11-05T02:20:59.782Z"
+  },
+  {
+    "lead": {
+      "lead_id": "test-lead-002",
+      "business_name": "Bella Vida Aesthetics & Med Spa",
+      "industry": "med_spas_wellness",
+      "subindustry": "med_spa",
+      "country": "US",
+      "state": "TX",
+      "city": "Austin",
+      "website_url": "https://bellavida-austin.fake",
+      "domain": "bellavida-austin.fake",
+      "public_contact": {
+        "phone": "+15125550188",
+        "email": "info@bellavida-austin.fake",
+        "contact_page": "https://bellavida-austin.fake/contact",
+        "instagram": "@bellavida_atx"
+      },
+      "business_status": "operational",
+      "sources": [
+        {
+          "url": "https://austin-chamber.example.com/directory/581",
+          "type": "business_association",
+          "retrieved_at": "2026-11-01T10:05:00Z"
+        }
+      ],
+      "discovered_at": "2026-11-01T10:05:00Z"
+    },
+    "state": "INTERESTING",
+    "evaluation": {
+      "lead_id": "test-lead-002",
+      "decision": "interesting",
+      "score": 69,
+      "score_breakdown": {
+        "commercial_need": 10,
+        "product_fit": 22,
+        "implementation_ease": 14,
+        "conversion_potential": 11,
+        "evidence_activity": 12
+      },
+      "confidence": "high",
+      "commercial_problem": "Requiere mostrar catálogo estructurado de servicios, testimonios y panel de contenidos.",
+      "recommended_product": "business_website",
+      "estimated_complexity": "medium",
+      "existing_components_reusable": [
+        "responsive_design",
+        "contact_form",
+        "admin_dashboard",
+        "gallery_slider",
+        "lead_capture"
+      ],
+      "custom_development_required": false,
+      "reasons_to_reject": [],
+      "outreach_angle": "Implementar un sitio web administrable para exhibir servicios, testimonios y recibir consultas.",
+      "evidence": [
+        {
+          "claim": "Teléfono comercial público disponible: +15125550188",
+          "source_url": "https://austin-chamber.example.com/directory/581",
+          "evidence_type": "contact_verification",
+          "confidence": "high"
+        }
+      ],
+      "missing_information": [],
+      "rubric_version": "1.0",
+      "evaluated_at": "2026-11-05T02:20:59.789Z"
+    },
+    "updatedAt": "2026-11-05T02:20:59.792Z"
+  },
+  {
+    "lead": {
+      "lead_id": "test-lead-003-dup",
+      "business_name": "Apex Air Conditioning LLC",
+      "industry": "home_services",
+      "subindustry": "hvac",
+      "country": "US",
+      "state": "TX",
+      "city": "Houston",
+      "website_url": null,
+      "domain": null,
+      "public_contact": {
+        "phone": "+17135550144",
+        "email": null,
+        "contact_page": null,
+        "instagram": null
+      },
+      "business_status": "operational",
+      "sources": [
+        {
+          "url": "https://local-yelp-mock.example.com/biz/apex-houston",
+          "type": "directory",
+          "retrieved_at": "2026-11-01T10:10:00Z"
+        }
+      ],
+      "discovered_at": "2026-11-01T10:10:00Z"
+    },
+    "state": "DUPLICATE",
+    "updatedAt": "2026-11-05T02:20:59.801Z"
+  },
+  {
+    "lead": {
+      "lead_id": "test-lead-004-custom",
+      "business_name": "Texas Fleet Logistics & POS Systems",
+      "industry": "home_services",
+      "subindustry": "electrical",
+      "country": "US",
+      "state": "TX",
+      "city": "Dallas",
+      "website_url": "https://tx-fleetpos.fake",
+      "domain": "tx-fleetpos.fake",
+      "public_contact": {
+        "phone": "+12145550122",
+        "email": "ops@tx-fleetpos.fake",
+        "contact_page": null,
+        "instagram": null
+      },
+      "business_status": "operational",
+      "requires_custom_app": true,
+      "sources": [
+        {
+          "url": "https://dallas-tech.example.com/registry/49",
+          "type": "public_directory",
+          "retrieved_at": "2026-11-01T10:15:00Z"
+        }
+      ],
+      "discovered_at": "2026-11-01T10:15:00Z"
+    },
+    "state": "REJECTED",
+    "evaluation": {
+      "lead_id": "test-lead-004-custom",
+      "decision": "reject",
+      "score": 35,
+      "score_breakdown": {
+        "commercial_need": 10,
+        "product_fit": 0,
+        "implementation_ease": 0,
+        "conversion_potential": 13,
+        "evidence_activity": 12
+      },
+      "confidence": "high",
+      "commercial_problem": "Optimización técnica y SEO local.",
+      "recommended_product": null,
+      "estimated_complexity": "high",
+      "existing_components_reusable": [
+        "responsive_design",
+        "contact_form"
+      ],
+      "custom_development_required": true,
+      "reasons_to_reject": [
+        "El prospecto requiere integraciones especiales o software fuera del catálogo (CRM/POS/Booking multi-empleado)."
+      ],
+      "outreach_angle": "Mejorar la velocidad de carga y posicionamiento orgánico en su ciudad.",
+      "evidence": [
+        {
+          "claim": "Teléfono comercial público disponible: +12145550122",
+          "source_url": "https://dallas-tech.example.com/registry/49",
+          "evidence_type": "contact_verification",
+          "confidence": "high"
+        }
+      ],
+      "missing_information": [],
+      "rubric_version": "1.0",
+      "evaluated_at": "2026-11-05T02:20:59.809Z"
+    },
+    "updatedAt": "2026-11-05T02:20:59.811Z"
+  },
+  {
+    "lead": {
+      "lead_id": "test-lead-005-closed",
+      "business_name": "Lone Star Classic Plumbing",
+      "industry": "home_services",
+      "subindustry": "plumbing",
+      "country": "US",
+      "state": "TX",
+      "city": "San Antonio",
+      "website_url": "https://lonestar-plumbing.fake",
+      "domain": "lonestar-plumbing.fake",
+      "public_contact": {
+        "phone": "+12105550133",
+        "email": null,
+        "contact_page": null,
+        "instagram": null
+      },
+      "business_status": "closed",
+      "sources": [
+        {
+          "url": "https://sanantonio-directory.example.com/plumbing/9",
+          "type": "public_directory",
+          "retrieved_at": "2026-11-01T10:20:00Z"
+        }
+      ],
+      "discovered_at": "2026-11-01T10:20:00Z"
+    },
+    "state": "REJECTED",
+    "evaluation": {
+      "lead_id": "test-lead-005-closed",
+      "decision": "reject",
+      "score": 78,
+      "score_breakdown": {
+        "commercial_need": 10,
+        "product_fit": 25,
+        "implementation_ease": 20,
+        "conversion_potential": 15,
+        "evidence_activity": 8
+      },
+      "confidence": "high",
+      "commercial_problem": "Optimización técnica y SEO local.",
+      "recommended_product": null,
+      "estimated_complexity": "low",
+      "existing_components_reusable": [
+        "responsive_design",
+        "contact_form"
+      ],
+      "custom_development_required": false,
+      "reasons_to_reject": [
+        "El negocio figura como cerrado o inactivo."
+      ],
+      "outreach_angle": "Mejorar la velocidad de carga y posicionamiento orgánico en su ciudad.",
+      "evidence": [
+        {
+          "claim": "Teléfono comercial público disponible: +12105550133",
+          "source_url": "https://sanantonio-directory.example.com/plumbing/9",
+          "evidence_type": "contact_verification",
+          "confidence": "high"
+        }
+      ],
+      "missing_information": [],
+      "rubric_version": "1.0",
+      "evaluated_at": "2026-11-05T02:20:59.821Z"
+    },
+    "updatedAt": "2026-11-05T02:20:59.823Z"
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "eventId": "1793845259786-oulip",
+    "leadId": "test-lead-001",
+    "eventType": "LEAD_EVALUATED",
+    "payload": {
+      "score": 97,
+      "decision": "priority"
+    },
+    "timestamp": "2026-11-05T02:20:59.786Z"
+  },
+  {
+    "eventId": "1793845259796-c8ey8",
+    "leadId": "test-lead-002",
+    "eventType": "LEAD_EVALUATED",
+    "payload": {
+      "score": 69,
+      "decision": "interesting"
+    },
+    "timestamp": "2026-11-05T02:20:59.796Z"
+  },
+  {
+    "eventId": "1793845259805-ig0hh",
+    "leadId": "test-lead-003-dup",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-001"
+    },
+    "timestamp": "2026-11-05T02:20:59.805Z"
+  },
+  {
+    "eventId": "1793845259818-bm6e6",
+    "leadId": "test-lead-004-custom",
+    "eventType": "LEAD_EVALUATED",
+    "payload": {
+      "score": 35,
+      "decision": "reject"
+    },
+    "timestamp": "2026-11-05T02:20:59.818Z"
+  },
+  {
+    "eventId": "1793845259826-lhbg8",
+    "leadId": "test-lead-005-closed",
+    "eventType": "LEAD_EVALUATED",
+    "payload": {
+      "score": 78,
+      "decision": "reject"
+    },
+    "timestamp": "2026-11-05T02:20:59.826Z"
+  }
+]

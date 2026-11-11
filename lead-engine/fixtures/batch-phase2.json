@@ -1,0 +1,80 @@
+[
+  {
+    "lead_id": "fresh-001",
+    "business_name": "Top Notch Roofing Austin",
+    "industry": "home_services",
+    "subindustry": "roofing",
+    "country": "US",
+    "state": "TX",
+    "city": "Austin",
+    "website_url": null,
+    "domain": null,
+    "public_contact": {
+      "phone": "(512) 555-0922",
+      "email": "contact@topnotch-austin.fake",
+      "contact_page": null,
+      "instagram": null
+    },
+    "business_status": "operational",
+    "sources": [
+      {
+        "url": "https://austin-roofers.example.com/item/42",
+        "type": "directory",
+        "retrieved_at": "2026-11-07T12:00:00Z"
+      }
+    ],
+    "discovered_at": "2026-11-07T12:00:00Z"
+  },
+  {
+    "lead_id": "fresh-002",
+    "business_name": "Austin Modern Wellness Center",
+    "industry": "med_spas_wellness",
+    "subindustry": "med_spa",
+    "country": "US",
+    "state": "TX",
+    "city": "Austin",
+    "website_url": "https://example.com",
+    "domain": "example.com",
+    "public_contact": {
+      "phone": "(512) 555-0377",
+      "email": "info@example.com",
+      "contact_page": "https://example.com",
+      "instagram": null
+    },
+    "business_status": "operational",
+    "sources": [
+      {
+        "url": "https://wellness-directory.example.com/austin/1",
+        "type": "business_directory",
+        "retrieved_at": "2026-11-07T12:05:00Z"
+      }
+    ],
+    "discovered_at": "2026-11-07T12:05:00Z"
+  },
+  {
+    "lead_id": "fresh-003",
+    "business_name": "Alamo City Towing & Recovery",
+    "industry": "auto_services",
+    "subindustry": "auto_repair",
+    "country": "US",
+    "state": "TX",
+    "city": "San Antonio",
+    "website_url": "https://alamo-towing.fake",
+    "domain": "alamo-towing.fake",
+    "public_contact": {
+      "phone": "(210) 555-0488",
+      "email": null,
+      "contact_page": null,
+      "instagram": null
+    },
+    "business_status": "closed",
+    "sources": [
+      {
+        "url": "https://sanantonio-biz.example.com/towing/8",
+        "type": "directory",
+        "retrieved_at": "2026-11-07T12:10:00Z"
+      }
+    ],
+    "discovered_at": "2026-11-07T12:10:00Z"
+  }
+]

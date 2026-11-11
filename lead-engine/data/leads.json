@@ -26,51 +26,8 @@
       ],
       "discovered_at": "2026-11-01T10:00:00Z"
     },
-    "state": "PRIORITY",
-    "evaluation": {
-      "lead_id": "test-lead-001",
-      "decision": "priority",
-      "score": 97,
-      "score_breakdown": {
-        "commercial_need": 25,
-        "product_fit": 25,
-        "implementation_ease": 20,
-        "conversion_potential": 15,
-        "evidence_activity": 12
-      },
-      "confidence": "high",
-      "commercial_problem": "El negocio no tiene página web propia para recibir tráfico y convertir llamadas.",
-      "recommended_product": "landing_page",
-      "estimated_complexity": "low",
-      "existing_components_reusable": [
-        "responsive_design",
-        "contact_form",
-        "hero_section",
-        "click_to_call",
-        "services_grid"
-      ],
-      "custom_development_required": false,
-      "reasons_to_reject": [],
-      "outreach_angle": "Crear una página web rápida y profesional que posicione en Google y facilite llamadas desde celulares.",
-      "evidence": [
-        {
-          "claim": "Sin sitio web oficial registrado en fuentes públicas",
-          "source_url": "https://houston-business-registry.example.com/item/1029",
-          "evidence_type": "public_observation",
-          "confidence": "high"
-        },
-        {
-          "claim": "Teléfono comercial público disponible: +17135550144",
-          "source_url": "https://houston-business-registry.example.com/item/1029",
-          "evidence_type": "contact_verification",
-          "confidence": "high"
-        }
-      ],
-      "missing_information": [],
-      "rubric_version": "1.0",
-      "evaluated_at": "2026-11-05T02:20:59.759Z"
-    },
-    "updatedAt": "2026-11-05T02:20:59.782Z"
+    "state": "DUPLICATE",
+    "updatedAt": "2026-11-07T13:29:48.373Z"
   },
   {
     "lead": {
@@ -99,45 +56,8 @@
       ],
       "discovered_at": "2026-11-01T10:05:00Z"
     },
-    "state": "INTERESTING",
-    "evaluation": {
-      "lead_id": "test-lead-002",
-      "decision": "interesting",
-      "score": 69,
-      "score_breakdown": {
-        "commercial_need": 10,
-        "product_fit": 22,
-        "implementation_ease": 14,
-        "conversion_potential": 11,
-        "evidence_activity": 12
-      },
-      "confidence": "high",
-      "commercial_problem": "Requiere mostrar catálogo estructurado de servicios, testimonios y panel de contenidos.",
-      "recommended_product": "business_website",
-      "estimated_complexity": "medium",
-      "existing_components_reusable": [
-        "responsive_design",
-        "contact_form",
-        "admin_dashboard",
-        "gallery_slider",
-        "lead_capture"
-      ],
-      "custom_development_required": false,
-      "reasons_to_reject": [],
-      "outreach_angle": "Implementar un sitio web administrable para exhibir servicios, testimonios y recibir consultas.",
-      "evidence": [
-        {
-          "claim": "Teléfono comercial público disponible: +15125550188",
-          "source_url": "https://austin-chamber.example.com/directory/581",
-          "evidence_type": "contact_verification",
-          "confidence": "high"
-        }
-      ],
-      "missing_information": [],
-      "rubric_version": "1.0",
-      "evaluated_at": "2026-11-05T02:20:59.789Z"
-    },
-    "updatedAt": "2026-11-05T02:20:59.792Z"
+    "state": "DUPLICATE",
+    "updatedAt": "2026-11-07T13:29:48.409Z"
   },
   {
     "lead": {
@@ -167,7 +87,7 @@
       "discovered_at": "2026-11-01T10:10:00Z"
     },
     "state": "DUPLICATE",
-    "updatedAt": "2026-11-05T02:20:59.801Z"
+    "updatedAt": "2026-11-07T13:29:48.419Z"
   },
   {
     "lead": {
@@ -197,44 +117,8 @@
       ],
       "discovered_at": "2026-11-01T10:15:00Z"
     },
-    "state": "REJECTED",
-    "evaluation": {
-      "lead_id": "test-lead-004-custom",
-      "decision": "reject",
-      "score": 35,
-      "score_breakdown": {
-        "commercial_need": 10,
-        "product_fit": 0,
-        "implementation_ease": 0,
-        "conversion_potential": 13,
-        "evidence_activity": 12
-      },
-      "confidence": "high",
-      "commercial_problem": "Optimización técnica y SEO local.",
-      "recommended_product": null,
-      "estimated_complexity": "high",
-      "existing_components_reusable": [
-        "responsive_design",
-        "contact_form"
-      ],
-      "custom_development_required": true,
-      "reasons_to_reject": [
-        "El prospecto requiere integraciones especiales o software fuera del catálogo (CRM/POS/Booking multi-empleado)."
-      ],
-      "outreach_angle": "Mejorar la velocidad de carga y posicionamiento orgánico en su ciudad.",
-      "evidence": [
-        {
-          "claim": "Teléfono comercial público disponible: +12145550122",
-          "source_url": "https://dallas-tech.example.com/registry/49",
-          "evidence_type": "contact_verification",
-          "confidence": "high"
-        }
-      ],
-      "missing_information": [],
-      "rubric_version": "1.0",
-      "evaluated_at": "2026-11-05T02:20:59.809Z"
-    },
-    "updatedAt": "2026-11-05T02:20:59.811Z"
+    "state": "DUPLICATE",
+    "updatedAt": "2026-11-07T13:29:48.428Z"
   },
   {
     "lead": {
@@ -263,16 +147,186 @@
       ],
       "discovered_at": "2026-11-01T10:20:00Z"
     },
-    "state": "REJECTED",
+    "state": "DUPLICATE",
+    "updatedAt": "2026-11-07T13:29:48.439Z"
+  },
+  {
+    "lead": {
+      "lead_id": "fresh-001",
+      "business_name": "Top Notch Roofing Austin",
+      "industry": "home_services",
+      "subindustry": "roofing",
+      "country": "US",
+      "state": "TX",
+      "city": "Austin",
+      "website_url": null,
+      "domain": null,
+      "public_contact": {
+        "phone": "+15125550922",
+        "email": "contact@topnotch-austin.fake",
+        "contact_page": null,
+        "instagram": null
+      },
+      "business_status": "operational",
+      "sources": [
+        {
+          "url": "https://austin-roofers.example.com/item/42",
+          "type": "directory",
+          "retrieved_at": "2026-11-07T12:00:00Z"
+        }
+      ],
+      "discovered_at": "2026-11-07T12:00:00Z"
+    },
+    "state": "PRIORITY",
     "evaluation": {
-      "lead_id": "test-lead-005-closed",
-      "decision": "reject",
-      "score": 78,
+      "lead_id": "fresh-001",
+      "decision": "priority",
+      "score": 97,
       "score_breakdown": {
-        "commercial_need": 10,
+        "commercial_need": 25,
         "product_fit": 25,
         "implementation_ease": 20,
         "conversion_potential": 15,
+        "evidence_activity": 12
+      },
+      "confidence": "high",
+      "commercial_problem": "El negocio no tiene página web propia para recibir tráfico y convertir llamadas.",
+      "recommended_product": "landing_page",
+      "estimated_complexity": "low",
+      "existing_components_reusable": [
+        "responsive_design",
+        "contact_form",
+        "hero_section",
+        "click_to_call",
+        "services_grid"
+      ],
+      "custom_development_required": false,
+      "reasons_to_reject": [],
+      "outreach_angle": "Crear una página web rápida y profesional que posicione en Google y facilite llamadas desde celulares.",
+      "evidence": [
+        {
+          "claim": "Sin sitio web oficial registrado en fuentes públicas",
+          "source_url": "https://austin-roofers.example.com/item/42",
+          "evidence_type": "public_observation",
+          "confidence": "high"
+        },
+        {
+          "claim": "Teléfono comercial público disponible: +15125550922",
+          "source_url": "https://austin-roofers.example.com/item/42",
+          "evidence_type": "contact_verification",
+          "confidence": "high"
+        }
+      ],
+      "missing_information": [],
+      "rubric_version": "1.0",
+      "evaluated_at": "2026-11-07T13:59:16.173Z"
+    },
+    "updatedAt": "2026-11-07T13:59:16.176Z"
+  },
+  {
+    "lead": {
+      "lead_id": "fresh-002",
+      "business_name": "Austin Modern Wellness Center",
+      "industry": "med_spas_wellness",
+      "subindustry": "med_spa",
+      "country": "US",
+      "state": "TX",
+      "city": "Austin",
+      "website_url": "https://example.com",
+      "domain": "example.com",
+      "public_contact": {
+        "phone": "+15125550377",
+        "email": "info@example.com",
+        "contact_page": "https://example.com",
+        "instagram": null
+      },
+      "business_status": "operational",
+      "sources": [
+        {
+          "url": "https://wellness-directory.example.com/austin/1",
+          "type": "business_directory",
+          "retrieved_at": "2026-11-07T12:05:00Z"
+        }
+      ],
+      "discovered_at": "2026-11-07T12:05:00Z"
+    },
+    "state": "PRIORITY",
+    "evaluation": {
+      "lead_id": "fresh-002",
+      "decision": "priority",
+      "score": 82,
+      "score_breakdown": {
+        "commercial_need": 20,
+        "product_fit": 22,
+        "implementation_ease": 14,
+        "conversion_potential": 11,
+        "evidence_activity": 15
+      },
+      "confidence": "high",
+      "commercial_problem": "Requiere mostrar catálogo estructurado de servicios, testimonios y panel de contenidos.",
+      "recommended_product": "business_website",
+      "estimated_complexity": "medium",
+      "existing_components_reusable": [
+        "responsive_design",
+        "contact_form",
+        "admin_dashboard",
+        "gallery_slider",
+        "lead_capture"
+      ],
+      "custom_development_required": false,
+      "reasons_to_reject": [],
+      "outreach_angle": "Implementar un sitio web administrable para exhibir servicios, testimonios y recibir consultas.",
+      "evidence": [
+        {
+          "claim": "Teléfono comercial público disponible: +15125550377",
+          "source_url": "https://wellness-directory.example.com/austin/1",
+          "evidence_type": "contact_verification",
+          "confidence": "high"
+        }
+      ],
+      "missing_information": [],
+      "rubric_version": "1.0",
+      "evaluated_at": "2026-11-07T13:59:19.744Z"
+    },
+    "updatedAt": "2026-11-07T13:59:19.750Z"
+  },
+  {
+    "lead": {
+      "lead_id": "fresh-003",
+      "business_name": "Alamo City Towing & Recovery",
+      "industry": "auto_services",
+      "subindustry": "auto_repair",
+      "country": "US",
+      "state": "TX",
+      "city": "San Antonio",
+      "website_url": "https://alamo-towing.fake",
+      "domain": "alamo-towing.fake",
+      "public_contact": {
+        "phone": "+12105550488",
+        "email": null,
+        "contact_page": null,
+        "instagram": null
+      },
+      "business_status": "closed",
+      "sources": [
+        {
+          "url": "https://sanantonio-biz.example.com/towing/8",
+          "type": "directory",
+          "retrieved_at": "2026-11-07T12:10:00Z"
+        }
+      ],
+      "discovered_at": "2026-11-07T12:10:00Z"
+    },
+    "state": "REJECTED",
+    "evaluation": {
+      "lead_id": "fresh-003",
+      "decision": "reject",
+      "score": 81,
+      "score_breakdown": {
+        "commercial_need": 15,
+        "product_fit": 25,
+        "implementation_ease": 20,
+        "conversion_potential": 13,
         "evidence_activity": 8
       },
       "confidence": "high",
@@ -285,21 +339,22 @@
       ],
       "custom_development_required": false,
       "reasons_to_reject": [
-        "El negocio figura como cerrado o inactivo."
+        "El negocio figura como cerrado o inactivo.",
+        "Fallo crítico de verificación técnica: No se pudo conectar al sitio web: fetch failed"
       ],
       "outreach_angle": "Mejorar la velocidad de carga y posicionamiento orgánico en su ciudad.",
       "evidence": [
         {
-          "claim": "Teléfono comercial público disponible: +12105550133",
-          "source_url": "https://sanantonio-directory.example.com/plumbing/9",
+          "claim": "Teléfono comercial público disponible: +12105550488",
+          "source_url": "https://sanantonio-biz.example.com/towing/8",
           "evidence_type": "contact_verification",
           "confidence": "high"
         }
       ],
       "missing_information": [],
       "rubric_version": "1.0",
-      "evaluated_at": "2026-11-05T02:20:59.821Z"
+      "evaluated_at": "2026-11-07T13:59:20.615Z"
     },
-    "updatedAt": "2026-11-05T02:20:59.823Z"
+    "updatedAt": "2026-11-07T13:59:20.619Z"
   }
 ]

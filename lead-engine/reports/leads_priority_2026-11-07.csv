@@ -1,0 +1,9 @@
+Decision,Score,Business Name,Industry,Subindustry,City,State,Phone,Website,Recommended Product,Complexity,Outreach Angle,Reasons To Reject
+"DUPLICATE","","Apex Air Conditioning & Heating","home_services","hvac","Houston","TX","+17135550144","SIN_WEB","ninguno","unknown","",""
+"DUPLICATE","","Bella Vida Aesthetics & Med Spa","med_spas_wellness","med_spa","Austin","TX","+15125550188","https://bellavida-austin.fake","ninguno","unknown","",""
+"DUPLICATE","","Apex Air Conditioning LLC","home_services","hvac","Houston","TX","+17135550144","SIN_WEB","ninguno","unknown","",""
+"DUPLICATE","","Texas Fleet Logistics & POS Systems","home_services","electrical","Dallas","TX","+12145550122","https://tx-fleetpos.fake","ninguno","unknown","",""
+"DUPLICATE","","Lone Star Classic Plumbing","home_services","plumbing","San Antonio","TX","+12105550133","https://lonestar-plumbing.fake","ninguno","unknown","",""
+"priority","97","Top Notch Roofing Austin","home_services","roofing","Austin","TX","+15125550922","SIN_WEB","landing_page","low","Crear una página web rápida y profesional que posicione en Google y facilite llamadas desde celulares.",""
+"priority","82","Austin Modern Wellness Center","med_spas_wellness","med_spa","Austin","TX","+15125550377","https://example.com","business_website","medium","Implementar un sitio web administrable para exhibir servicios, testimonios y recibir consultas.",""
+"reject","81","Alamo City Towing & Recovery","auto_services","auto_repair","San Antonio","TX","+12105550488","https://alamo-towing.fake","ninguno","low","Mejorar la velocidad de carga y posicionamiento orgánico en su ciudad.","El negocio figura como cerrado o inactivo.; Fallo crítico de verificación técnica: No se pudo conectar al sitio web: fetch failed"

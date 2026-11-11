@@ -1,6 +1,6 @@
 /**
  * lead-engine/src/index.ts
- * Orquestador principal de prospección determinista (Fase 1).
+ * Orquestador principal de prospección determinista (Fases 1 y 2).
  * Ejecutable directamente con Node.js / TypeScript.
  */
 
@@ -11,6 +11,8 @@ import type { NormalizedLead } from "./schemas/contracts.ts";
 import { validateLead } from "./schemas/contracts.ts";
 import { normalizeDomain, normalizePhone } from "./utils/normalize.ts";
 import { Deduplicator } from "./utils/deduplicate.ts";
+import { Verifier } from "./verification/verifier.ts";
+import { WebsiteAuditor } from "./audit/auditor.ts";
 import { RuleBasedEvaluator } from "./evaluation/rule-based.evaluator.ts";
 import { JsonStore } from "./storage/json-store.ts";
 import { Exporter } from "./reporting/exporter.ts";
@@ -20,6 +22,8 @@ const __dirname = path.dirname(__filename);
 
 export class LeadEngine {
   private deduplicator = new Deduplicator();
+  private verifier = new Verifier();
+  private auditor = new WebsiteAuditor();
   private evaluator = new RuleBasedEvaluator();
   private store: JsonStore;
   private exporter: Exporter;
@@ -33,9 +37,9 @@ export class LeadEngine {
     this.deduplicator.seed(existing);
   }
 
-  public processBatch(rawLeads: any[]): void {
+  public async processBatch(rawLeads: any[]): Promise<void> {
     console.log(`\n======================================================`);
-    console.log(`🚀 INICIANDO MOTOR DE PROSPECCIÓN (FASE 1 DETERMINISTA)`);
+    console.log(`🚀 INICIANDO MOTOR DE PROSPECCIÓN (FASE 2: VERIFICACIÓN & AUDITORÍA)`);
     console.log(`📊 Total de prospectos a procesar: ${rawLeads.length}`);
     console.log(`======================================================\n`);
 
@@ -74,10 +78,18 @@ export class LeadEngine {
       // Registrar en el índice de deduplicación
       this.deduplicator.register(lead);
 
-      // 4. Evaluación comercial determinista (5 dimensiones)
-      const evaluation = this.evaluator.evaluate(lead);
+      // 4. Verificación técnica (URL, HTTPS, reachable)
+      const verification = await this.verifier.verify(lead);
+      this.store.recordEvent(lead.lead_id, "VERIFICATION_COMPLETED", verification);
 
-      // 5. Asignación de estado y persistencia
+      // 5. Auditoría web no intrusiva (PageSpeed, CTAs, click-to-call)
+      const audit = await this.auditor.audit(lead, verification);
+      this.store.recordEvent(lead.lead_id, "AUDIT_COMPLETED", audit);
+
+      // 6. Evaluación comercial determinista (5 dimensiones alimentadas con verificación y auditoría)
+      const evaluation = this.evaluator.evaluate(lead, verification, audit);
+
+      // 7. Asignación de estado y persistencia
       let finalState = "EVALUATED";
       if (evaluation.decision === "priority") {
         finalState = "PRIORITY";
@@ -100,7 +112,7 @@ export class LeadEngine {
       this.store.recordEvent(lead.lead_id, "LEAD_EVALUATED", { score: evaluation.score, decision: evaluation.decision });
     }
 
-    // 6. Generación de reportes finales
+    // 8. Generación de reportes finales
     const allRecords = this.store.getAllLeads();
     const reports = this.exporter.exportReports(allRecords);
 
@@ -117,9 +129,9 @@ export class LeadEngine {
 }
 
 // Ejecución directa
-const fixturesPath = path.resolve(__dirname, "../fixtures/sample-leads.json");
-if (fs.existsSync(fixturesPath)) {
-  const sampleData = JSON.parse(fs.readFileSync(fixturesPath, "utf-8"));
+const inputArg = process.argv[2] ? path.resolve(process.cwd(), process.argv[2]) : path.resolve(__dirname, "../fixtures/sample-leads.json");
+if (fs.existsSync(inputArg)) {
+  const sampleData = JSON.parse(fs.readFileSync(inputArg, "utf-8"));
   const engine = new LeadEngine(path.resolve(__dirname, ".."));
-  engine.processBatch(sampleData);
+  await engine.processBatch(sampleData);
 }

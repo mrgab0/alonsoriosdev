@@ -47,5 +47,331 @@
       "decision": "reject"
     },
     "timestamp": "2026-11-05T02:20:59.826Z"
+  },
+  {
+    "eventId": "1793897525974-o6i51",
+    "leadId": "test-lead-001",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-003-dup"
+    },
+    "timestamp": "2026-11-05T16:52:05.974Z"
+  },
+  {
+    "eventId": "1793897525984-c7ju8",
+    "leadId": "test-lead-002",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-002"
+    },
+    "timestamp": "2026-11-05T16:52:05.984Z"
+  },
+  {
+    "eventId": "1793897525998-5cq0o",
+    "leadId": "test-lead-003-dup",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-003-dup"
+    },
+    "timestamp": "2026-11-05T16:52:05.999Z"
+  },
+  {
+    "eventId": "1793897526007-1ppwb",
+    "leadId": "test-lead-004-custom",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-004-custom"
+    },
+    "timestamp": "2026-11-05T16:52:06.007Z"
+  },
+  {
+    "eventId": "1793897526016-sgn44",
+    "leadId": "test-lead-005-closed",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-005-closed"
+    },
+    "timestamp": "2026-11-05T16:52:06.017Z"
+  },
+  {
+    "eventId": "1794058188402-fw7gp",
+    "leadId": "test-lead-001",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-003-dup"
+    },
+    "timestamp": "2026-11-07T13:29:48.402Z"
+  },
+  {
+    "eventId": "1794058188412-cazfh",
+    "leadId": "test-lead-002",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-002"
+    },
+    "timestamp": "2026-11-07T13:29:48.413Z"
+  },
+  {
+    "eventId": "1794058188423-px7wf",
+    "leadId": "test-lead-003-dup",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-003-dup"
+    },
+    "timestamp": "2026-11-07T13:29:48.423Z"
+  },
+  {
+    "eventId": "1794058188432-aeb89",
+    "leadId": "test-lead-004-custom",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-004-custom"
+    },
+    "timestamp": "2026-11-07T13:29:48.432Z"
+  },
+  {
+    "eventId": "1794058188443-drxm8",
+    "leadId": "test-lead-005-closed",
+    "eventType": "DUPLICATE_DETECTED",
+    "payload": {
+      "matchedWith": "test-lead-005-closed"
+    },
+    "timestamp": "2026-11-07T13:29:48.443Z"
+  },
+  {
+    "eventId": "1794059956161-upbmq",
+    "leadId": "fresh-001",
+    "eventType": "VERIFICATION_COMPLETED",
+    "payload": {
+      "lead_id": "fresh-001",
+      "verification_status": "verified",
+      "website_reachable": false,
+      "http_status": null,
+      "https_enabled": false,
+      "redirect_target": null,
+      "business_identity_match": "unknown",
+      "contact_data_verified": {
+        "phone": true,
+        "email": true,
+        "contact_page": false
+      },
+      "issues": [
+        "Sin sitio web registrado (oportunidad directa de creación de landing page)"
+      ],
+      "checked_at": "2026-11-07T13:59:16.142Z"
+    },
+    "timestamp": "2026-11-07T13:59:16.161Z"
+  },
+  {
+    "eventId": "1794059956168-wwyep",
+    "leadId": "fresh-001",
+    "eventType": "AUDIT_COMPLETED",
+    "payload": {
+      "lead_id": "fresh-001",
+      "audit_status": "skipped",
+      "pagespeed": {
+        "mobile": {
+          "performance": null,
+          "accessibility": null,
+          "best_practices": null,
+          "seo": null
+        },
+        "desktop": {
+          "performance": null,
+          "accessibility": null,
+          "best_practices": null,
+          "seo": null
+        }
+      },
+      "website_features": {
+        "clear_primary_cta": "unknown",
+        "click_to_call": "missing",
+        "contact_form": "unknown",
+        "online_booking": "not_detected",
+        "online_catalog": "not_detected",
+        "online_checkout": "not_detected",
+        "mobile_navigation": "unknown"
+      },
+      "observations": [
+        "Auditoría web omitida: Negocio sin sitio web activo."
+      ],
+      "evidence": [
+        {
+          "claim": "Negocio sin presencia web oficial propia para captar clientes en Google",
+          "source_url": "https://austin-roofers.example.com/item/42",
+          "evidence_type": "absence_observation",
+          "confidence": "high"
+        }
+      ],
+      "audited_at": "2026-11-07T13:59:16.167Z"
+    },
+    "timestamp": "2026-11-07T13:59:16.168Z"
+  },
+  {
+    "eventId": "1794059956180-c2s30",
+    "leadId": "fresh-001",
+    "eventType": "LEAD_EVALUATED",
+    "payload": {
+      "score": 97,
+      "decision": "priority"
+    },
+    "timestamp": "2026-11-07T13:59:16.180Z"
+  },
+  {
+    "eventId": "1794059958591-q9mb8",
+    "leadId": "fresh-002",
+    "eventType": "VERIFICATION_COMPLETED",
+    "payload": {
+      "lead_id": "fresh-002",
+      "verification_status": "verified",
+      "website_reachable": true,
+      "http_status": 200,
+      "https_enabled": true,
+      "redirect_target": "https://example.com/",
+      "business_identity_match": "unknown",
+      "contact_data_verified": {
+        "phone": true,
+        "email": true,
+        "contact_page": true
+      },
+      "issues": [],
+      "checked_at": "2026-11-07T13:59:16.184Z"
+    },
+    "timestamp": "2026-11-07T13:59:18.591Z"
+  },
+  {
+    "eventId": "1794059959739-l4ctb",
+    "leadId": "fresh-002",
+    "eventType": "AUDIT_COMPLETED",
+    "payload": {
+      "lead_id": "fresh-002",
+      "audit_status": "completed",
+      "pagespeed": {
+        "mobile": {
+          "performance": 80,
+          "accessibility": null,
+          "best_practices": null,
+          "seo": null
+        },
+        "desktop": {
+          "performance": 95,
+          "accessibility": null,
+          "best_practices": null,
+          "seo": null
+        }
+      },
+      "website_features": {
+        "clear_primary_cta": "missing",
+        "click_to_call": "missing",
+        "contact_form": "missing",
+        "online_booking": "not_detected",
+        "online_catalog": "not_detected",
+        "online_checkout": "not_detected",
+        "mobile_navigation": "unknown"
+      },
+      "observations": [
+        "No se encontró enlace click-to-call directo en el sitio móvil.",
+        "No se detectó formulario de contacto o solicitud de cotización en la página principal."
+      ],
+      "evidence": [
+        {
+          "claim": "El sitio carece de botón 'Click-to-Call' para llamar directamente con un toque",
+          "source_url": "https://example.com",
+          "evidence_type": "html_inspection",
+          "confidence": "high"
+        }
+      ],
+      "audited_at": "2026-11-07T13:59:18.594Z"
+    },
+    "timestamp": "2026-11-07T13:59:19.739Z"
+  },
+  {
+    "eventId": "1794059959759-kbmrl",
+    "leadId": "fresh-002",
+    "eventType": "LEAD_EVALUATED",
+    "payload": {
+      "score": 82,
+      "decision": "priority"
+    },
+    "timestamp": "2026-11-07T13:59:19.759Z"
+  },
+  {
+    "eventId": "1794059960321-35jb6",
+    "leadId": "fresh-003",
+    "eventType": "VERIFICATION_COMPLETED",
+    "payload": {
+      "lead_id": "fresh-003",
+      "verification_status": "failed",
+      "website_reachable": false,
+      "http_status": null,
+      "https_enabled": true,
+      "redirect_target": null,
+      "business_identity_match": "unknown",
+      "contact_data_verified": {
+        "phone": true,
+        "email": false,
+        "contact_page": false
+      },
+      "issues": [
+        "No se pudo conectar al sitio web: fetch failed"
+      ],
+      "checked_at": "2026-11-07T13:59:19.765Z"
+    },
+    "timestamp": "2026-11-07T13:59:20.321Z"
+  },
+  {
+    "eventId": "1794059960610-syo55",
+    "leadId": "fresh-003",
+    "eventType": "AUDIT_COMPLETED",
+    "payload": {
+      "lead_id": "fresh-003",
+      "audit_status": "skipped",
+      "pagespeed": {
+        "mobile": {
+          "performance": null,
+          "accessibility": null,
+          "best_practices": null,
+          "seo": null
+        },
+        "desktop": {
+          "performance": null,
+          "accessibility": null,
+          "best_practices": null,
+          "seo": null
+        }
+      },
+      "website_features": {
+        "clear_primary_cta": "unknown",
+        "click_to_call": "missing",
+        "contact_form": "unknown",
+        "online_booking": "not_detected",
+        "online_catalog": "not_detected",
+        "online_checkout": "not_detected",
+        "mobile_navigation": "unknown"
+      },
+      "observations": [
+        "Auditoría web omitida: Negocio sin sitio web activo."
+      ],
+      "evidence": [
+        {
+          "claim": "Negocio sin presencia web oficial propia para captar clientes en Google",
+          "source_url": "https://sanantonio-biz.example.com/towing/8",
+          "evidence_type": "absence_observation",
+          "confidence": "high"
+        }
+      ],
+      "audited_at": "2026-11-07T13:59:20.606Z"
+    },
+    "timestamp": "2026-11-07T13:59:20.610Z"
+  },
+  {
+    "eventId": "1794059960626-yi381",
+    "leadId": "fresh-003",
+    "eventType": "LEAD_EVALUATED",
+    "payload": {
+      "score": 81,
+      "decision": "reject"
+    },
+    "timestamp": "2026-11-07T13:59:20.626Z"
   }
 ]

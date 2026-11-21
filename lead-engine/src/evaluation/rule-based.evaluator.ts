@@ -84,7 +84,7 @@ export class RuleBasedEvaluator {
       outreachAngle = "Mejorar la velocidad de carga y posicionamiento orgánico en su ciudad.";
     }
 
-    // 5. Evidencias
+    // 5. Evidencias y discriminación
     const evidence: EvidenceItem[] = [];
     if (!lead.website_url) {
       evidence.push({
@@ -103,12 +103,55 @@ export class RuleBasedEvaluator {
       });
     }
 
+    // Discriminación visual y canal óptimo
+    const lead_temperature: "HOT" | "WARM" | "COLD" =
+      totalScore >= 80 ? "HOT" : totalScore >= 65 ? "WARM" : "COLD";
+
+    let outreach_channel: "phone_sms" | "executive_email" | "instagram_dm" | "contact_form" | "none" = "phone_sms";
+    if (lead.public_contact?.phone && (lead.industry === "home_services" || lead.industry === "auto_services")) {
+      outreach_channel = "phone_sms";
+    } else if (lead.public_contact?.email) {
+      outreach_channel = "executive_email";
+    } else if (lead.public_contact?.instagram) {
+      outreach_channel = "instagram_dm";
+    } else if (lead.public_contact?.contact_page) {
+      outreach_channel = "contact_form";
+    } else if (!lead.public_contact?.phone) {
+      outreach_channel = "none";
+    }
+
+    const visual_flaws: string[] = [];
+    if (!lead.website_url) {
+      visual_flaws.push("inexistent_website");
+    }
+    if (audit?.website_features?.clear_primary_cta === "missing") {
+      visual_flaws.push("missing_primary_cta");
+    }
+    if (audit?.website_features?.click_to_call === "missing") {
+      visual_flaws.push("missing_click_to_call");
+    }
+    if (audit?.pagespeed?.mobile?.performance !== null && audit && (audit.pagespeed.mobile.performance ?? 100) < 50) {
+      visual_flaws.push("poor_mobile_performance");
+    }
+
+    const killer_screenshot_angle = !lead.website_url
+      ? "Google Maps listing showing competitor website button while client lacks URL."
+      : visual_flaws.includes("missing_click_to_call")
+      ? "Mobile viewport mockup demonstrating absence of 1-tap call button."
+      : "PageSpeed / mobile audit score showing under 50% performance vs local peers.";
+
+    const closing_argument = !lead.website_url
+      ? `Actualmente los clientes en ${lead.city} que buscan ${lead.industry} en Google terminan llamando a la competencia que sí tiene botón web directo.`
+      : "El 70% del tráfico local busca desde el móvil; sin botón de llamada directa en el primer scroll, cada visita es un cliente que se va a otro taller o negocio.";
+
     const result: EvaluationResult = {
       lead_id: lead.lead_id,
       decision,
       score: totalScore,
       score_breakdown: breakdown,
       confidence: "high",
+      lead_temperature,
+      outreach_channel,
       commercial_problem: commercialProblem,
       recommended_product: filter.passed ? recommendedProduct : null,
       estimated_complexity: filter.complexity,
@@ -116,6 +159,9 @@ export class RuleBasedEvaluator {
       custom_development_required: filter.customDevRequired,
       reasons_to_reject: filter.reasonsToReject,
       outreach_angle: outreachAngle,
+      killer_screenshot_angle,
+      closing_argument,
+      visual_flaws,
       evidence,
       missing_information: [],
       rubric_version: this.rubricVersion,

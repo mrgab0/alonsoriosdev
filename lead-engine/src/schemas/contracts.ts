@@ -112,6 +112,8 @@ export interface EvaluationResult {
   score: number; // 0 a 100
   score_breakdown: ScoreBreakdown;
   confidence: "high" | "medium" | "low";
+  lead_temperature: "HOT" | "WARM" | "COLD";
+  outreach_channel: "phone_sms" | "executive_email" | "instagram_dm" | "contact_form" | "none";
   commercial_problem: string;
   recommended_product: "landing_page" | "business_website" | "seo_speed_fix" | null;
   estimated_complexity: "low" | "medium" | "high" | "unknown";
@@ -119,6 +121,9 @@ export interface EvaluationResult {
   custom_development_required: boolean;
   reasons_to_reject: string[];
   outreach_angle: string;
+  killer_screenshot_angle: string;
+  closing_argument: string;
+  visual_flaws: string[];
   evidence: EvidenceItem[];
   missing_information: string[];
   rubric_version: string;

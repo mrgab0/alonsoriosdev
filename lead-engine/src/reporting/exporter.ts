@@ -32,6 +32,7 @@ export class Exporter {
     // 2. Export CSV para revisión rápida
     const headers = [
       "Decision",
+      "Temperature",
       "Score",
       "Business Name",
       "Industry",
@@ -39,10 +40,13 @@ export class Exporter {
       "City",
       "State",
       "Phone",
+      "Channel",
       "Website",
       "Recommended Product",
       "Complexity",
       "Outreach Angle",
+      "Killer Screenshot",
+      "Closing Argument",
       "Reasons To Reject",
     ];
 
@@ -57,6 +61,7 @@ export class Exporter {
       const l = r.lead;
       return [
         escapeCsv(e?.decision || r.state),
+        escapeCsv(e?.lead_temperature || "COLD"),
         escapeCsv(e?.score ?? ""),
         escapeCsv(l.business_name),
         escapeCsv(l.industry),
@@ -64,10 +69,13 @@ export class Exporter {
         escapeCsv(l.city),
         escapeCsv(l.state),
         escapeCsv(l.public_contact?.phone || ""),
+        escapeCsv(e?.outreach_channel || "none"),
         escapeCsv(l.website_url || "SIN_WEB"),
         escapeCsv(e?.recommended_product || "ninguno"),
         escapeCsv(e?.estimated_complexity || "unknown"),
         escapeCsv(e?.outreach_angle || ""),
+        escapeCsv(e?.killer_screenshot_angle || ""),
+        escapeCsv(e?.closing_argument || ""),
         escapeCsv(e?.reasons_to_reject?.join("; ") || ""),
       ].join(",");
     });

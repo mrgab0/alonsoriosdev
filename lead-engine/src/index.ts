@@ -16,6 +16,7 @@ import { WebsiteAuditor } from "./audit/auditor.ts";
 import { RuleBasedEvaluator } from "./evaluation/rule-based.evaluator.ts";
 import { JsonStore } from "./storage/json-store.ts";
 import { Exporter } from "./reporting/exporter.ts";
+import { DiscoveryService } from "./discovery/discovery.service.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,6 +28,7 @@ export class LeadEngine {
   private evaluator = new RuleBasedEvaluator();
   private store: JsonStore;
   private exporter: Exporter;
+  public discovery = new DiscoveryService();
 
   constructor(baseDir?: string) {
     this.store = new JsonStore(baseDir ? path.join(baseDir, "data") : undefined);
@@ -128,10 +130,36 @@ export class LeadEngine {
   }
 }
 
-// Ejecución directa
-const inputArg = process.argv[2] ? path.resolve(process.cwd(), process.argv[2]) : path.resolve(__dirname, "../fixtures/sample-leads.json");
-if (fs.existsSync(inputArg)) {
-  const sampleData = JSON.parse(fs.readFileSync(inputArg, "utf-8"));
+// Ejecución directa o CLI
+const arg = process.argv[2];
+
+if (arg === "--discover") {
+  const source = process.argv[3] || "open-data";
+  const niche = process.argv[4] || "home_services";
+  const subindustry = process.argv[5] || "electrical";
+  const city = process.argv[6] || "Austin";
+  const state = process.argv[7] || "TX";
+
   const engine = new LeadEngine(path.resolve(__dirname, ".."));
-  await engine.processBatch(sampleData);
+  const discovered = await engine.discovery.discover(source, {
+    niche,
+    subindustry,
+    city,
+    state,
+    country: "US",
+    limit: 5,
+  });
+
+  if (discovered.length > 0) {
+    await engine.processBatch(discovered);
+  } else {
+    console.log("No se encontraron nuevos prospectos con los filtros indicados.");
+  }
+} else {
+  const inputArg = arg ? path.resolve(process.cwd(), arg) : path.resolve(__dirname, "../fixtures/sample-leads.json");
+  if (fs.existsSync(inputArg)) {
+    const sampleData = JSON.parse(fs.readFileSync(inputArg, "utf-8"));
+    const engine = new LeadEngine(path.resolve(__dirname, ".."));
+    await engine.processBatch(sampleData);
+  }
 }

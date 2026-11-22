@@ -27,7 +27,7 @@ export class NemotronEvaluator implements LeadEvaluator {
     // Si no hay API key configurada, fallback determinista a reglas
     if (!this.apiKey) {
       console.warn("⚠️ [NEMOTRON] NVIDIA_API_KEY no detectada. Usando fallback RuleBasedEvaluator.");
-      return this.fallbackEvaluator.evaluate(lead, audit);
+      return this.fallbackEvaluator.evaluateDirect(lead, undefined, audit);
     }
 
     try {
@@ -76,7 +76,14 @@ You MUST output valid, raw JSON matching the required schema without markdown wr
 
       const json = await response.json();
       const rawText = json.choices?.[0]?.message?.content || "";
-      const cleanedText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
+      let cleanedText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
+
+      // Extraer bloque JSON si hay texto adicional
+      const firstBrace = cleanedText.indexOf("{");
+      const lastBrace = cleanedText.lastIndexOf("}");
+      if (firstBrace !== -1 && lastBrace !== -1) {
+        cleanedText = cleanedText.substring(firstBrace, lastBrace + 1);
+      }
 
       const parsed = JSON.parse(cleanedText);
       parsed.lead_id = lead.lead_id;
@@ -86,13 +93,13 @@ You MUST output valid, raw JSON matching the required schema without markdown wr
       const validation = validateEvaluation(parsed);
       if (!validation.success) {
         console.warn("⚠️ [NEMOTRON] Respuesta no pasó validación de contrato:", validation.errors);
-        return this.fallbackEvaluator.evaluate(lead, audit);
+        return this.fallbackEvaluator.evaluateDirect(lead, undefined, audit);
       }
 
       return validation.data!;
     } catch (err: any) {
       console.warn(`⚠️ [NEMOTRON ERROR]: ${err.message}. Empleando fallback determinista.`);
-      return this.fallbackEvaluator.evaluate(lead, audit);
+      return this.fallbackEvaluator.evaluateDirect(lead, undefined, audit);
     }
   }
 
@@ -125,11 +132,13 @@ You MUST output valid, raw JSON matching the required schema without markdown wr
   "missing_information": []
 }
 
-CRITICAL RULES:
+CRITICAL RULES (Mandatory Hard Filters):
 1. sum(score_breakdown) MUST exactly equal score.
-2. If business has no website or missing click-to-call, commercial_need >= 20.
-3. If business is closed, decision MUST be "reject", score = 0, score_breakdown all 0.
-4. Lead Temperature: score >= 80 -> "HOT", >= 65 -> "WARM", else "COLD".
+2. If business has NO website AND NO phone AND NO email, decision MUST be "reject", score = 0, lead_temperature = "COLD", reasons_to_reject = ["No public contact info available"].
+3. If business requires custom app development, enterprise ERP or custom software (requires_custom_app is true), decision MUST be "reject", custom_development_required = true, score = 0, lead_temperature = "COLD".
+4. If business is closed, decision MUST be "reject", score = 0.
+5. If business has no website or missing click-to-call, commercial_need >= 20.
+6. Lead Temperature: score >= 80 -> "HOT", >= 65 -> "WARM", else "COLD".
 
 LEAD CONTEXT:
 Business Name: ${lead.business_name}
@@ -139,6 +148,7 @@ Website URL: ${lead.website_url || "NONE (NO WEBSITE)"}
 Phone: ${lead.public_contact?.phone || "NONE"}
 Email: ${lead.public_contact?.email || "NONE"}
 Status: ${lead.business_status}
+Requires Custom App: ${lead.requires_custom_app ?? false}
 Audit summary: ${JSON.stringify(audit?.website_features || {})}
 Pagespeed Mobile: ${audit?.pagespeed?.mobile?.performance ?? "N/A"}`;
   }

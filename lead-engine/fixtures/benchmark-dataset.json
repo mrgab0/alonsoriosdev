@@ -1,0 +1,183 @@
+[
+  {
+    "lead": {
+      "lead_id": "eval-bench-001",
+      "business_name": "Lone Star Emergency Plumbing",
+      "industry": "home_services",
+      "subindustry": "plumbing",
+      "country": "US",
+      "state": "TX",
+      "city": "Austin",
+      "website_url": null,
+      "domain": null,
+      "public_contact": {
+        "phone": "+15125550199",
+        "email": null,
+        "contact_page": null,
+        "instagram": null
+      },
+      "business_status": "operational",
+      "sources": [{ "url": "https://austin-registry.example.com/item/1", "type": "official_permit_registry", "retrieved_at": "2026-11-22T00:00:00Z" }],
+      "discovered_at": "2026-11-22T00:00:00Z"
+    },
+    "human_baseline": {
+      "decision": "priority",
+      "lead_temperature": "HOT",
+      "recommended_product": "landing_page",
+      "reasoning": "Servicio de fontanería de emergencia sin web pero con teléfono verificado. Ideal para landing de captación rápida."
+    }
+  },
+  {
+    "lead": {
+      "lead_id": "eval-bench-002",
+      "business_name": "Austin Serene Med Spa & Wellness",
+      "industry": "med_spas_wellness",
+      "subindustry": "med_spa",
+      "country": "US",
+      "state": "TX",
+      "city": "Austin",
+      "website_url": "https://example.com/serenemedspa",
+      "domain": "example.com",
+      "public_contact": {
+        "phone": "+15125550211",
+        "email": "contact@serenemedspa.fake",
+        "contact_page": "https://example.com/serenemedspa/contact",
+        "instagram": "@serenemedspa_atx"
+      },
+      "business_status": "operational",
+      "sources": [{ "url": "https://austin-wellness.example.com/directory/5", "type": "business_association", "retrieved_at": "2026-11-22T00:00:00Z" }],
+      "discovered_at": "2026-11-22T00:00:00Z"
+    },
+    "audit": {
+      "lead_id": "eval-bench-002",
+      "audit_status": "completed",
+      "pagespeed": {
+        "mobile": { "performance": 42, "accessibility": 80, "best_practices": 75, "seo": 85 },
+        "desktop": { "performance": 75, "accessibility": 85, "best_practices": 80, "seo": 90 }
+      },
+      "website_features": {
+        "clear_primary_cta": "missing",
+        "click_to_call": "missing",
+        "contact_form": "present",
+        "online_booking": "not_detected",
+        "online_catalog": "present",
+        "online_checkout": "not_detected",
+        "mobile_navigation": "present"
+      },
+      "observations": ["Pobre rendimiento móvil (42)", "Sin botón de llamada ni CTA prominente"],
+      "evidence": [],
+      "audited_at": "2026-11-22T00:00:00Z"
+    },
+    "human_baseline": {
+      "decision": "priority",
+      "lead_temperature": "HOT",
+      "recommended_product": "business_website",
+      "reasoning": "Med spa de alto ticket con sitio actual deficiente (móvil 42, sin click to call). Gran potencial de modernización web."
+    }
+  },
+  {
+    "lead": {
+      "lead_id": "eval-bench-003",
+      "business_name": "Old Oak Carpentry & Custom Sheds",
+      "industry": "home_services",
+      "subindustry": "carpentry",
+      "country": "US",
+      "state": "TX",
+      "city": "San Antonio",
+      "website_url": null,
+      "domain": null,
+      "public_contact": {
+        "phone": null,
+        "email": null,
+        "contact_page": null,
+        "instagram": null
+      },
+      "business_status": "operational",
+      "sources": [{ "url": "https://osm.org/node/123", "type": "osm_directory", "retrieved_at": "2026-11-22T00:00:00Z" }],
+      "discovered_at": "2026-11-22T00:00:00Z"
+    },
+    "human_baseline": {
+      "decision": "reject",
+      "lead_temperature": "COLD",
+      "recommended_product": null,
+      "reasoning": "Sin web ni teléfono ni email. Descarte inmediato por filtro obligatorio (incontactable)."
+    }
+  },
+  {
+    "lead": {
+      "lead_id": "eval-bench-004",
+      "business_name": "Southwest Enterprise Parts Distribution",
+      "industry": "auto_services",
+      "subindustry": "auto_parts_enterprise",
+      "country": "US",
+      "state": "TX",
+      "city": "Dallas",
+      "website_url": "https://example.com/southwestparts",
+      "domain": "example.com",
+      "public_contact": {
+        "phone": "+12145558899",
+        "email": "orders@southwestparts.fake",
+        "contact_page": null,
+        "instagram": null
+      },
+      "business_status": "operational",
+      "requires_custom_app": true,
+      "sources": [{ "url": "https://dallas-auto.example.com", "type": "directory", "retrieved_at": "2026-11-22T00:00:00Z" }],
+      "discovered_at": "2026-11-22T00:00:00Z"
+    },
+    "human_baseline": {
+      "decision": "reject",
+      "lead_temperature": "COLD",
+      "recommended_product": null,
+      "reasoning": "Distribuidor empresarial complejo que requiere desarrollo a medida fuera de alcance ($149-$700)."
+    }
+  },
+  {
+    "lead": {
+      "lead_id": "eval-bench-005",
+      "business_name": "Downtown Premier Hair Studio",
+      "industry": "med_spas_wellness",
+      "subindustry": "hair_salon",
+      "country": "US",
+      "state": "TX",
+      "city": "Austin",
+      "website_url": "https://example.com/premierhair",
+      "domain": "example.com",
+      "public_contact": {
+        "phone": "+15125553344",
+        "email": "hello@premierhair.fake",
+        "contact_page": "https://example.com/premierhair/contact",
+        "instagram": "@premierhair_atx"
+      },
+      "business_status": "operational",
+      "sources": [{ "url": "https://austin-hair.example.com", "type": "directory", "retrieved_at": "2026-11-22T00:00:00Z" }],
+      "discovered_at": "2026-11-22T00:00:00Z"
+    },
+    "audit": {
+      "lead_id": "eval-bench-005",
+      "audit_status": "completed",
+      "pagespeed": {
+        "mobile": { "performance": 88, "accessibility": 92, "best_practices": 90, "seo": 95 },
+        "desktop": { "performance": 96, "accessibility": 95, "best_practices": 92, "seo": 98 }
+      },
+      "website_features": {
+        "clear_primary_cta": "present",
+        "click_to_call": "present",
+        "contact_form": "present",
+        "online_booking": "third_party",
+        "online_catalog": "present",
+        "online_checkout": "not_detected",
+        "mobile_navigation": "present"
+      },
+      "observations": ["Excelente velocidad (88/96)", "Sitio moderno y funcional"],
+      "evidence": [],
+      "audited_at": "2026-11-22T00:00:00Z"
+    },
+    "human_baseline": {
+      "decision": "interesting",
+      "lead_temperature": "WARM",
+      "recommended_product": "seo_speed_fix",
+      "reasoning": "Tienen buen sitio web pero podrían requerir optimizaciones de conversión o mantenimiento."
+    }
+  }
+]

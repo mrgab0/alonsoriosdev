@@ -14,11 +14,17 @@ import type {
 } from "../schemas/contracts.ts";
 import { validateEvaluation } from "../schemas/contracts.ts";
 import { HardFilters } from "./hard-filters.ts";
+import type { LeadEvaluator, EvaluatorInput } from "./evaluator.interface.ts";
 
-export class RuleBasedEvaluator {
+export class RuleBasedEvaluator implements LeadEvaluator {
+  name = "rule-based";
   private rubricVersion = "1.0";
 
-  public evaluate(
+  public async evaluate(input: EvaluatorInput): Promise<EvaluationResult> {
+    return this.evaluateDirect(input.lead, undefined, input.audit);
+  }
+
+  public evaluateDirect(
     lead: NormalizedLead,
     verification?: VerificationResult,
     audit?: AuditResult

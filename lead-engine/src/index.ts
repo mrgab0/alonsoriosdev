@@ -89,7 +89,7 @@ export class LeadEngine {
       this.store.recordEvent(lead.lead_id, "AUDIT_COMPLETED", audit);
 
       // 6. Evaluación comercial determinista (5 dimensiones alimentadas con verificación y auditoría)
-      const evaluation = this.evaluator.evaluate(lead, verification, audit);
+      const evaluation = this.evaluator.evaluateDirect(lead, verification, audit);
 
       // 7. Asignación de estado y persistencia
       let finalState = "EVALUATED";
@@ -107,7 +107,7 @@ export class LeadEngine {
       } else {
         finalState = "REJECTED";
         countRejected++;
-        console.log(`   ❌ [DESCARTADO] Motivo: ${evaluation.reasons_to_reject.join(" | ")}`);
+        console.log(`   ❌ [DESCARTADO] Motivo: ${(evaluation.reasons_to_reject || []).join(" | ")}`);
       }
 
       this.store.saveLead(lead, finalState, evaluation);

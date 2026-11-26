@@ -33,7 +33,12 @@ export async function GET(request: Request) {
       return NextResponse.json({ success: true, data: defaultApps });
     }
 
-    return NextResponse.json({ success: true, data: apps });
+    // Unir apps de DB con defaultApps no presentes en DB
+    const dbSlugs = new Set(apps.map((a: any) => a.slug));
+    const missingDefaults = defaultApps.filter((d) => !dbSlugs.has(d.slug));
+    const combined = [...apps, ...missingDefaults];
+
+    return NextResponse.json({ success: true, data: combined });
   } catch (error) {
     console.error("Error al obtener apps públicas:", error);
     // Graceful fallback to static data

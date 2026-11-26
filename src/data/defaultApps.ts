@@ -134,4 +134,80 @@ La aplicación solicita únicamente los permisos estrictamente necesarios para s
     published: true,
     order: 1,
   },
+  {
+    title: "Astro Bunny: Turbo Run",
+    slug: "astro-bunny",
+    tagline: "Run, slide, and jump across 5 planetary orbits in this high-speed sci-fi arcade runner!",
+    description:
+      "Astro Bunny: Turbo Run es un vertiginoso juego arcade de plataformas y velocidad en HTML5 y Canvas. Con 95 niveles diseñados a mano en 5 capítulos galácticos, sistema de skins cósmicos, potenciadores de plasma y controles 100% responsivos tanto para dispositivos táctiles como para teclado en escritorio.",
+    content: `## ¿Qué es Astro Bunny: Turbo Run?
+
+**Astro Bunny: Turbo Run** es un runner de plataformas sci-fi de alta velocidad desarrollado en Canvas y JavaScript moderno. Corre, deslízate y salta a través de órbitas planetarias mientras esquivas obstáculos y recolectas zanahorias cósmicas.
+
+---
+
+### Características Principales
+
+- **🥕 95 Niveles Hechos a Mano:** Distribuidos a lo largo de 5 capítulos galácticos con mecánicas dinámicas y dificultad progresiva.
+- **⚡ Potenciadores de Plasma:** Activa *Turbo Boosts*, Escudos de Plasma defensivos e Imanes Cósmicos para maximizar tu puntuación.
+- **🛍️ Cosmic Skins Shop:** Desbloquea trajes espaciales únicos en la tienda integrada para personalizar a tu conejo astronauta.
+- **📱 100% Controles Táctiles y Teclado:** Diseñado para jugarse con fluidez tanto en teléfonos móviles como en PC o Mac.
+- **🎵 Audio Procedimental Web Audio API:** Efectos sintetizados y música chiptune / synthwave generada en tiempo real sin requerir archivos pesados de audio.
+- **✨ Cero Inteligencia Artificial Generativa:** Todo el código, assets procedurales y curvas de nivel fueron creados artesanalmente.
+
+---
+
+### Controles del Juego
+
+#### 📱 En Móviles y Pantallas Táctiles
+- **Tocar lado derecho:** Saltar
+- **Deslizar hacia abajo:** Barrerse / Deslizarse
+
+#### 💻 En Computadoras de Escritorio (Desktop)
+- **[Barra Espaciadora] / [Flecha Arriba]:** Saltar
+- **[S] / [Flecha Abajo]:** Barrerse / Deslizarse
+- **[A] / [D] / [Flechas Izq / Der]:** Maniobrar / Girar en órbita
+
+---
+
+### Ficha Técnica
+
+| Parámetro | Detalle |
+|---|---|
+| **Plataforma** | HTML5 / WebGL / Canvas 2D |
+| **Género** | Arcade / Endless Runner / Platformer |
+| **Arquitectura** | JavaScript ES Modules + Web Audio API |
+| **Compatibilidad** | Google Chrome, Safari, Firefox, Edge (Móvil y Escritorio) |
+| **Autor** | Alonso Ríos (@alonsorios) |
+| **Licencia / Estado** | Lanzado (Released) · Jugable en el navegador |
+`,
+    icon: "/images/apps/astro-bunny-icon.png",
+    version: "1.1.0",
+    platform: "HTML5 / Web Game",
+    category: "Juegos & Arcade",
+    status: "published",
+    githubUrl: "",
+    playStoreUrl: "",
+    downloadUrl: "",
+    privacyPolicyUrl: "/privacy-remote-keyboard.html",
+    permissions: [],
+    features: [
+      "95 niveles artesanales en 5 capítulos galácticos",
+      "Turbo Boosts, Escudos de Plasma e Imanes Cósmicos",
+      "Cosmic Skins Shop con trajes espaciales desbloqueables",
+      "Controles 100% responsivos (Touch + Teclado)",
+      "Audio procedural sintético sin peso adicional",
+      "Totalmente jugable en el navegador sin instalación",
+    ],
+    techStack: [
+      "HTML5 Canvas 2D",
+      "JavaScript ES6+",
+      "Web Audio API",
+      "Playgama Bridge Universal",
+      "Responsive Viewport System",
+    ],
+    featured: true,
+    published: true,
+    order: 2,
+  },
 ];

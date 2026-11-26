@@ -32,7 +32,7 @@ export default async function AppsIndexPage() {
       .lean();
 
     if (rawApps && rawApps.length > 0) {
-      apps = rawApps.map((a: any) => ({
+      const dbApps = rawApps.map((a: any) => ({
         _id: a._id.toString(),
         title: a.title,
         slug: a.slug,
@@ -51,6 +51,11 @@ export default async function AppsIndexPage() {
         techStack: a.techStack || [],
         featured: !!a.featured,
       }));
+
+      // Combinar con defaultApps si algún slug no está en la base de datos
+      const dbSlugs = new Set(dbApps.map((a: any) => a.slug));
+      const missingDefaults = defaultApps.filter((d) => !dbSlugs.has(d.slug));
+      apps = [...dbApps, ...missingDefaults];
     } else {
       apps = defaultApps;
     }

@@ -12,6 +12,7 @@ import {
   Lock,
   Layers,
   CheckCircle2,
+  Gamepad2,
 } from "lucide-react";
 import { GithubIcon } from "@/components/SocialIcons";
 
@@ -145,7 +146,11 @@ export default function AppsListClient({ apps }: AppsListClientProps) {
               {/* Title & Tagline */}
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-14 h-14 rounded-2xl bg-[#121d33] border border-slate-700/80 flex items-center justify-center text-amber-400 shadow-inner shrink-0 group-hover:scale-105 transition-transform">
-                  <Smartphone className="w-7 h-7 text-amber-400" />
+                  {app.slug === "astro-bunny" ? (
+                    <Gamepad2 className="w-7 h-7 text-amber-400" />
+                  ) : (
+                    <Smartphone className="w-7 h-7 text-amber-400" />
+                  )}
                 </div>
                 <div>
                   <h2 className="text-xl sm:text-2xl font-black text-white group-hover:text-amber-400 transition-colors">
@@ -195,9 +200,21 @@ export default function AppsListClient({ apps }: AppsListClientProps) {
                   href={`/apps/${app.slug}`}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-[#070d19] font-black text-xs transition shadow-md"
                 >
-                  <span>Ver Ficha Técnica</span>
+                  <span>{app.slug === "astro-bunny" ? "Jugar / Ficha" : "Ver Ficha Técnica"}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
+
+                {app.slug === "astro-bunny" && (
+                  <a
+                    href="/games/astro-bunny/index.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-mono font-bold transition"
+                  >
+                    <Gamepad2 className="w-3.5 h-3.5" />
+                    <span>Jugar Fullscreen</span>
+                  </a>
+                )}
 
                 {app.githubUrl && (
                   <a

@@ -1,0 +1,23 @@
+{
+  "advertisement": {
+    "minimumDelayBetweenInterstitial": 60,
+    "interstitial": {
+      "disable": false,
+      "preloadOnStart": "level_completed",
+      "placementFallback": "level_completed",
+      "placements": [
+        "level_completed",
+        "game_over"
+      ]
+    },
+    "rewarded": {
+      "disable": false,
+      "preloadOnStart": "revive",
+      "placementFallback": "revive",
+      "placements": [
+        "revive",
+        "double_carrots"
+      ]
+    }
+  }
+}
